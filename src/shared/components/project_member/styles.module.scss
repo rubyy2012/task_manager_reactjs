@@ -1,0 +1,70 @@
+.project_member_body
+{
+    padding: 10px;
+    display:flex;
+    justify-content: space-between;
+    .member_infor
+    {
+        display:flex;
+        column-gap:10px;
+        align-items: center;
+        p {
+            text-align: left;
+        }
+        .avatar
+        {
+            width: 28px;
+            height: 28px;
+        }
+        .name_and_email
+        {
+            p.name
+            {
+                font-weight: 600;
+                font-size: 0.9rem;
+                color: #2d2d2d;
+            }
+            p.email
+            {
+                font-size: 0.8rem;
+                color: #6e6e6e;
+            }
+        }
+    }
+    .role_container
+    {
+        display:flex;
+        align-items: center;
+        column-gap: 10px;
+        .role
+        {
+            padding: 5px 10px;
+            border: 1px dashed #ccc;
+            color: #2d2d2d;
+            font-size: 0.8rem;
+            border-radius: 3px;
+            font-weight: 600;
+            -webkit-border-radius: 3px;
+            -moz-border-radius: 3px;
+            -ms-border-radius: 3px;
+            -o-border-radius: 3px;
+        }
+        .btn_delete_member
+        {
+            border: 1px solid #ebeff1;
+            border-radius:6px    ;
+            -webkit-border-radius:6px    ;
+            -moz-border-radius:6px    ;
+            -ms-border-radius:6px    ;
+            -o-border-radius:6px    ;
+            background-color: transparent;
+            padding: 8px 12px;
+            font-weight: 550;
+            cursor:pointer;
+            &:hover {
+                background-color: #f8fafb;
+            }
+        }
+    }
+    
+}

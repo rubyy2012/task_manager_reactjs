@@ -1,0 +1,33 @@
+@import '../../../commons/commonStyles.module.scss';
+.tag_container
+{
+    width:100%;
+    .tag_body
+    {
+        width:100%;
+        display: flex;
+        justify-content: space-between;
+        .count_items
+        {
+            display: flex;
+            align-items: center;
+            .dot_icon_container
+            {
+                display:flex;
+                align-items: center;
+                .dot_icon
+                {
+                    color: orange;
+                    font-size: 0.8rem;
+                    padding-right:5px;
+                }
+            }
+            .count {
+                padding: 5px 20px;
+                border-radius:15px;
+                margin-left: 20px;
+                background-color: $main-color;
+        }
+        }
+    }
+}

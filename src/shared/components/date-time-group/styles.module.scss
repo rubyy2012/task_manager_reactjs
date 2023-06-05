@@ -1,0 +1,61 @@
+.date_time_group
+{
+    display:flex;
+    column-gap: 30px;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    .form_item_group
+    {
+        flex:1;
+        display:flex;                       
+        flex-direction: column;
+        row-gap: 10px;
+        .title_label
+        {
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        .btn_add_date
+        {
+            width: 100%;
+            background-color: #f8fafb;
+            display:flex;
+            justify-content: space-between;
+            padding: 8px 10px;
+            color: #707581;
+            border: 1px solid #707581;
+        }
+    }
+    .time_container
+    {
+        flex:1;
+        display: flex;
+        flex-direction: column;
+        row-gap: 10px;
+        align-items: center;
+        position:relative;
+        &>span {
+            display:block;
+            width:100%;
+            color: #424251;
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-align: left;
+        }
+        .custom_time_picker
+        {
+            input {
+                font-size: 1rem;
+                color: #424251;
+                padding: 10px;
+                
+            }
+            button {
+                padding-left: 0;
+                visibility: hidden;
+            }
+        }    
+    }
+}

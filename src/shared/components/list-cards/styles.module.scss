@@ -1,0 +1,22 @@
+@import '../../../commons/commonStyles.module.scss';
+.listcard_container
+{
+    .listcard_body
+    {
+        display: grid;
+        row-gap: 20px;
+        // background-color: $main-color;
+        .btn_add
+        {
+            background-color: $main-color;
+            box-shadow: none;
+            text-transform: none;
+            color: #869ae3;
+            .add_icon
+            {
+            color: #869ae3;
+
+            }
+        }
+    }
+}

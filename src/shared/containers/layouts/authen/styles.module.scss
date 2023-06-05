@@ -1,0 +1,51 @@
+@import '../../../../commons/commonStyles.module.scss';
+
+.login_wrapper
+{
+    width:100%;
+    min-height:100vh;
+    height:auto;
+    display: flex;
+    font-family: $roboto-font;
+    .login_container
+    {
+        margin:auto;
+        width: 90%;
+        display:flex;
+        .image_container,
+        .form_submit_container
+        {
+            width:50%;
+            margin: auto;
+            .form_submit_body
+            {
+                width:70%;
+                margin:auto;
+                // border: 1px solid #ccc;
+                padding: 2rem;
+                border-radius: 10px;
+                -webkit-border-radius: 10px;
+                -moz-border-radius: 10px;
+                -ms-border-radius: 10px;
+                -o-border-radius: 10px;
+                box-shadow: -10px 10px 30px 1px  #c2dbff;
+                &>.welcome_greeting
+                    {
+                    text-align: center;
+                    font-size:1.5rem;
+                    margin-bottom: 1.3rem;
+                    color: $secondary-color;
+                }
+                &>p
+                {
+                    margin-top:2rem;
+                    text-align: center;
+                    &>.change_page_link
+                        {
+                            color: $secondary-color;
+                        }
+                }
+            }
+        }
+    }
+}

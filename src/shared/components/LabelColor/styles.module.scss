@@ -1,0 +1,152 @@
+.label_color_container
+{
+    padding: 20px;
+    min-width: 300px;
+    // background-color: aliceblue;
+    background-color: #fff;
+    border:1px solid #a5a5ad;
+    border-radius: 8px;
+    position:absolute;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    .label_color_body {
+        width: 100%;
+        height:auto;
+        .title_areas
+        {
+            display:flex;
+            flex-direction: column;
+            gap: 10px;
+            &>label
+            {
+                display: block;
+                text-align: left;
+                color: #51515e;
+                font-weight: 600;
+                letter-spacing: 1px;
+            }
+            .text_field
+            {
+                padding: 0;
+            }
+        }
+        .color_areas
+        {
+            width: 100%;
+            margin-top: 20px;
+            display:flex;
+            flex-wrap: wrap;
+            justify-content: flex-start;
+            box-sizing: border-box;
+            padding: 20px;
+            border-radius: 6px;
+            background-color: #ffff;
+            max-height: 400px;
+            overflow-y: scroll;
+            &>label
+            {
+                display: block;
+                text-align: left;
+                color: #51515e;
+                font-weight: 600;
+                letter-spacing: 1px;
+            }
+            .group_color
+            {
+                display: flex;
+                gap: 10px;
+                flex-wrap: wrap;
+                margin-top: 20px;
+                justify-content: flex-start;
+                .circle_picker
+                {
+                    width: 100% !important;
+                }
+                .label_color
+                {
+                    background-color: transparent;
+                    border:none;
+                    cursor:pointer;
+                    width: 32px;
+                    height: 32px;
+                    border-radius: 50%;
+                    -webkit-border-radius: 50%;
+                    -moz-border-radius: 50%;
+                    -ms-border-radius: 50%;
+                    -o-border-radius: 50%;
+                    &:hover {
+                       opacity: 0.6;
+                    }
+                }
+                .btn_add_label_color
+                {
+                    background-color: transparent;
+                    border:none;
+                    max-width: fit-content;
+                    padding:4px 20px;
+                    margin-top: 10px;
+                    cursor:pointer;
+                    display: flex;
+                    align-items: center;
+                    border: 1px dashed #a5a5ad;
+                    border-radius: 4px;
+                    -webkit-border-radius: 4px;
+                    -moz-border-radius: 4px;
+                    -ms-border-radius: 4px;
+                    -o-border-radius: 4px;
+                    &:hover
+                    {
+                        background-color: #f0f0f3;
+                    }
+                    .add_icon
+                    {
+                        font-size: 1.8rem;
+                        color: #a5a5ad;
+                    }
+                    &>span 
+                        {
+                            margin-left: 10px;
+                            font-weight: 600;
+                            color: #4e4e5c;
+                        }
+                }
+            }
+        }
+        .submit_areas
+        {
+            padding-top: 14px;
+            display: flex;
+            column-gap: 10px;
+            justify-content: flex-end;
+            button {
+                min-width: 80px;
+                padding: 4px;
+            }
+            .btn_submit {
+                text-transform: capitalize;
+                font-size: 0.9rem;
+                background-color: #48a6a6;
+                color: #ffffff;
+                border-radius: 8px;
+                -webkit-border-radius: 8px;
+                -moz-border-radius: 8px;
+                -ms-border-radius: 8px;
+                -o-border-radius: 8px;
+                box-shadow: none;
+                font-weight: 600;
+            }
+            .btn_cancel
+            {
+                text-transform: capitalize;
+                font-size: 0.9rem;
+                border: 1px solid #d6dae2;
+                color: #5b5b6a;
+                border-radius: 8px;
+                font-weight: 600;
+
+            }
+        }
+        
+    }
+}

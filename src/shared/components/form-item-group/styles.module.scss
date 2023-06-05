@@ -1,0 +1,24 @@
+.form_item_group
+    {
+        display:flex;                       
+        flex-direction: column;
+        row-gap: 10px;
+        .title_label
+        {
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        .text_input
+        {
+            background-color: #f8fafb;
+            color: #a3a4a8;
+            border:unset !important;
+        }
+        .group_colors
+        {
+            display:flex;
+            flex-wrap: wrap;
+            gap:5px;
+        }
+    }

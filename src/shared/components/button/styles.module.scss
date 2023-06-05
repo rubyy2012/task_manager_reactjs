@@ -1,0 +1,45 @@
+.custom_button
+{
+    display: flex;
+    align-items: center;
+    padding: 8px;
+    text-decoration: none;
+    border-radius: 50%;
+    span
+    {
+        display: block;
+        margin-left:0.5rem;
+    }
+    &:hover 
+    {
+        transition:0.5s;
+        opacity:0.8;
+        color:#ffff;
+        background-color: #744be4;
+    }
+    .text_content
+    {
+        margin-left:10px;
+        margin: 0 0 0 10px;
+    }
+}
+.custom_button.active
+{
+    background-color: #744be4;
+}
+.textWhite
+{
+    color: #fff;
+}
+.textGray
+{
+    color:#a593cc;
+}
+.bgRed
+{
+    background-color: #744be4;
+}
+.bgTranparent
+{
+    background-color: transparent;
+}

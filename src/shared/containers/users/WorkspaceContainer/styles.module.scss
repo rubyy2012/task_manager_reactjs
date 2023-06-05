@@ -1,0 +1,173 @@
+.workspace_container
+{
+    width: 100%;
+    background-color: aliceblue;
+    padding: 20px; 
+    box-sizing: border-box;
+    .workspace_body
+    {
+        width:100%;
+        height:100%;
+        .workspace_filter
+        {
+            width:100%;
+        }
+        .workspace_content
+        {
+            margin-top:20px;
+            // margin: auto;
+            .title_introduction
+            {
+                font-weight: 600;
+                font-size: 1rem;
+                .create_new
+                {
+                    color: rgb(90, 115, 185);
+                    cursor:pointer;
+                }
+            }
+            .workspace_projects_group
+            {
+                // background-color: rgb(159, 186, 193);
+                width: 100%;
+                height:500px;
+                padding: 10px;
+                display:flex;
+                flex-direction: column;
+                row-gap: 10px;
+                .btn_create_new
+                {
+                    border: 1px dashed #c4c4c4;
+                    padding: 12px;
+                    font-weight: 600;
+                    color: #424989;
+                    background-color: transparent;
+                    border-radius: 8px;
+                    -webkit-border-radius: 8px;
+                    -moz-border-radius: 8px;
+                    -ms-border-radius: 8px;
+                    -o-border-radius: 8px;
+                    cursor:pointer;
+                    &:hover {
+                        background-color: #e8f3ff;
+                    }
+                }
+            }
+        }
+    }
+    .workspace_modal
+    {
+        position:fixed;
+        top:0;
+        bottom:0;
+        right:0;
+        left:0;
+        // background-color: rgba(0,0,0,0.2);
+        display: flex;
+        .create_form
+        {
+            margin: auto;
+            min-width: 350px;
+            box-shadow: 0 0 8px 1px #b7b7b7b1;
+            background-color: #f0f8ff;
+            border-radius: 8px;
+            -webkit-border-radius: 8px;
+            -moz-border-radius: 8px;
+            -ms-border-radius: 8px;
+            -o-border-radius: 8px;
+            padding: 0 20px;
+            .workspace_form
+                {
+                width: 100%;
+                height: 100%;
+                form
+                {
+                    width: 100%;
+                }
+            }
+            .workspace_header
+            {
+                display:flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 20px;
+                &>p
+                {
+                    font-size: 1.1rem;
+                    font-weight: 600;
+                }
+                .icon_close
+                {
+                    cursor:pointer;
+                    padding: 3px;
+                    font-size: 1.4rem;
+                }
+            }
+            .workspaces_content
+            {
+                width:100%;
+                margin-bottom: 20px;
+                background-color: #fff;
+                padding: 10px 20px;
+                box-sizing: border-box;
+                border-radius:4px            ;
+                -webkit-border-radius:4px            ;
+                -moz-border-radius:4px            ;
+                -ms-border-radius:4px            ;
+                -o-border-radius:4px            ;
+                form 
+                {
+                    width:100%;
+                    display: flex;
+                    flex-direction: column;
+                    row-gap: 15px;
+                    .workspace_details
+                    {
+                        font-size: 1rem;
+                        text-align: left;
+                        font-weight: 600;
+                    }
+                    .group_input
+                    {
+                        display: flex;
+                        flex-direction: column;
+                        row-gap: 10px;
+                        &>label {
+                            display:block;
+                            text-align: left;
+                        }
+                    }
+                    .set_priority
+                    {
+                        display: flex;
+                        column-gap: 30px;
+                        align-items: center;
+                        &>label {
+                            display:flex;
+                            text-align: left;
+                        }
+                        &>select {
+                            outline:none;
+                            flex:auto;
+                            padding: 10px;
+                            border: 1px solid #c4c4c4;
+                            border-radius: 4px;
+                            -webkit-border-radius: 4px;
+                            -moz-border-radius: 4px;
+                            -ms-border-radius: 4px;
+                            -o-border-radius: 4px;
+}
+                    }
+                    .button_group
+                    {
+                        display: flex;
+                        column-gap: 10px;
+                        justify-content: flex-end;
+                    }
+                }
+                
+            }
+            
+        }
+    }
+}

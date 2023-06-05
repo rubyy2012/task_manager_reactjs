@@ -1,0 +1,41 @@
+li.menu_item_li{
+    margin-top:1rem;
+    cursor:pointer;
+   
+  .menu_item {
+    display:flex;
+    align-items: center;
+    justify-content: space-between;
+    .link_item_container
+    {
+        display:flex;
+        justify-content: space-between;
+        align-items: center;
+        &>span {
+            margin-left:5px;
+            font-weight: 600;
+            color: #606161;
+            font-size: 0.9rem;
+        }
+
+    }
+    .dropdown_icon_container
+    {
+        display:flex;
+        align-items: center;
+        .dropdown_icon 
+        {
+            color: #545454;
+        }
+    }
+}
+@keyframes dropdown {
+    from {
+        opacity:0;
+    }
+    to {
+        opacity:1;
+    }
+}
+   
+}

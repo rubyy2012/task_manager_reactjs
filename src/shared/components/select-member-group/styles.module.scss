@@ -1,0 +1,40 @@
+.select_member_container
+{
+    position:absolute;
+    left:calc(100% + 5px);
+    // min-width: fit-content;
+    min-width: 250px;
+    background-color: #fff;
+    border:1px solid #ccc;
+    padding: 20px 10px;
+    border-radius: 4px;
+    z-index: 1;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    -ms-border-radius: 4px;
+    -o-border-radius: 4px;
+    .select_member_body
+    {
+        display:flex;
+        flex-direction: column;
+        // row-gap: 20px;
+        .header {
+            display:flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            &>p {
+                font-size: 0.9rem;
+                font-weight: 600;
+                color:rgb(35, 35, 101);
+            }
+        }
+            .list_members
+            {
+                box-sizing: border-box;
+                display: flex;
+                flex-direction: column;
+                cursor:pointer;
+            }
+    }
+}

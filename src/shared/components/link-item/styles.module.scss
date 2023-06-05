@@ -1,0 +1,40 @@
+.link_item
+{
+    color:#4b536c;
+    text-decoration: none;
+    padding: 8px 10px;
+    display: flex;
+    align-items: center;
+    column-gap: 8px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    border-radius: 4px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    -ms-border-radius: 4px;
+    -o-border-radius: 4px;
+    border: 1px solid #dedbec;
+    .icon_overview
+    {
+        color:#4b5dcf;
+    }
+    .icon_allprojects
+    {
+        color: rgb(194, 55, 55);
+    }
+    .icon_alltasks
+    {
+        color: rgb(81, 156, 81);
+    }
+    .icon_calendar
+    {
+        color: rgb(241, 139, 23);
+    }
+    &:hover {
+        background-color:#dedbec;
+    }
+}
+.link_item.isActive
+{
+    background-color:#dedbec;
+}

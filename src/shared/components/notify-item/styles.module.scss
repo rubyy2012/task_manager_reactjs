@@ -1,0 +1,27 @@
+.notify_item_container
+{
+    display: flex;
+    flex-direction: column;
+    row-gap: 5px;
+    .notify_content
+    {
+        display: flex;
+        align-items: center;
+        column-gap: 20px;
+        .avatar
+        {
+            width: 30px;
+            height: 30px;
+        }
+        .notify_body
+        {
+            .notify_datetime
+            {
+                text-align: left;
+                font-size: 0.9rem;
+                color: #7e7e7e;
+            }
+        }
+    }
+   
+}

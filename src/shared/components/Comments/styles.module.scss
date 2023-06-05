@@ -1,0 +1,36 @@
+.list_comments
+{
+    padding: 20px;
+    border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -ms-border-radius: 10px;
+    -o-border-radius: 10px;
+    margin-top:20px;
+   
+    .comment_item
+    {
+        display:flex;
+        column-gap: 20px;
+        padding: 10px 0;
+        .comment_content
+        {
+            display: flex;
+            flex-direction: column;
+            p.comment,
+            p.name_member {
+                text-align:left;
+            }
+            p.name_member {
+                font-weight: 600;
+            }
+            p.comment
+            {
+                padding: 10x 0;
+                font-size: 0.9rem;
+                color: #999da0;
+            }
+        }
+    }
+    
+}

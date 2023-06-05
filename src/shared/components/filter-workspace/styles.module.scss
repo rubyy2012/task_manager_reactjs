@@ -1,0 +1,68 @@
+.filterworkspace_container
+{
+    display:flex;
+    justify-content: flex-start;
+    column-gap: 50px;
+    align-items: center;
+    form
+    {
+        width:100%;
+        display: flex;
+        align-items: center;
+    }
+    .search_container {
+        display:flex;
+        column-gap:10px;
+        .text_field_input
+        {
+            border:1px solid #ccc;
+            outline:none;
+            position:relative;
+            padding: 6px 20px;
+            min-width:300px;
+            border-radius:8px  !important      ;
+            -webkit-border-radius:8px  !important      ;
+            -moz-border-radius:8px  !important      ;
+            -ms-border-radius:8px  !important      ;
+            -o-border-radius:8px  !important      ;
+        }  
+        .btn_search
+        {
+            text-transform: none;
+            
+        }     
+    }
+    .filter_container
+    {
+        position:relative;
+        .filter_icon
+        {
+            cursor:pointer;
+        }
+        .option_filter_container
+        {
+            display: flex;
+            right:0;
+            position:absolute;
+            width:100px;
+            height:50px;
+            background-color: #fff;
+            border-radius: 4px;
+            -webkit-border-radius: 4px;
+            -moz-border-radius: 4px;
+            -ms-border-radius: 4px;
+            -o-border-radius: 4px;
+            select {
+                min-width: 150px;
+                outline:none;
+                padding: 5px;
+                border-radius: 4px;
+                appearance: none;
+                -webkit-border-radius: 4px;
+                -moz-border-radius: 4px;
+                -ms-border-radius: 4px;
+                -o-border-radius: 4px;
+}
+        }
+    }
+}

@@ -1,0 +1,49 @@
+.subtask
+{
+    border: 1px dashed #ccc;
+    padding: 4px 20px;
+    border-radius: 20px;
+    min-height: 32px;
+    box-sizing: border-box;
+    cursor:pointer;
+    display:flex;
+    align-items: center;
+    justify-content: space-between;
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    -ms-border-radius: 20px;
+    -o-border-radius: 20px;
+    .name {
+        font-size: 0.8rem;
+        font-weight: 600;
+        color:rgb(92, 92, 132);
+        position:relative;
+        display:flex;
+        align-items: center;
+        padding: 0 10px;
+    }
+    .name::after{
+        top:0;
+        left:-10px;
+        content:'✓';
+        position:absolute;
+        color:rgb(37, 61, 166);
+        font-weight: 600;
+        display: none;
+    }
+    .avatar
+    {
+        width: 24px; 
+        height: 24px;
+    }
+}
+.subtask.selected {
+    background-color: #f9fbfc;
+    .name 
+    {
+        text-decoration: line-through;
+    }
+    .name::after{
+        display: block;
+    }
+}

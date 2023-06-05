@@ -1,0 +1,33 @@
+.member_item
+{
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-top:1px solid #e0e0e0;
+    column-gap: 10px;
+    .checkbox
+    {
+        width: 18px;
+        height:18px;
+    }
+    .avatar
+    {
+        width: 24px;
+        height: 24px;
+    }
+    .name_and_email
+    {
+        .name
+        {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color:rgb(35, 35, 101);
+            text-align: left;
+        }
+        .email {
+            font-size: 0.8rem;
+            color: #3c3c3c;
+            text-align: left;
+        }
+    }
+}

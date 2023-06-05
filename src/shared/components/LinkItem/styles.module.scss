@@ -1,0 +1,29 @@
+.item_link
+{
+    text-decoration: none;
+    display: block;
+    width:100%;
+    text-align: left;
+    margin-top:8px;
+    padding-top:2px;
+    padding-bottom:2px;
+    padding-left:20px;
+    box-sizing: border-box;
+    color: #606161;
+    font-size: 0.9rem;
+    // font-weight: 600;
+    &:hover 
+    {
+        background-color: #eae9e9;
+        border-radius:3px        ;
+        -webkit-border-radius:3px        ;
+        -moz-border-radius:3px        ;
+        -ms-border-radius:3px        ;
+        -o-border-radius:3px        ;
+    }
+}
+.item_link.active 
+{
+    color: #000;
+    font-weight: 600;
+}

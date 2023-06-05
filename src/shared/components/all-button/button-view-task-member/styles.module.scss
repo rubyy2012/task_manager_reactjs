@@ -1,0 +1,19 @@
+.btn_view_task
+{
+    border:none;
+    text-decoration: none;
+    cursor:pointer;
+    padding: 5px 12px;
+    color: #48a6a6;
+    font-size: 0.9rem;
+    font-weight: 600;
+    border-radius: 20px;
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    -ms-border-radius: 20px;
+    -o-border-radius: 20px;
+}
+.btn_view_task:hover {
+    background-color: #e3f8f8;
+    // color:#fff;
+}

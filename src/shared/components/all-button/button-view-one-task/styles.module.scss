@@ -1,0 +1,27 @@
+.btn_view_one_task
+{
+    border:none;
+    text-decoration: none;
+    display:block;
+    cursor:pointer;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-decoration-color: #2f7272;
+    text-decoration: dashed;
+    color: #2f7272;
+    border-radius: 20px;
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    -ms-border-radius: 20px;
+    -o-border-radius: 20px;
+    -moz-text-decoration-color: #2f7272;
+    text-align: center;
+}
+.btn_view_one_task:hover {
+    color:#1ba6a6;
+    transition: 0.3s;
+    -webkit-transition: 0.3s;
+    -moz-transition: 0.3s;
+    -ms-transition: 0.3s;
+    -o-transition: 0.3s;
+}

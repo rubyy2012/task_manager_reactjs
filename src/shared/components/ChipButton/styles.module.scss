@@ -1,0 +1,39 @@
+.chip_button 
+{
+    border:none;
+    cursor: pointer;
+    padding: 5px 16px;
+    border-radius: 8px;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    -ms-border-radius: 8px;
+    -o-border-radius: 8px;
+    background-color: transparent;
+    // border: 1px solid #eceef0;
+    display: flex;  
+    box-sizing: border-box;
+    align-items: center;
+    &:hover {
+        background-color: #f0f0f3;
+    }
+    span.label_color 
+    {
+        border-radius: 50%;
+        width:10px;
+        height:10px;
+    }
+    &>p
+        {
+            cursor: pointer;
+            border-radius: 8px;
+            -webkit-border-radius: 8px;
+            -moz-border-radius: 8px;
+            -ms-border-radius: 8px;
+            -o-border-radius: 8px;
+            font-size: 0.9rem;
+            color: #ffff;
+            // color: #92929b;
+            line-height: 1.5;
+            font-weight: 600;
+        }
+}

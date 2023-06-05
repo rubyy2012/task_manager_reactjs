@@ -1,0 +1,255 @@
+@import '../../../commons/commonStyles.module.scss';
+.sidebar_container
+{
+    height:100%;
+    min-height: 100vh;
+    background-color: $main-color;
+    padding: 0 10px 10px 10px;
+    transition: all 0.3s ease-in-out;
+    position:relative;
+    border-right:1px solid #ccc;
+    .sidebar_body
+    {
+        min-height:100vh;
+        width:180px;
+        display:flex;
+        flex-direction:column;
+        justify-content: space-between;
+        .logo_and_menu {
+            .logo_area        
+            {
+            display:flex;
+            align-items: center;
+            padding-top:10px;
+            margin:auto;
+            column-gap: 10px;
+                .name_title
+                {
+                    font-size: 1.3rem;
+                    color: #362670;
+                    font-weight: 700;
+                }
+                .logoIcon
+                {
+                    color: #2d1874;
+                    font-size: 2.5rem;
+                }
+            }
+            .btn_create_project
+            {
+                padding: 10px;
+                width:100%;
+                border-radius: 8px;
+                -webkit-border-radius: 8px;
+                -moz-border-radius: 8px;
+                -ms-border-radius: 8px;
+                -o-border-radius: 8px;
+                border:none;
+                font-size: 0.9rem;
+                margin-top:20px;
+                cursor:pointer;
+                font-weight:600;
+                color:rgb(23, 28, 123);
+                border:1px solid #ccc;
+                background-color:#fff;
+                &:hover {
+                    background-color:rgb(231, 241, 253);
+                    color:rgb(194, 55, 55);
+                }
+            }
+            .menu_list_container
+            {
+                margin-top: 30px;
+                display:flex;
+                flex-direction: column;
+                row-gap:20px;
+                p.title {
+                    font-size: 0.8rem;
+                    font-weight: 600;
+                    color:#a2a9bc;
+                    text-align: left;
+                    display:flex;
+                    align-items: center;
+                    column-gap: 8px;
+                    .icon 
+                    {
+                        font-weight: 600;
+                        font-size: 1rem;
+                    }
+                }
+                .list_menu
+                {
+                    display: flex;
+                    flex-direction: column;
+                    row-gap: 8px;
+                    .link_item
+                    {
+                        color:#4b536c;
+                        text-decoration: none;
+                        padding: 8px 10px;
+                        display: flex;
+                        align-items: center;
+                        column-gap: 8px;
+                        font-size: 0.9rem;
+                        font-weight: 600;
+                        border-radius: 4px;
+                        -webkit-border-radius: 4px;
+                        -moz-border-radius: 4px;
+                        -ms-border-radius: 4px;
+                        -o-border-radius: 4px;
+                        border: 1px solid #dedbec;
+                        .icon_overview
+                        {
+                            color:#4b5dcf;
+                        }
+                        .icon_allprojects
+                        {
+                            color: rgb(194, 55, 55);
+                        }
+                        .icon_alltasks
+                        {
+                            color: rgb(81, 156, 81);
+                        }
+                        .icon_calendar
+                        {
+                            color: rgb(241, 139, 23);
+                        }
+                        &:hover {
+                            background-color:#dedbec;
+                        }
+                    }
+                }
+                .list_recent_projects
+                {
+                    display:flex;
+                    flex-direction: column;
+                    row-gap: 8px;
+                    padding: 0 10px;
+                    box-sizing: border-box;
+                }
+            }
+        }
+        .personal
+        {
+            display:flex;
+            flex-direction: column;
+            row-gap: 20px;
+            align-items: center;
+            .btn_add_assignment
+            {
+                border:none;
+                background-color: #f6faff;
+                border: 1px dashed #ccc;
+                border-radius: 4px;
+                color: #292929;
+                font-weight: 600;
+                font-size: 0.9rem;
+                padding: 4px 20px;
+                width: 100%;
+                box-sizing: border-box;
+                -webkit-border-radius: 4px;
+                -moz-border-radius: 4px;
+                -ms-border-radius: 4px;
+                -o-border-radius: 4px;
+                cursor:pointer;
+                &:hover {
+                    background-color: #ffff;
+                }
+            }
+            .avatar_area
+            {
+                display:flex;
+                align-items: center;
+                justify-content: center;
+                column-gap: 10px;
+                width:100%;
+                padding: 10px;
+                box-sizing: border-box;
+                border-radius: 4px;
+                cursor:pointer;
+                -webkit-border-radius: 4px;
+                -moz-border-radius: 4px;
+                -ms-border-radius: 4px;
+                -o-border-radius: 4px;
+                font-size: 0.9rem;
+                .name
+                {
+                    font-weight:600;
+                    color:#2d1874;
+                    font-size: 0.9rem;
+                }
+                .avatar
+                {
+                    width: 24px;
+                    height: 24px;
+                }
+                &:hover {
+                    background-color: #f4f3f7;
+                    transition:0.3s                ;
+                    -webkit-transition:0.3s                ;
+                    -moz-transition:0.3s                ;
+                    -ms-transition:0.3s                ;
+                    -o-transition:0.3s                ;
+}
+            }
+        }
+
+        .history_access_area
+        {
+            width: 100%;
+            p 
+            {
+                width: 100%;
+                text-align: left;
+                font-weight: 600;
+                margin-left:10px;
+                margin-top:10px;
+                color:#ccb0f3;
+            }
+        }
+
+    .sidebar_logout
+    {
+        width:100%;
+        position: absolute;
+        bottom: 0;
+       .logout_wrapper
+       {
+            display:flex;
+            align-items: center;
+            justify-content: center;
+            cursor:pointer;
+            height: 40px;
+            color:#4b536c;
+            padding-bottom: 20px;
+            &:hover 
+            {
+                background-color: transparent;
+                transition:0.5s;
+                -webkit-transition:0.5s;
+                -moz-transition:0.5s;
+                -ms-transition:0.5s;
+                -o-transition:0.5s;
+                color:#ccb0f3;
+            }
+       }
+        span 
+        {
+            margin-right:5px;
+        }
+    }
+       
+        
+    }
+
+    
+
+}
+   
+.sidebar_open {
+    left: 0;
+
+    .sidebar_body {
+        align-items: flex-start;
+    }
+}

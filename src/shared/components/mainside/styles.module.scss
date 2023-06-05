@@ -1,0 +1,14 @@
+.mainside_container
+{
+    padding:20px 0 0 0;
+    height: calc(100vh - 80px);
+    margin:auto;
+    .main_side_body
+    {
+        display:flex;
+        justify-content: space-between;
+        padding: 20px 0 0 0;
+        height:100%;
+      
+    }
+}

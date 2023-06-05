@@ -1,0 +1,89 @@
+@import '../../../commons/commonStyles.module.scss';
+.side_bar_group
+{
+    display:flex;
+    flex-direction:column;
+    width: 100%;
+    .workspaces_container
+    {
+        display:flex;
+        flex-direction: column;
+        padding-top: 3rem;
+        .workspaces
+        {
+            display:flex;
+            justify-content: space-between;
+            padding-bottom: 10px;
+            &>p {
+                color: #b6b7be;
+                font-size: 0.9rem;
+            }
+            .options {
+                display:flex;
+                align-items: center;
+                .workspace_icon
+                {
+                    color: #b6b7be;
+                    margin-left:2px;
+                    font-size: 1rem;
+                }
+            }
+        }
+        .list_menu_container
+        {
+            display:flex;
+            ul.list_menu_ul
+            {
+                display:flex;
+                flex-direction: column;
+                width:100%;
+                list-style-type: none;
+                .dashboard_icon
+                {
+                    color: orange;
+                    width:24px;
+                    height:24px;
+                    min-width: 30px;
+                }
+                .allprojects_icon {
+                    color:#B2A4FF;
+                    width:24px;
+                    height:24px;
+                    min-width: 30px;
+
+                }
+                .calendars_icon {
+                    color: #19A7CE;
+                    width:20px;
+                    height:20px;
+                    min-width: 30px;
+
+                }
+                .recently_icon
+                {
+                    color: #df4a4a;
+                    width:22px;
+                    height:22px;
+                    min-width: 30px;
+
+                }
+                &>span {
+                    margin-left:5px;
+                }
+                .dropdown_icon 
+                {
+                    color: #7c8389;
+                }
+
+            }
+        }
+    }
+    
+    
+    .side_bar_item
+    {
+        width:100%;
+        display:flex;
+        margin-bottom:10px;
+    }
+}

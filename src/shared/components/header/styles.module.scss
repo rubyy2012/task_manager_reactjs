@@ -1,0 +1,55 @@
+.header_container
+{
+    height: 60px;
+    background-color: #ffff;
+    border: 1px solid #f3f3f3;
+    padding: 0 10px;
+    .header_body
+    {
+        height:100%;
+        display:flex;
+        justify-content: space-between;
+        .header_left
+        {
+            display:flex;
+            justify-content: space-between;
+            align-items: center;
+            min-width: 500px;
+            .navigate{
+                font-weight:600;
+                font-size:1.2rem;
+                color: #03002a;
+            }
+        }
+
+        .header_right
+        {
+            display:flex;
+            justify-content: center;
+            align-items: center;
+            .notify_area
+            {
+                .notify_icon
+                {
+                    font-size: 1.6rem;
+                    cursor:pointer;
+                    color: #03002a;
+                }
+            }
+            .profile_area
+            {
+                height:100%;
+                margin-left: 1rem;
+                display:flex;
+                align-items: center;
+                position:relative;
+                cursor:pointer;
+                span {
+                    margin-left:0.5rem;
+                    font-weight: 600;
+                    color: #03002a;
+                }
+            }
+        }
+    }
+}

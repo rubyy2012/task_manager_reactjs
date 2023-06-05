@@ -1,0 +1,25 @@
+.recent_project_item
+{
+    display:flex;
+    padding: 5px;
+    font-size: 0.9rem;
+    color:#4b536c;
+    display:flex;
+    column-gap: 5px;
+    align-items: center;
+    //font-weight: 600;
+    cursor:pointer;
+    // background-color: #eeee;
+    border-radius: 6px;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    -ms-border-radius: 6px;
+    -o-border-radius: 6px;
+    &:hover {
+        border-bottom: 1px dashed #7e8597;
+    }
+}
+.recent_project_item.isActive
+{
+    border-bottom: 1px dashed #7e8597;
+}

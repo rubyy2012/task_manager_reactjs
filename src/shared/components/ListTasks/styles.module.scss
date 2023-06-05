@@ -1,0 +1,51 @@
+.listtasks_container
+{
+    margin-top:30px;
+    max-height: 300px;
+    overflow-y: scroll;
+    .listtasks_body
+    {
+        display:flex;
+        flex-direction: column;
+        gap: 8px;
+            .listtasks_title
+            {
+                display:flex;
+                align-items: center;
+                column-gap: 5px;
+                cursor: pointer;
+                margin-bottom: 0.5rem;
+                .dropdown_icon
+                {
+                    color: #79808a;
+                    font-size: 0.9rem;
+                }
+                .tag_name
+                {
+                    color: #1b2030;
+                    font-size: 1rem;
+                    font-weight: bolder;
+                }
+                &>span {
+                    font-size: 0.9rem;
+                    color: #7f838b;
+                }
+            }
+            .listtasks_content
+            {
+               
+                .listtasks_group {
+                    display:flex;
+                    flex-direction: column;
+                    gap: 14px;
+                    padding: 0;
+                    .placeholder
+                    {
+                        &>p {
+                            color:#7f838b;
+                        }
+                    }
+                }
+            }
+    }
+}

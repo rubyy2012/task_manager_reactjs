@@ -1,0 +1,99 @@
+@import '../../../commons/commonStyles.module';
+.figurecard_container
+{
+    padding: 24px 60px;
+    //background-color: $main-color;
+    background-color: #fcfcfc;
+    border-radius: 8px;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    -ms-border-radius: 8px;
+    -o-border-radius: 8px;
+    &:hover{
+        box-shadow: 2px 2px 30px 12px #a9a9a9;
+            }
+    .figurecard_body    
+    {
+        width: 100%;
+        min-width: 20%;
+        font-size: 16px;
+        .figurecard_header 
+        {
+            display: flex;
+            align-items: center;
+            padding-bottom: 20px;
+            &>span{
+                padding: 16px 8px;
+                background-color: #cabdff;
+                border-radius: 4px;
+                -webkit-border-radius: 4px;
+                -moz-border-radius: 4px;
+                -ms-border-radius: 4px;
+                -o-border-radius: 4px;
+            }
+            &>.card_name {
+                text-decoration: none;
+                font-size: 1.2rem;
+                font-weight: bolder;
+                margin-left: 20px;
+                color: #222527;
+                &:hover{
+                    color: #d35943;
+                    cursor: pointer;
+                }
+                &>span {
+                    font-size: 0.9rem;
+                    color:#959aa0;
+                }
+            }
+        }
+        .figurecard_content
+        {
+            padding: 10px 20px 10 36px;
+            display: flex;
+            flex-direction: column;
+            .figure_item
+            {
+                width: 100%;
+                display: flex;
+                justify-content: space-between;
+                padding: 6px 0;
+                font-weight: 600;
+                color:#3d3f41;
+                &>span {
+                    color: #a1a7ab;
+                }
+            }
+            .figure_item.backlog_item {
+                color: #187498;
+                &>span {
+                    color: #4aa4c7;
+                }
+            }
+            .figure_item.inProgress_item {
+                color: #E02401;
+                &>span {
+                    color: #ff625d;
+                }
+            }
+            .figure_item.done_item {
+                color: #08C299;
+                &>span {
+                    color: #5bd3b9;
+                }
+            }
+            .figure_item.todo_item {
+                color: #F6C523;
+                &>span {
+                    color: #eece64;
+                }
+            }
+        }
+        .figurecard_member
+        {
+            display: flex;
+            padding-top:10px;
+            justify-content: flex-start;
+        }
+    }
+}

@@ -1,0 +1,140 @@
+.teammember_container
+{
+    width: 100%;
+    padding: 20px 30px;
+    box-sizing: border-box;
+    .teammember_body
+    {
+        width: 100%;
+        .header
+        {
+            display:flex;
+            justify-content: space-between;
+            align-items: center;
+            .title
+            {
+                font-size: 1.2rem;
+                font-weight: 600;
+            }
+            .search_container
+        {
+            display: flex;
+            align-items: center;
+            column-gap: 15px;
+            margin-bottom: 20px;
+            justify-content: flex-end;
+            .input_wrapper
+            {
+                position: relative;
+                display: flex;
+                align-items: center;
+                .text_input
+                {
+                    outline:none;
+                    padding: 10px 25px;
+                    border: 1px solid #dedede;
+                    min-width: 250px;
+                    border-radius: 3px;
+                    -webkit-border-radius: 3px;
+                    -moz-border-radius: 3px;
+                    -ms-border-radius: 3px;
+                    -o-border-radius: 3px;
+                }
+                .search_icon
+                {
+                    position: absolute;
+                    left:8px;
+                }
+            }
+            .btn_search_member
+            {
+                background-color: #48a6a6;
+                box-shadow: none;
+                color:#fff;
+                text-transform: capitalize;
+            }
+        }
+        }
+        
+        .listmember_container
+        {
+            height: 500px;
+            table {
+                width: 100%;
+                text-align: left;
+                border-collapse: collapse;
+                border-left: 1px solid #f2f4f7;
+                border-right: 1px solid #ececed;
+                &>thead 
+                {
+                    &>th {
+                        background-color: #f9fbfc;
+                        padding: 8px 20px;
+                    }
+                }
+                tr {
+                    border-bottom: 1px solid #f4f4f4;
+                    td {
+                        padding: 14px 20px;
+                    }
+                    td.progressbar_container
+                    {
+                        display:flex;
+                        column-gap: 5px;
+                        align-items: center;
+                    }
+                    td.avatar_area
+                    {
+                        display:flex;
+                        column-gap:10px;
+                        align-items: center;
+                        .avatar
+                        {
+                            width: 28px;
+                            height: 28px;
+                        }
+                        &>p {
+                            font-weight: 600;
+                            color: #333333;
+                            font-size: 0.9rem;
+                        }
+                    }
+                    td.number_completed
+                    {
+                        // padding: 0 20px;
+                        .completed_task{
+                            padding: 4px 18px;
+                            max-width: fit-content;
+                            border-radius: 16px;
+                            -webkit-border-radius: 16px;
+                            -moz-border-radius: 16px;
+                            -ms-border-radius: 16px;
+                            -o-border-radius: 16px;
+                            }
+                        .completed_task.completed
+                        {
+                            color: #6099b8;
+                            border:1px dashed #6099b8;
+                            background-color: #f1f9fe;
+                        }
+                        .completed_task.incompleted
+                        {
+                            color: #f589ab;
+                            border:1px dashed #f589ab;
+                            background-color: #fef2f3;
+                        }
+                    }
+                    td.email
+                    {
+                        p.email_text{
+                            color: #767676;
+                            font-size: 0.9rem;
+                        }
+                    }
+                } 
+            }
+           
+
+        }
+    }
+}

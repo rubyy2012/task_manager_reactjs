@@ -1,0 +1,27 @@
+.figure_container
+{
+    background-color: #f4f4f4;
+    .figure_container_body
+    {   .onwer_label
+        {
+            padding: 10px 0 20px 0;
+            text-align: left;
+            font-weight: 600;
+            font-size: 1.2rem;
+            color: #5a5a5a;
+        }
+        .myprojects_container,
+        .parternerprojects_container
+        {
+            display: flex;
+            flex-direction: column;
+            padding: 10px 60px;
+            .listprojects
+            {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 20px;
+            }
+        }
+    }
+}

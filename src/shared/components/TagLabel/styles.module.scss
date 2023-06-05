@@ -1,0 +1,50 @@
+.tag_label_container
+{
+    display:flex;
+    width: 100%;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: flex-start;
+    padding-top: 10px;
+    max-width: 300px;
+    max-height: 200px;
+    overflow-y: scroll;
+    position: relative;
+    .add_tag_btn
+    {
+        border:none;
+        cursor: pointer;
+        padding: 6px 12px;
+        border-radius: 8px;
+        -webkit-border-radius: 8px;
+        -moz-border-radius: 8px;
+        -ms-border-radius: 8px;
+        -o-border-radius: 8px;
+        background-color: transparent;
+        border: 2px dashed #eceef0;
+        display: flex;  
+        box-sizing: border-box;
+        align-items: center;
+        font-size: 0.9rem;
+        color: #92929b;
+        font-weight: 600;
+        .add_tag_icon 
+        {
+            font-size: 1.3rem;
+        }
+        span {
+            display: flex;
+            align-items: center;
+        }
+    }
+}
+
+// .modal_container
+// {
+//     position: fixed;
+//     bottom: 0;
+//     top: 0;
+//     left: 0;
+//     right: 0;
+//     background-color: rgba(0,0,0,0.4);
+// }

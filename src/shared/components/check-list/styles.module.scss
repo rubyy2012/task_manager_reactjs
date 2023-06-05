@@ -1,0 +1,63 @@
+.checklist_body
+{
+    position: relative;
+    .progress_container 
+    {
+        display: flex;
+        align-items: center;
+        column-gap: 5px;
+        cursor: pointer;
+        .btn_toggle
+        {
+            border:none;
+            background-color: transparent;
+            padding: 0;
+            cursor: pointer;
+        }
+        p.label
+        {
+            text-align: left;
+            font-size: 0.9rem;
+            font-weight: bolder;
+            color: #474d58;
+        }
+    }
+    .list_checklists
+    {
+        display: flex;
+        flex-direction: column;
+        #list_container
+        {
+            list-style-type: none;
+            font-size: 0.9rem;
+        }
+        .add_subtask_item
+        {
+            border: none;
+            background-color: transparent;
+            padding: 6px 26px;
+            width: fit-content;
+            border-radius: 8px;
+            color: #2c9898;
+            text-align: left;
+            float:left;
+            //font-weight: 600;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            cursor:pointer;
+            -webkit-border-radius: 8px;
+            -moz-border-radius: 8px;
+            -ms-border-radius: 8px;
+            -o-border-radius: 8px;
+            &:hover 
+            {
+                background-color: #f9f9f9;
+            }
+            .add_icon
+            {
+                margin-right:5px;
+            }
+        }
+    }
+}

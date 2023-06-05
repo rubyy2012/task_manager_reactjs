@@ -1,0 +1,74 @@
+@import '../../../../../commons/commonStyles.module.scss';
+::-webkit-scrollbar {
+    width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    // background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #c8d9fc;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #9db3df;
+
+}
+.taskoptions_container 
+{
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    margin: auto;
+    min-width: 290px;
+    border: 1px solid #ccc;
+    background-color: #f9fdff;
+    position: absolute;
+    left: calc(100% + 20px);
+    top: calc(100% + 50px);
+    transform: translateY(-50%);
+    -webkit-transform: translateY(-50%);
+    -moz-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    -o-transform: translateY(-50%);
+    z-index: 2;
+    .taskoptions_body {
+        // max-width: 350px;
+        background-color: #f9fdff;
+        border-radius: 10px;
+        padding: 20px 10px 10px 20px;
+
+        box-sizing: border-box;
+        -webkit-border-radius: 10px;
+        -moz-border-radius: 10px;
+        -ms-border-radius: 10px;
+        -o-border-radius: 10px;
+        /* width */
+        .taskoptions_header
+        {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 10px;
+            &>span {
+                color: #5a5a6a;
+                font-weight: 600;
+                margin-right: 50px;
+            }
+            .close_icon
+            {
+                cursor:pointer;
+                padding: 2px;
+                color: #5a5a6a;
+                &:hover 
+                {
+                    color:#818080;
+                }
+            }
+        }
+    }
+}

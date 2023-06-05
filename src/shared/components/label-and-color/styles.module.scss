@@ -1,0 +1,49 @@
+.label_and_color_container
+{
+    position:absolute;
+    left: calc(100% + 5px);
+    top:0;
+    min-width: 250px;
+    background-color: #fff;
+    box-shadow: 0 0 4px 1px #eee;
+    border-radius: 8px;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    -ms-border-radius: 8px;
+    -o-border-radius: 8px;
+    .label_and_color_body
+    {
+        padding: 10px;
+        .header
+        {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .list_labels
+        {
+            display: flex;
+            flex-direction: column;
+            row-gap: 5px;
+            position:relative;
+            .btn_create_tag
+            {
+                border: 1px dashed #ccc;
+                padding: 10px;
+                border-radius: 8px;
+                -webkit-border-radius: 8px;
+                -moz-border-radius: 8px;
+                -ms-border-radius: 8px;
+                -o-border-radius: 8px;
+                font-weight: 600;
+                font-size: 0.8rem;
+                cursor:pointer;
+                color: rgb(23, 26, 77);
+                background-color: #fff;
+                &:hover {
+                    background-color: #f1f0f0;
+                }
+            }
+        }
+    }
+}

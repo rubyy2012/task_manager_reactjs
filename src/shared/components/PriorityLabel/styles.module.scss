@@ -1,0 +1,63 @@
+.priority_item {
+    text-align: left;
+    padding: 8px 0;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    // border-bottom: 1px solid #e7eaed;
+    &>button {
+        background-color: transparent;
+        border: none;
+        cursor: pointer;
+        margin-left: 16px;
+        box-sizing: border-box;
+        color: #3f3f4a;
+        font-weight: 600;
+        font-size: 0.8rem;
+        min-width: 70px;
+        padding: 5px 10px;
+        border-radius: 14px;
+        -webkit-border-radius: 14px;
+        -moz-border-radius: 14px;
+        -ms-border-radius: 14px;
+        -o-border-radius: 14px;
+}
+    &>button.btn_low 
+    {
+        background-color: rgb(207, 233, 254);
+        border: 1px dashed rgb(27, 72, 110);
+        color: rgb(27, 72, 110);
+        &:hover {
+            background-color: rgb(100, 155, 201);
+        }
+    }
+    &>button.btn_medium
+    {
+        background-color: rgb(252, 228, 183);
+        color: rgb(202, 133, 5);
+        border: 1px dashed rgb(202, 133, 5);
+
+        &:hover {
+            background-color: rgb(219, 189, 134);
+        }
+    }
+    &>button.btn_height
+    {
+        color:rgb(205, 49, 43);
+        background-color: rgb(255, 163, 160);
+        border: 1px dashed rgb(205, 49, 43);
+        &:hover {
+            background-color: rgb(234, 128, 125);
+        }
+    }
+    .flag_icon
+    {
+        font-size: 20px;
+        :hover {
+            opacity:0.7;
+        }
+    }
+}
+.priority_item:last-child{
+    border: none;
+}

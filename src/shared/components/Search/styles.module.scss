@@ -1,0 +1,32 @@
+.search_field
+{
+    background-color: #f4f6f8;
+    width: 100%;
+    display:flex;
+    align-items: center;
+    position:relative;
+    border-radius: 8px ;
+    -webkit-border-radius: 8px ;
+    -moz-border-radius: 8px ;
+    -ms-border-radius: 8px ;
+    -o-border-radius: 8px ;
+    .search_icon
+    {
+        margin-left:10px;
+        color: #979797;
+    }
+    input
+        {
+        border-top-right-radius: 8px;
+        border-bottom-right-radius: 8px;
+        // width:500px;
+        // min-width: 400px;
+        padding: 8px 10px;
+        outline:none; 
+        border:none;
+        font-size: 1rem;
+        color:#aaaeb6;
+        background-color: #f7f7f7;
+
+    }
+}
