@@ -11,40 +11,31 @@ import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router';
 import { useEffect } from 'react';
-import { RoleApi } from '../../../utils/Constants';
 import TaskAction from '../../../redux/tasks/TaskAction';
-import { toast } from 'react-toastify';
 
 
-const CreateTask = ({setOpenCreateTask,openCreateTask}) => {
+const EditTask = ({setOpenEditTask,openEditTask}) => {
   const dispatch = useDispatch();
-  const [dataResult,setResult] = useState({})
-  const [date,setDate] = useState('')
-  //get current project id
+  const [defaultValue,setDefaultValue] = useState()
   const {id} = useParams();
-  const { control, handleSubmit, setValue } = useForm()
+  const { control, handleSubmit } = useForm()
   const ref = useRef();
-
-  
-
   const { listCards } = useSelector((state) => ({
     listCards: state.workspace.listCards,
   }));
-  useEffect(() => {
-    if (listCards?.data[0]?.id) {
-      setValue('cardId', listCards.data[0].id.toString());
-    }
 
-  }, [listCards?.data[0]?.id]);
-
+        useEffect(()=>{
+            dispatch({
+                type: TaskAction.REQUEST_GET_DETAIL_TASK
+            })
+        },[])
     const onSubmit = async (data) => {
       const {priority,dueTime,dueDate,cardId} = data;
-      console.log('create date',dueDate);
-      console.log('create time',dueTime);
       const dateString = new Date(dueDate.$d).toString()
       const timeString = new Date(dueTime.$d).toString();
       const partsTime = timeString.split(" ")[4];
       const formattedDate = moment(dateString).format("YYYY-MM-DD");
+      console.log('formattedDate',formattedDate);
       const datetime = `${formattedDate} ${partsTime}`;
       const dataSend = {
         ...data,
@@ -57,19 +48,22 @@ const CreateTask = ({setOpenCreateTask,openCreateTask}) => {
         type: TaskAction.REQUEST_CREATE_TASK,
         payload: {
           data: dataSend,
-          workspaceId: id,
-          callback: {
-            toast: (message) => toast(message)
-          }
+          workspaceId: id
         }
       })
-      setOpenCreateTask(false);
   }
 
+  useEffect(()=>{
+      if(listCards?.data[0])
+      {
+        setDefaultValue(parseInt(listCards.data[0]?.id))
+      }
+  },[id])
+  console.log('wwwwwwww',listCards.data[0]?.id.toString())
   return (
     <div 
         ref={ref}
-        className={`${styles.createtask_container} ${openCreateTask?styles.isVisible:''}`}>
+        className={`${styles.createtask_container} ${openEditTask?styles.isVisible:''}`}>
         <div className={styles.createtask_body}>
             <div className={styles.createtask_header}>
                 <p className={styles.createtask_title}>Tạo nhiệm vụ mới</p>
@@ -136,7 +130,7 @@ const CreateTask = ({setOpenCreateTask,openCreateTask}) => {
                                 control={control}
                                 name = 'cardId'
                                 // defaultValue= {listCards.data[0]?.id.toString()}
-                                defaultValue=''
+                                defaultValue={defaultValue}
                                 render={({ field }) => (
                                   <Select 
                                       {...field}
@@ -164,15 +158,15 @@ const CreateTask = ({setOpenCreateTask,openCreateTask}) => {
                              <Controller
                               control={control}
                               name = 'priority'
-                              defaultValue="0"
+                              defaultValue="1"
                               render={({ field }) => (
                                 <Select 
                                     {...field}
                                     size = 'small'
                                   >
-                                  <MenuItem value="0">Thấp</MenuItem>
-                                  <MenuItem value="1">Trung bình</MenuItem>
-                                  <MenuItem value="2">Cao</MenuItem>
+                                  <MenuItem value="1">Thấp</MenuItem>
+                                  <MenuItem value="2">Trung bình</MenuItem>
+                                  <MenuItem value="3">Cao</MenuItem>
                               </Select>)}
                             />
                     </div>
@@ -190,9 +184,9 @@ const CreateTask = ({setOpenCreateTask,openCreateTask}) => {
                           defaultValue=""
                           render={({ field }) => (
                             <DatePicker 
-                              disablePast
                               size = 'small'
                               closeOnSelect
+                            // format="dd-MM-yyyy"
                             {...field}/>
                         )}
                       />
@@ -230,7 +224,7 @@ const CreateTask = ({setOpenCreateTask,openCreateTask}) => {
                         <Button
                           className={styles.btn_cancel}
                           
-                          onClick = {()=>setOpenCreateTask(false)}
+                          onClick = {()=>setOpenEditTask(false)}
                           >Cancel</Button>
                         <Button
                           type='submit'
@@ -244,4 +238,4 @@ const CreateTask = ({setOpenCreateTask,openCreateTask}) => {
     </div>
   )
 }
-export default CreateTask;
+export default EditTask;

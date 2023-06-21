@@ -3,38 +3,31 @@ import { Button, TextField } from '@mui/material'
 import { Controller, useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import styles from './styles.module.scss'
-import { Link } from 'react-router-dom'
-// import { useDispatch } from 'react-redux'
-// import { loginAction } from '@/redux/actions/UserAction'
+import { Link, useNavigate } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
+import UserAction from '../../../redux/users/UserAction.js'
+import ApiPath from '../../../utils/ApiPath';
 const LoginContainer = () => {
-  // const dispatch = useDispatch()
-  const schema = yup.object().shape({
-    username: yup.string().required('Bạn phải nhập tên người dùng'),
-    password: yup
-      .string()
-      .min(6, 'Mật khẩu phải chứa tối thiểu 6 ký tự')
-      .required('Bạn phải nhập mật khẩu!'),
-  })
-  const onSubmit = (data) => {
-    console.log(data)
-    // dispatch(
-    //   loginAction({
-    //     data: {
-    //       username: data.username,
-    //       password: data.password,
-    //     },
-    //     callback: {
-    //       // goToDashBoard: () => navia
-    //     },
-    //   }),
-    // )
+  const navigate = useNavigate();
+  const dispatch = useDispatch()
+  // const schema = yup.object().shape({
+  //   username: yup.string().required('Bạn phải nhập tên người dùng'),
+  //   password: yup
+  //     .string()
+  //     .min(6, 'Mật khẩu phải chứa tối thiểu 6 ký tự')
+  //     .required('Bạn phải nhập mật khẩu!'),
+  // })
+  const onSubmit = async (data) => {
+    dispatch({
+      type:UserAction.REQUEST_LOGIN,
+      payload: {
+        data:data,
+        callback: {
+          goToOverview : () => navigate(ApiPath.OVERVIEWS_PAGE,{ replace : true }),
+        }
+      }
+    })
   }
-
-//   const { control, handleSubmit } = useForm({
-//     mode: 'onChange',
-//     resolver: yupResolver(schema),
-//   })
-
 const { control, handleSubmit } = useForm()
   return (
     <div className={styles.form_submit_container}>
@@ -43,7 +36,7 @@ const { control, handleSubmit } = useForm()
         <form onSubmit={handleSubmit(onSubmit)}>
           <Controller
             control={control}
-            name="username"
+            name="email"
             defaultValue=""
             render={({ field }) => (
               <TextField
@@ -51,7 +44,7 @@ const { control, handleSubmit } = useForm()
                 fullWidth
                 margin="normal"
                 id="outlined-required"
-                label="Tên đăng nhập"
+                label="Email"
               />
             )}
           />

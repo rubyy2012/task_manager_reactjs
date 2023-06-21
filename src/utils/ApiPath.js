@@ -20,11 +20,14 @@
 //     }
 // }
 
-const prefix = 'https://localhost:7070/'
+const prefix = ''
 export default class ApiPath {
     //authen
-    static LOGIN = prefix + 'Account/login';
+    static LOGIN = prefix + '/login';
+    static REGISTER = prefix + '/register';
     //workspace
+    static CONFIRM_EMAIL_PAGE = prefix + '/confirm-email'
+    static OVERVIEWS_PAGE = prefix + '/overviews';
     static GET_ALL_WORKSPACES = prefix + 'api/Workspace/me';
     static EDIT_WORKSPACE = prefix + 'api/Workspace/:id';
     static DELETE_WORKSPACE = prefix + 'api/Workspace/:id';

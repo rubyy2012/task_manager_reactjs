@@ -1,10 +1,6 @@
 import React, { useState } from 'react'
 import styles from './styles.module.scss';
-
-import { Link } from 'react-router-dom';
-import LogoutIcon from '@mui/icons-material/Logout';
 import DataSaverOffIcon from '@mui/icons-material/DataSaverOff';
-import Menu from '../menu/Menu';
 import { Avatar } from '@mui/material';
 import CreateTask from '../create-task/CreateTask';
 import { RxDashboard } from "react-icons/rx";
@@ -15,14 +11,27 @@ import { TbHistoryToggle } from 'react-icons/tb';
 import RecentProjectItem from '../recen-project-item/RecentProjectItem';
 import MenuLinkItem from '../link-item/MenuLinkItem';
 import CreateProject from '../create-project/CreateProject';
+import { useSelector } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
+import ApiPath from '../../../utils/ApiPath';
 const SideBar = () => {
     const [openCreateTask,setOpenCreateTask] = useState(false);
     const [toggle,setToggle] = useState(false);
+    const [openOption,setOpenOption] = useState(false);
+    const navigate = useNavigate();
     const handleToggleBar = () => {
     }
     const [openCreateProject,setOpenCreateProject] = useState(false);
     const [active,setActive] = useState();
     const [activeMenu,setActiveMenu] = useState();
+    const user =  JSON.parse(localStorage.getItem('userInfor'));
+    // const dispatch = useDispatch();
+    const { recentlyProjects } = useSelector((state) => ({
+        recentlyProjects: state.workspace.recentlyProjects,
+      }));
+      const handleLogout = () => {
+        localStorage.removeItem('userInfor');
+      }
   return (
             
     <div className={styles.sidebar_container}>
@@ -76,7 +85,7 @@ const SideBar = () => {
                             link = '/all-tasks'
                             icon ={<MdTaskAlt className={styles.icon_alltasks}/>}
                         />
-                          <MenuLinkItem
+                          {/* <MenuLinkItem
                             name = 'Lịch chung'
                             activeMenu ={activeMenu}
                             onClick = {()=>setActiveMenu(4)}
@@ -84,79 +93,21 @@ const SideBar = () => {
                             link = ''
                             icon = {<BsCalendar3Week
                                 className={styles.icon_calendar}/>}
-                        />
-                        {/* <div className={styles.menu_link_item}>
-                            <Link 
-                            active ={active}
-                            onClick = {()=>setActive(1)}
-                            index = {1}
-                            className={styles.link_item}
-                            to='/'>
-                                    <RxDashboard className={styles.icon_overview}/>
-                                    Tổng quan</Link>
-                        </div>
-                        <div className={styles.menu_link_item}>
-                            <Link 
-                            active ={active}
-                            index = {2}
-                            onClick = {()=>setActive(2)}
-                            className={styles.link_item}
-                            to='/'><SiOpenproject className={styles.icon_allprojects}/>
-                                Tất cả dự án</Link>
-                        </div>
-                       <div className={styles.menu_link_item}>
-                            <Link 
-                            active ={active}
-                            index = {3}
-                            onClick = {()=>setActive(3)}
-                            className={styles.link_item}
-                            to='/'><MdTaskAlt  className={styles.icon_alltasks}
-                                />Danh sách nhiệm vụ</Link>
-                       </div>
-                        <div className={styles.menu_link_item}>
-                            <Link 
-                            active ={active}
-                            index = {4}
-                            onClick = {()=>setActive(4)}
-                            className={styles.link_item}
-                            to='/'><BsCalendar3Week
-                                    className={styles.icon_calendar}
-                                />Lịch chung</Link>
-                        </div> */}
-                       
+                        /> */}
                     </div>
                     <p className={styles.title}><TbHistoryToggle className={styles.icon}/>Dự án gần đây</p>
                     <div className={styles.list_recent_projects}>
-                        <RecentProjectItem
-                            name = 'Công nghệ web'
-                            index = {1}
-                            active ={active}
-                            onClick = {()=>setActive(1)}
-                        />
-                        <RecentProjectItem
-                            name = 'Đồ án tốt nghiệp'
-                            index = {2}
-                            active ={active}
-                            onClick = {()=>setActive(2)}
-                        />
-                        <RecentProjectItem
-                            name = 'Lập trình mạng'
-                            index = {3}
-                            active ={active}
-                            onClick = {()=>setActive(3)}
-                        />
-                        <RecentProjectItem
-                            name = 'Thực tập tốt nghiệp'
-                            index = {4}
-                            active ={active}
-                            onClick = {()=>setActive(4)}
-                        />
-                        <RecentProjectItem
-                            name = 'Lập trình di động'
-                            index = {5}
-                            active ={active}
-                            onClick = {()=>setActive(5)}
-                        />
+                        {
+                            recentlyProjects?.data?.map(recent=>(
+                                <RecentProjectItem
+                                id = {recent.id}
+                                name = {recent?.title}
+                                index = {recent.id}
+                                active ={active}
+                                onClick = {()=>setActive(recent.id)}
+                            />
+                            ))
+                        }
                     </div>
                 </div>
            </div>
@@ -166,9 +117,25 @@ const SideBar = () => {
 
                     className={styles.btn_add_assignment}
                     >Tạo nhiệm vụ</button>
-                <div className={styles.avatar_area}>
-                    <Avatar className={styles.avatar}/>
-                    <p className={styles.name}>Hồng Ngọc</p>
+                <div 
+                    onClick ={()=>setOpenOption(!openOption)}
+                    className={styles.avatar_area}>
+                    <Avatar 
+                        src={'abc'||''}
+                        className={styles.avatar}
+                    />
+                    <p className={styles.name}>{user?.account?.fullName}</p>
+                    {openOption&&(
+                        <div className={styles.box_option}>
+                            <Link 
+                                to ={ApiPath.LOGIN}
+                                replace
+                                onClick={handleLogout}
+                                className={styles.link_item}> Đăng xuất</Link>
+                            <Link className={styles.link_item}> Chỉnh sửa thông tin</Link>
+                        </div>
+                    )}
+                    
                 </div>
             </div>
         </div>

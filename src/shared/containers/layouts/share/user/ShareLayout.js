@@ -3,11 +3,14 @@ import Header from '../../../../components/header/Header';
 import SideBar from '../../../../components/sidebar/SideBar';
 import styles from './styles.module.scss';
 import React from 'react'
-import { useState } from 'react';
-import Notification from '../../../../components/notifycation/Notification';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import TaskAction from '../../../../../redux/tasks/TaskAction';
+import UserAction from '../../../../../redux/users/UserAction';
 
 const ShareLayout = ({children}) => {
-
   return (
     <div className={styles.share_layout_container}>
         <SideBar/>
@@ -17,6 +20,7 @@ const ShareLayout = ({children}) => {
                 <Outlet/>
             </div>
         </div>
+          <ToastContainer/>
     </div>
   )
 }

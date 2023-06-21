@@ -1,16 +1,11 @@
 import React from 'react'
 import styles from './styles.module.scss';
-import ShareLayout from '../../layouts/share/user/ShareLayout';
-import MainSide from '../../../components/mainside/MainSide';
 import { Link } from 'react-router-dom';
 import { BsArrowRight } from 'react-icons/bs';
 import { Avatar } from '@mui/material';
 
 import AvatarGroup from '@mui/material/AvatarGroup';
-import ProgressBar from '@ramonak/react-progress-bar';
-import { MdDeleteOutline } from 'react-icons/md';
 import { IoIosArrowDown } from 'react-icons/io';
-import { AiOutlineEdit } from 'react-icons/ai';
 import ProjectSquareItem from '../../../components/project-square-item/ProjectSquareItem';
 const OverviewsContainer = () => {
 
@@ -20,7 +15,7 @@ const OverviewsContainer = () => {
         className={styles.overviews_container}>
         <div className={styles.overviews_body}>
           <p className={styles.title_page}>Tổng quan</p>
-          <div className={styles.row_top}>
+          {/* <div className={styles.row_top}>
             <div className={styles.figure_container}>
                 <div className={styles.doing_project_container}>
                 <div className={styles.text_container}>
@@ -70,7 +65,7 @@ const OverviewsContainer = () => {
                 </Link>
                 </div>
             </div>
-          </div>
+          </div> */}
           <div className={styles.row_bottom}>
             <div className={styles.calendar_container}>
 

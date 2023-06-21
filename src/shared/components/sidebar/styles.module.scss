@@ -172,6 +172,31 @@
                 -ms-border-radius: 4px;
                 -o-border-radius: 4px;
                 font-size: 0.9rem;
+                position:relative;
+                .box_option
+                {
+                    position:absolute;
+                    min-width: 180px;
+                    left: 100%;
+                    top: 0;
+                    background-color: #2d1874;
+                    padding: 10px 20px;
+                    display:flex;
+                    flex-direction: column;
+                    z-index: 1000;
+                    border-radius: 5px;
+                    .link_item
+                    {
+                        text-decoration: none;
+                        color: #fff;
+                        font-weight: 600;
+                        font-size: 1rem;
+                        padding: 5px;
+                    }
+                    .link_item:hover {
+                        background-color: #4b5dcf;
+                    }
+                }
                 .name
                 {
                     font-weight:600;

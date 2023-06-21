@@ -1,26 +1,69 @@
 import React from 'react'
 import styles from './styles.module.scss';
 import { IoCalendarOutline } from "react-icons/io5";
-import ColorItem from '../ColorItem/ColorItem';
-import { Avatar, AvatarGroup, Button } from '@mui/material';
-import avatar from '../../../assets/images/avatar.jpg';
-import { Link } from 'react-router-dom';
+import { Avatar, AvatarGroup, Box, Button, Chip, Modal, TextField, Typography } from '@mui/material';
+import { Link, useParams } from 'react-router-dom';
 import { TiAttachment } from "react-icons/ti";
 import { AiOutlineComment } from "react-icons/ai";
 import { TbSquareRoundedCheck } from "react-icons/tb";
-import PriorityLabel from '../PriorityLabel/PriorityLabel';
-import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
-import { useState } from 'react';
-import useOnClickOutside from '../../../hooks/useOnClickOutside';
-import { useRef } from 'react';
 import ChecklistIcon from '@mui/icons-material/Checklist';
+import TaskAction from '../../../redux/tasks/TaskAction';
+import { useDispatch } from 'react-redux';
+import { toast } from 'react-toastify';
+import { useSelector } from 'react-redux';
+import { useState } from 'react';
+import TaskModal from '../../containers/users/task-modal/TaskModal';
+import moment from 'moment';
+const Task = ({placeholder,link,task,myref,...props}) => {
+    console.log('task nè',task);
+    const {id} = useParams();
+    const dispatch = useDispatch();
+    let date, time;
+    //     if (task?.dueDate) {
+    //     [date, time] = task.dueDate.split('T');
+    //     }
+    if(task?.dueDate)
+    {
+         date = moment(task.dueDate).format('DD-MM-YYYY');
+         time = moment(task.dueDate).format('HH:mm');
+    }
+    const userInfor = JSON.parse(localStorage.getItem('userInfor'));
+    const userIdLocal = userInfor?.account.id;
+    const { listMembers } = useSelector((state) => ({
+        listMembers: state.workspace.listMembers,
+      }));
+    //find user
+    const findUser = listMembers?.data.find(user=>user.id ===userIdLocal)
+    const onVisibleDelete = (findUser,taskId) => {
+       if(findUser&& findUser.role< 2)
+       {
+        return (
+            <DeleteOutlineIcon 
+                onClick = {()=>handleDeleteTask(taskId)}
+                classes={`${styles.icon} ${styles.delete_icon}`}
+            />
+        )
+       }
+    }
+    const handleDeleteTask = (taskId) => {
+        dispatch({
+            type: TaskAction.REQUEST_DELETE_TASK,
+            payload: {
+                id: taskId,
+                workspaceId: parseInt(id),
+                callback: {
+                    toast : (message) => toast(message)
+                }
+            }
+        })
+    }
 
-const Task = ({taskDetailForm,setOpenTaskDetailForm,placeholder,link,task,myref,...props}) => {
-    const ref = useRef();
-    useOnClickOutside(ref, () => setOpenMore(false));
-    const [openMore,setOpenMore] = useState(false);
+    //handle open modal 
+    const [open, setOpen] = useState(false);
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
   return (
             <div
                 ref={myref}
@@ -32,60 +75,60 @@ const Task = ({taskDetailForm,setOpenTaskDetailForm,placeholder,link,task,myref,
                             <Link to = {link} className={styles.link_item}>
                                 <p className={styles.circle}></p>
                                 <p className={styles.title_name}>
-                                    {/* {task?.name} */}
                                     {task?.title}
                                 </p>
                             </Link>
                         </div>
                         <div className={styles.priority_areas}>
-                            <PriorityLabel
-                                btn_low = 'btn_low'
-                                text = 'Low'
-                            />
+                            {
+                                (
+                                    <Chip 
+                                        className={styles.chip_label}
+                                        style = {
+                                           task?.priority===1? {backgroundColor:'#FFE15D'}:
+                                           task?.priority===2? {backgroundColor:'#FF9F45'}:
+                                           {backgroundColor:'#86A3B8'}
+                                        }
+                                        label={
+                                            task?.priority===1?'Trung bình':
+                                            task?.priority===2?'Cao':
+                                            'Thấp'} 
+                                        variant="outlined" />
+                                )
+                            }
                         </div>
                         <div className={styles.card_checklist_areas}>
-                            <Button 
-                                className= {styles.btn_checklist}
-                                variant="outlined" 
-                                startIcon={<ChecklistIcon className={styles.checklist_icon}/>}>
-                                3/10
-                            </Button>
+                            {
+                                task?.subtaskCompleted===task?.subtaskQuantity&&(
+                                <Button 
+                                    className= {styles.btn_checklist}
+                                    variant="outlined" 
+                                    startIcon={<ChecklistIcon className={styles.checklist_icon}/>}>
+                                    {`${task?.subtaskCompleted}/${task?.subtaskQuantity}`}
+                                </Button>
+                                )
+                            }
+                            
                         </div>
                         <div className={styles.attachment_areas}>
                                 {
-                                    task?.attachments && 
-                                    <p className={styles.label_area}>
-                                        <TiAttachment
-                                            className={styles.label_icon}
-                                        /> 
-                                        <span>{task.attachments}</span>
-                                    </p>
-                                }
-                            
-                                {
-                                    task?.comments && 
+                                    task?.commentQuantity>0 && 
                                     <p className={styles.label_area}>
                                         <AiOutlineComment
                                             className={styles.label_icon}
                                         /> 
-                                        <span>{task.comments}</span>
+                                        <span>{task.commentQuantity}</span>
                                     </p>
                                 }
-            
-                                {
-                                    task?.completed && 
-                                    <p className={styles.label_area}>
-                                        <TbSquareRoundedCheck
-                                            className={styles.label_icon}
-                                        /> 
-                                        <span>{task.completed}</span>
-                                    </p>
-                                }
+                        </div>
+                        <div className={styles.label_area}>
+                            
                         </div>
                         <div className={styles.assignee_areas}>
                             <div className={styles.calendar_container}>
                                 <IoCalendarOutline className={styles.calendar_icon}/>
-                                <span className={styles.day_title}>{task?.date}</span>
+                                <span className={styles.day_title}>{date}</span>
+                                <span className={styles.time_title}>{time}</span>
                             </div>
                             <div className={styles.label_container}>
                                 {
@@ -116,35 +159,26 @@ const Task = ({taskDetailForm,setOpenTaskDetailForm,placeholder,link,task,myref,
                                     </AvatarGroup>
                             </div>
                             <div className={styles.other_options_container}>
-                                <MoreHorizIcon
-                                    className={styles.more_icon}
-                                    onClick = {()=> setOpenMore(!openMore)}
-                                />
-                                {
-                                    openMore&& (
-                                        <div 
-                                        ref={ref}
-                                        className={styles.box_options}>
-                                            <div className={styles.edit_container}>
-                                                <EditIcon className={styles.icon}/>
-                                                <Link
-                                                    onClick = {()=>setOpenTaskDetailForm(true)}
-                                                    to = ''
-                                                    className={styles.link_edit}
-                                                >Edit</Link>
-                                            </div>
-                                            <div className={styles.delete_container}>
-                                                <DeleteOutlineIcon className={styles.icon}/>
-                                                <button className={styles.btn_delete}>Delete</button>
-                                            </div>
-                                        </div>
-                                    )
-                                }
-                            
+                                <EditIcon 
+                                    classes={styles.option_icon}
+                                    onClick={handleOpen}
+                                    // onClick = {()=>setOpenTaskDetailForm(true)}
+                                    className={styles.icon}/>
+                                {onVisibleDelete(findUser,task?.id)}
+                                
                             </div>
                         </div>
                     </div>
-    </div>
+                    {open&&(
+                        <TaskModal
+                            taskId = {task?.id}
+                            open = {open}
+                            setOpen = {setOpen}
+                            handleClose = {handleClose}
+                        />
+                    )}
+                    
+            </div>
  
   )
 }

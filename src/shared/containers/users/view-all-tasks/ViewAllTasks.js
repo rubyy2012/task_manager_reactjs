@@ -1,6 +1,5 @@
 import React, { useRef, useState } from 'react'
 import styles from './styles.module.scss'
-import { Link } from 'react-router-dom'
 import ButtonViewTask from '../../../components/all-button/button-view-one-task/ButtonViewTask'
 import { Avatar, AvatarGroup } from '@mui/material'
 import { BsFilter } from 'react-icons/bs'
@@ -9,7 +8,6 @@ import DuedateList from '../../../../api/FilterDuedate'
 import useOnClickOutside from '../../../../hooks/useOnClickOutside'
 import PriorityList from '../../../../api/FilterPriority'
 import { AiOutlineDelete } from "react-icons/ai";
-import TaskDetailContainer from '../task-detail-container/TaskDetailContainer'
 const ViewAllTasks = () => {
     const [isCompleted,setCompleted] = useState(false)
     const [isOpenStatus,setOpenFilterStatus] = useState(false)

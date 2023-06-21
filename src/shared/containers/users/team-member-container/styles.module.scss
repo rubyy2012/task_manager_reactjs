@@ -1,11 +1,15 @@
 .teammember_container
 {
     width: 100%;
-    padding: 20px 30px;
     box-sizing: border-box;
+    background-color: #edf2f5;
     .teammember_body
     {
         width: 100%;
+        display:flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        padding: 20px;
         .header
         {
             display:flex;
