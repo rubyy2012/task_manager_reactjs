@@ -1,0 +1,78 @@
+        {/* OPEN EDIT AND DETAL TASK */}
+                <Modal
+                    open={open}
+                    onClose={handleClose}
+                    aria-labelledby="modal-modal-title"
+                    aria-describedby="modal-modal-description"
+                    className={styles.modal}
+                >
+                    <Box sx={style}>
+                        {/* <Box
+                            className={styles.box}
+                        >
+                            <Button>X</Button>
+                        </Box> */}
+                        <Box
+                            className={styles.box}
+                        >
+                            <Label>Nhiệm vụ</Label>
+                            <TextField
+                                className={styles.text_field}
+                                fullWidth
+                                placeholder='Thêm mô tả'
+                            />
+                        </Box>
+                        <Box
+                            className={styles.box}>
+                                {/* Box member */}
+                                <Box style={{display:'flex',flexDirection:'column'}}>
+                                    <Typography>Thành viên</Typography>
+                                    <Box style ={{display:'flex',gap: '5px'}}>
+                                        <Avatar 
+                                        src={avatar} />
+                                        <Button 
+                                            onClick = {handleOpenAddMember}
+                                            style={{width:'40px'}}
+                                            className={styles.btn_add_member}>
+                                            <AddIcon/>
+                                        </Button>
+                                        <Modal
+                                            open = {openAddMember}
+                                            onClose={handleCloseAddMember}
+                                        >
+                                            <Box 
+                                                sx={boxAdd}>
+                                                <Typography style={{textAlign:'center'}}>Thành viên</Typography>
+                                                <Box 
+                                                    sx = {{
+                                                        display:'flex',gap: '10px',flexDirection:'column'
+                                                    }}
+                                                >
+                                                    <Typography style={{fontSize:'14px'}}>Danh sách thành viên</Typography>
+                                                    <Box 
+                                                        sx={{
+                                                            display:'flex',gap: '10px',alignItems:'center',
+                                                            cursor:'pointer',
+                                                            color: '#b6c2cf',
+                                                            borderRadius:'3px',
+                                                            backgroundColor:'#3d474f',
+                                                            padding: ' 0 8px'
+                                                        }}
+                                                    >
+                                                        <Avatar src={avatar}/>
+                                                        <Typography>Hồng Ngọc (bigdipper201201@gmail.com)</Typography>
+                                                        <CheckIcon/>
+                                                    </Box>
+                                                </Box>
+                                            </Box>
+                                            
+                                        </Modal>
+                                    </Box>
+                                </Box>
+                                {/* Box labels */}
+                                <Box style={{display:'flex',flexDirection:'column'}}>
+                                    <Typography>Nhãn dán</Typography>
+                                </Box>
+                        </Box>
+                    </Box>
+             </Modal>

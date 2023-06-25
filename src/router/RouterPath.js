@@ -2,6 +2,7 @@ const prefix = "/";
 export default class RouterPath {
     static CONFIRM_EMAIL = prefix + 'confirm-email';
     static OVERVIEWS = prefix + 'overviews';
+    static DETAIL_PROJECT = prefix + 'detail-project/:id';
     // static LIST_SUPPLIERS = prefix + '';
     // static DETAIL_SUPPLIER = prefix + 'supplier/detail/:id';
     // static ADD_SUPPLIER = prefix + 'supplier/add-new-supplier';

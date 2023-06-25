@@ -52,6 +52,7 @@
             display:flex;
             align-items: center;
             column-gap: 10px;
+            background-color: #f8fafb;
             .input_wrapper
             {
                 width:100%;
@@ -64,8 +65,18 @@
                 -moz-border-radius:3px ;
                 -ms-border-radius:3px ;
                 -o-border-radius:3px ;
-                padding: 5px 10px;
                 background-color: #f8fafb;
+                justify-content: space-between;
+                margin:auto;
+                .input_field
+                {
+                    margin:0;
+                }
+                .select_field
+                {
+                    min-height: 43px;
+                    box-sizing: border-box;
+                }
                 input
                 {
                     width:100%;
@@ -74,64 +85,16 @@
                     padding: 10px;
                     background-color: transparent;
                 }
-                .button_area
-                {
-                    position:absolute;
-                    right: 0;
-                    .btn_default_role
-                    {
-                        cursor:pointer;
-                        padding: 10px 20px;
-                        background-color: #2e3a8c;
-                        min-width: 108px;
-                        box-sizing: border-box;
-                        color: #fff;
-                        font-weight: 600;
-                        border-radius: 3px                ;
-                        -webkit-border-radius: 3px                ;
-                        -moz-border-radius: 3px                ;
-                        -ms-border-radius: 3px                ;
-                        -o-border-radius: 3px                ;
-                        border:none;
-                        display:flex;
-                        align-items: center;
-                        column-gap: 5px;
-                    }   
-                    .btn_change_role
-                    {
-                        position:absolute;
-                        text-align: center;
-                        top:calc(100% + 2px);
-                        left:0;
-                        cursor:pointer;
-                        padding: 10px 18px;
-                        min-width: 108px;
-                        box-sizing: border-box;
-                        background-color: #a3a3a3;
-                        color: #fff;
-                        font-weight: 600;
-                        box-sizing: border-box;
-                        border-radius: 3px                ;
-                        -webkit-border-radius: 3px                ;
-                        -moz-border-radius: 3px                ;
-                        -ms-border-radius: 3px                ;
-                        -o-border-radius: 3px                ;
-                        border:none;
-                        display:flex;
-                        align-items: center;
-                        column-gap: 5px;
-                    }   
-                }
                 
             }
             .btn_send_invite {
-                cursor:pointer;
-                padding: 10px 20px;
+                // cursor:pointer;
+                // padding: 10px 20px;
                 background-color: #000000;
-                min-width: fit-content;
+                min-height: 43px;
+                min-width: 60px;
                 box-sizing: border-box;
                 color: #fff;
-                font-weight: 600;
                 border-radius: 3px                ;
                 -webkit-border-radius: 3px                ;
                 -moz-border-radius: 3px                ;
@@ -140,7 +103,6 @@
                 border:none;
                 display:flex;
                 align-items: center;
-                column-gap: 5px;
             }
         }
         .group_member

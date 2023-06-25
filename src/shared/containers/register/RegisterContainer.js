@@ -7,9 +7,12 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import UserAction from '../../../redux/users/UserAction.js'
-// import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import ApiPath from '../../../utils/ApiPath';
+import { toast } from 'react-toastify';
 
 const RegisterContainer = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch()
   const {control, handleSubmit, formState: { errors } } = useForm();
   const schema = yup.object().shape({
@@ -24,7 +27,8 @@ const RegisterContainer = () => {
       payload: {
         data: data,
         callback: {
-          // gotoConfirm : (confirmEmailPath)=> navigate(confirmEmailPath)
+          toast : (message) => toast(message),
+          goToLoginPage : ()=> navigate(ApiPath.LOGIN,{ replace: true }),
         }
       }
      })

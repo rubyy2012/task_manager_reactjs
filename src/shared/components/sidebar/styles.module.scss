@@ -8,32 +8,93 @@
     transition: all 0.3s ease-in-out;
     position:relative;
     border-right:1px solid #ccc;
+    background-color: #ffffff;
     .sidebar_body
     {
         min-height:100vh;
-        width:180px;
+        width:200px;
         display:flex;
         flex-direction:column;
         justify-content: space-between;
         .logo_and_menu {
+            .infor
+            {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap:15px;
+                .link_item
+                {
+                    &:hover
+                    {
+                        color: red;
+                    }
+                }
+                .email {
+                    color: #95949b;
+                    font-size: 14px;
+                }
+                .avatar_area
+                {
+                    width: 100px;
+                    height: 100px;
+                    position: relative;
+                    border-radius: 50%;
+                    border: 2px solid #ff6a7a;
+                    cursor: pointer;
+                    .camera_icon
+                    {
+                        position: absolute;
+                        left: calc(100% - 20px);
+                        top: calc(100% - 20px);
+                        font-size: 20px;
+                        padding: 3px;
+                        border-radius: 50%;
+                        background-color: #fff;
+                        color: #ff6a7a;
+                        border: 1px solid #ff6a7a;
+                    }
+                    .avatar
+                    {
+                        width: 100%;
+                        height: 100%;
+                        cursor: pointer;
+                    }
+                    &>label {
+                        position: absolute;
+                        top:0;
+                        right: 0;
+                        bottom:0;
+                        left:0;
+                        z-index: 1;
+                    }
+                    input[type='file']
+                    {
+                        display:none;
+                    }
+                }
+            }
             .logo_area        
             {
-            display:flex;
-            align-items: center;
-            padding-top:10px;
-            margin:auto;
-            column-gap: 10px;
-                .name_title
-                {
-                    font-size: 1.3rem;
-                    color: #362670;
-                    font-weight: 700;
-                }
-                .logoIcon
-                {
-                    color: #2d1874;
-                    font-size: 2.5rem;
-                }
+                display:flex;
+                align-items: center;
+                padding:30px 0;
+                margin:auto;
+                gap:20px;
+                    .name_title
+                    {
+                        font-size: 1.5rem;
+                        // color: #362670;
+                        color: #040404;
+                        font-weight: 700;
+                        margin:0;
+                    }
+                    .logoIcon
+                    {
+                        // color: #2d1874;
+                        color: #040404;
+                        font-size: 2.7rem;
+                    }
             }
             .btn_create_project
             {
@@ -71,6 +132,7 @@
                     display:flex;
                     align-items: center;
                     column-gap: 8px;
+                    margin:0;
                     .icon 
                     {
                         font-weight: 600;
@@ -172,11 +234,37 @@
                 -ms-border-radius: 4px;
                 -o-border-radius: 4px;
                 font-size: 0.9rem;
+                position:relative;
+                .box_option
+                {
+                    position:absolute;
+                    min-width: 200px;
+                    left: 100%;
+                    bottom: 0;
+                    background-color: #040404;
+                    padding: 10px 20px;
+                    display:flex;
+                    flex-direction: column;
+                    z-index: 1000;
+                    border-radius: 5px;
+                    .link_item
+                    {
+                        text-decoration: none;
+                        color: #fff;
+                        font-weight: 600;
+                        font-size: 1rem;
+                        padding: 5px;
+                    }
+                    .link_item:hover {
+                        background-color: #4b5dcf;
+                    }
+                }
                 .name
                 {
                     font-weight:600;
-                    color:#2d1874;
+                    color:#040404;
                     font-size: 0.9rem;
+                    margin:0;
                 }
                 .avatar
                 {

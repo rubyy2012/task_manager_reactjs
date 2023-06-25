@@ -1,0 +1,25 @@
+.icon {
+    padding: 3px;
+    cursor:pointer;
+    font-size: 18px;
+    &:hover {
+        color: red;
+    }
+}
+
+.buttn_label
+{
+  &:hover {
+    opacity: 0.7;
+  }
+}
+.buttn_label.isActive {
+    position:relative;
+    &::after {
+        display:block;
+        position:absolute;
+        content:'✓';
+        color: #fff;
+        font-size: 16px;
+    }
+}

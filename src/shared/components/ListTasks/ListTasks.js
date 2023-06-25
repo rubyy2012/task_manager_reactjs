@@ -5,13 +5,11 @@ import { IoIosArrowDown } from "react-icons/io";
 import { IoIosArrowUp } from "react-icons/io";
 import { useState } from 'react';
 import { Draggable, Droppable } from 'react-beautiful-dnd';
-import TaskDetailContainer from '../../containers/users/task-detail-container/TaskDetailContainer';
-const ListTasks = ({tag,number,tasks,id}) => {
-  const [toggle,setToggle] = useState(false)
-  console.log(toggle)
-  console.log('tasks',tasks)
+const ListTasks = ({tag,taskQuantity,tasks,id,card}) => {
+  const [toggle,setToggle] = useState(true)
   const [taskDetailForm,setOpenTaskDetailForm] = useState(false);
-
+  const taskItems = card.taskItems;
+  
   return (
         <div className={styles.listtasks_container}>      
           <div className={styles.listtasks_body}>
@@ -25,7 +23,7 @@ const ListTasks = ({tag,number,tasks,id}) => {
               <p className={styles.tag_name}>
                 {tag}
               </p>
-              <span>({number})</span>
+              <span>({taskQuantity})</span>
             </div>
            
             {
@@ -49,18 +47,16 @@ const ListTasks = ({tag,number,tasks,id}) => {
                           )
                         }
                       {
-                        tasks?.map((task,index)=>(
+                        taskItems?.map((task,index)=>(
                             <Draggable
-                            key={task.id}
+                            key={task?.id}
                             index={index}
                             {...provided.draggableProps}
                             {...provided.dragHandleProps}
-                            draggableId={task.id.toString()}>
+                            draggableId={task?.id.toString()}>
                                 {
                                 (provided) => (
                                     <Task
-                                    taskDetailForm = {taskDetailForm}
-                                    setOpenTaskDetailForm = {setOpenTaskDetailForm}
                                     myref = {provided.innerRef}
                                     {...provided.draggableProps}
                                     {...provided.dragHandleProps}
@@ -79,10 +75,6 @@ const ListTasks = ({tag,number,tasks,id}) => {
             }
             
           </div>
-          <TaskDetailContainer
-              taskDetailForm = {taskDetailForm}
-              setOpenTaskDetailForm = {setOpenTaskDetailForm}
-      />
       </div>
   )
 }
