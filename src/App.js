@@ -1,4 +1,5 @@
 import './App.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import RoutePaths from './router/Routes';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
@@ -13,23 +14,27 @@ import ProjectPage from './pages/users/ProjectPage';
 import TeamMemberContainer from './shared/containers/users/team-member-container/TeamMemberContainer';
 import ViewTasksMember from './shared/containers/users/view-tasks-member-container/ViewTasksMember';
 import AllProjectsPage from './pages/users/AllProjectsPage';
-import ViewAllTasksPage from './pages/users/ViewAllTasksPage';
 import ConfirmEmailPage from './pages/ConfirmEmail';
+import AdminBase from './shared/containers/admin/AdminBase';
+import ManageAccount from './shared/containers/admin/manage-account/ManageAccount';
+import ListUser from './shared/containers/admin/list-users/ListUser';
+import LoginAdmin from './shared/containers/admin/login/LoginAdmin';
+import RegisterAdmin from './shared/containers/admin/register/RegisterAdmin';
+import ListWorkspacesUser from './shared/containers/admin/list-workspaces-user/ListWorkspacesUser';
+import ManageAccountUser from './shared/containers/users/manage-account/ManageAccountUser';
 function App() {
   return (
     <div className="App">
       <Routes>
         <Route element={<AuthenLayout/>}>
            <Route path='/' element={<Navigate to={RoutePaths.LOGIN} />} />
-
             <Route path={RoutePaths.LOGIN} element={<LoginPage/>}/>
             <Route path={RoutePaths.REGISTER} element={<RegisterPage/>}/>
         </Route>
-
-            <Route path='/confirm-email' element={<ConfirmEmailPage/>}/>
+        <Route path='/confirm-email' element={<ConfirmEmailPage/>}/>
         <Route element={<ShareLayout/>}>
-            <Route path='/all-tasks' element={<ViewAllTasksPage/>}/>
             <Route path='/all-projects' element={<AllProjectsPage/>}/>
+            <Route path='/manage-account' element={<ManageAccountUser/>}/>
             <Route path='/overviews' element={<OverviewPages/>}/>
             <Route path='/project-page' element={<ProjectPage/>}>
               <Route path='project/:id/all-tasks' element={<ListViewContainer/>}/>
@@ -40,6 +45,13 @@ function App() {
             <Route path='/list-task' element={<ListTasks/>}/>
            </Route>
         <Route path='/*' element={<div>not found</div>} />
+        <Route path='/admin' element={<AdminBase/>}>
+            <Route path='profile' element={<ManageAccount/>}/>
+            <Route path='list-users' element={<ListUser/>}/>
+            <Route path='list-users/:id' element={<ListWorkspacesUser/>}/>
+        </Route>
+        <Route path='/admin/login' element={<LoginAdmin/>}/>
+        <Route path='/admin/register' element={<RegisterAdmin/>}/>
       </Routes>
     </div>
   );

@@ -62,10 +62,10 @@ const ProjectSquareItem = ({ id, item,percent }) => {
                   "& .MuiAvatar-root": { width: 26, height: 26, fontSize: 14 },
                 }}
               >
-                <Avatar />
-                <Avatar />
-                <Avatar />
-                <Avatar />
+                {item?.members&&item.members.map(member=>(
+                <Avatar
+                  src={member?.avatar}/>
+                ))}
               </AvatarGroup>
             </p>
             <div className={styles.group_icon}>

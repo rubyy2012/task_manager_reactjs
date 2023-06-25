@@ -58,51 +58,21 @@ const ProjectContainer = () => {
              
             </div>
             <div className={styles.project_tools}>
-            <div className={styles.members}>
-                <AvatarGroup
-                        className={styles.avatar_group}
-                        sx={{
-                            '& .MuiAvatar-root': { width:26, height:26, fontSize: 14 },
-                          }}
-                        spacing={-1}
-                        max={6}>
-                        <Avatar
-                          className={styles.avatar}
-                          src={avatar}
-                          sx={{ width:26, height:26 }}
-                        />
+              {/* <div className={styles.members}>
+                  <AvatarGroup
+                          className={styles.avatar_group}
+                          sx={{
+                              '& .MuiAvatar-root': { width:26, height:26, fontSize: 14 },
+                            }}
+                          spacing={-1}
+                          max={6}>
                           <Avatar
-                          className={styles.avatar}
-                          src={avatar}
-                          sx={{ width:26, height:26 }}
-                        />
-                        <Avatar
-                          className={styles.avatar}
-                          sx={{ width:26, height:26 }}
-                          src={avatar}
-                        />
-                        <Avatar
-                          className={styles.avatar}
-                          sx={{ width:26, height:26 }}
-                          src={avatar}
-                        />
-                          <Avatar
-                          className={styles.avatar}
-                          src={avatar}
-                          sx={{ width:26, height:26 }}
-                        />
-                        <Avatar
-                          className={styles.avatar}
-                          sx={{ width:26, height:26 }}
-                          src={avatar}
-                        />
-                        <Avatar
-                          className={styles.avatar}
-                          sx={{ width:26, height:26 }}
-                          src={avatar}
-                        />
-                </AvatarGroup>
-              </div>
+                            className={styles.avatar}
+                            src={avatar}
+                            sx={{ width:26, height:26 }}
+                          />
+                  </AvatarGroup>
+                </div> */}
               <Button 
                   onClick={()=>setOpenCreateTask(true)}
                   className={styles.btn_add_member}

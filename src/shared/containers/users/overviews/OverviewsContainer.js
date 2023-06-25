@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import styles from './styles.module.scss';
 import { Link } from 'react-router-dom';
 import { BsArrowRight } from 'react-icons/bs';

@@ -10,7 +10,7 @@
         border: 1px solid #eaeaed;
         position: relative;
         overflow-x: hidden;
-        height:100%;
+        min-height: 100vh;
         .side_tasks_header
         {
             display:flex;

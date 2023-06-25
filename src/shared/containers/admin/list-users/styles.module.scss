@@ -1,0 +1,22 @@
+.list_user_workspace
+{
+    
+    .body {
+        // padding: 10px;
+        display:flex;
+        // flex-wrap: wrap;
+        flex-direction: column;
+        gap: 40px;
+        .filter
+        {
+            display:flex;
+            column-gap: 20px;
+            justify-content: flex-end;
+        }
+        .box:hover
+        {
+            background-color: #151419;
+            cursor:pointer;
+        }
+    }
+}

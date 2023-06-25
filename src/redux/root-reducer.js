@@ -2,10 +2,12 @@ import { combineReducers } from 'redux';
 import UserReducer from './users/UserReducer';
 import WorkspaceReducer from './workspaces/WorkspaceReducer';
 import TaskReducer from './tasks/TaskReducer';
+import AdminReducer from './admin/AdminReducer';
 const rootReducer = combineReducers({
     user: UserReducer,
     workspace: WorkspaceReducer,
-    task: TaskReducer
+    task: TaskReducer,
+    admin: AdminReducer
 });
 
 export default rootReducer;

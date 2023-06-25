@@ -10,12 +10,37 @@ let initialState = {
         loading:false,
         message: '',
         data: {}
+    },
+    profile: {
+        loading: false,
+        data: {}
     }
 }
 
 const UserReducer = (state=initialState,action)=> {
     // console.log(action)
     switch(action.type) {
+        case UserAction.REQUEST_GET_DETAIL_PROFILE: 
+        {
+            return {
+                ...state,
+                profile: {
+                    ...state.data,
+                    loading: true,
+                },
+            };
+        }
+
+        case UserAction.SUCCESS_GET_DETAIL_PROFILE: 
+        {
+            return {
+                ...state,
+                profile: {
+                    loading: false,
+                    data: action?.payload?.data?.data
+                },
+            };
+        }
         case UserAction.REQUEST_REGISTER: 
         {
             return {

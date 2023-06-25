@@ -121,13 +121,12 @@
                             row-gap: 10px;
                             align-items: center;
                             position:relative;
-                            &>span {
-                                display:block;
+                            .title_label
+                            {
                                 width:100%;
-                                color: #424251;
+                                text-align: left;
                                 font-weight: 600;
                                 font-size: 0.9rem;
-                                text-align: left;
                             }
                             .custom_time_picker
                             {

@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styles from './styles.module.scss';
 import DataSaverOffIcon from '@mui/icons-material/DataSaverOff';
-import { Avatar } from '@mui/material';
+import { Avatar, Typography } from '@mui/material';
 import CreateTask from '../create-task/CreateTask';
 import { RxDashboard } from "react-icons/rx";
 import { SiOpenproject } from "react-icons/si";
@@ -14,24 +14,47 @@ import CreateProject from '../create-project/CreateProject';
 import { useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import ApiPath from '../../../utils/ApiPath';
+import { HiCamera } from "react-icons/hi";
+import { useDispatch } from 'react-redux';
+import UserAction from '../../../redux/users/UserAction';
 const SideBar = () => {
-    const [openCreateTask,setOpenCreateTask] = useState(false);
     const [toggle,setToggle] = useState(false);
-    const [openOption,setOpenOption] = useState(false);
-    const navigate = useNavigate();
+    const dispatch = useDispatch();
     const handleToggleBar = () => {
     }
     const [openCreateProject,setOpenCreateProject] = useState(false);
     const [active,setActive] = useState();
     const [activeMenu,setActiveMenu] = useState();
-    const user =  JSON.parse(localStorage.getItem('userInfor'));
-    // const dispatch = useDispatch();
     const { recentlyProjects } = useSelector((state) => ({
         recentlyProjects: state.workspace.recentlyProjects,
       }));
-      const handleLogout = () => {
+    const handleLogout = () => {
         localStorage.removeItem('userInfor');
-      }
+    }
+    const { profile } = useSelector((state) => ({
+        profile: state.user.profile,
+      }));
+      useEffect(()=>{
+        dispatch({
+          type: UserAction.REQUEST_GET_DETAIL_PROFILE,
+        })
+    },[])
+    
+    const handleUpdateAvatar = (e) => {
+        const formData = new FormData();
+        formData.append('file',e.target.files[0])
+        formData.append('cloud_name','diql0n3kn')
+        formData.append('upload_preset', 'task_manager');
+        formData.append('folder', 'avatar');
+        dispatch({
+          type: UserAction.REQUEST_UPLOAD_AVATAR_TO_CLOUDINARY,
+          payload: {
+            data: {
+              formData: formData,
+            }
+          }
+        })
+    }
   return (
             
     <div className={styles.sidebar_container}>
@@ -50,6 +73,23 @@ const SideBar = () => {
                         className={`${styles.logoIcon} ${toggle?styles.adjust:''}`}
                     />
                     <p className={styles.name_title}>MyAssign</p>
+                </div>
+                <div className={styles.infor}>
+                    <div className={styles.avatar_area}>
+                        <Avatar className={styles.avatar} 
+                            src={profile?.data?.user?.avatar}/>
+                        <HiCamera className={styles.camera_icon}/>
+                        <label htmlFor='file'></label>
+                        <input 
+                        onChange={(e)=>handleUpdateAvatar(e)}
+                        type="file" id='file'/>
+                    </div>
+                    <Typography sx= {{fontSize:'20px',fontWeight:'600',}}>
+                       <Link to='/manage-account' 
+                            className={styles.link_item}  
+                            style={{color: '#040404',textDecoration:'none'}}>{profile?.data?.user?.fullName}</Link>
+                    </Typography>
+                    <p className={styles.email}>{profile?.data?.user?.email}</p>
                 </div>   
                 <button 
                     onClick={()=>setOpenCreateProject(true)}
@@ -78,7 +118,7 @@ const SideBar = () => {
                             icon = {<SiOpenproject className={styles.icon_allprojects}/>}
                         />
                          <MenuLinkItem
-                            name = 'Danh sách nhiệm vụ'
+                            name = 'Nhiệm vụ sắp tới'
                             activeMenu ={activeMenu}
                             onClick = {()=>setActiveMenu(3)}
                             index = {3}
@@ -112,36 +152,16 @@ const SideBar = () => {
                 </div>
            </div>
             <div className={styles.personal}>
-                <button
-                onClick = {()=>setOpenCreateTask(true)}
-
-                    className={styles.btn_add_assignment}
-                    >Tạo nhiệm vụ</button>
-                <div 
-                    onClick ={()=>setOpenOption(!openOption)}
+                <div
                     className={styles.avatar_area}>
-                    <Avatar 
-                        src={'abc'||''}
-                        className={styles.avatar}
-                    />
-                    <p className={styles.name}>{user?.account?.fullName}</p>
-                    {openOption&&(
-                        <div className={styles.box_option}>
-                            <Link 
-                                to ={ApiPath.LOGIN}
-                                replace
-                                onClick={handleLogout}
-                                className={styles.link_item}> Đăng xuất</Link>
-                            <Link className={styles.link_item}> Chỉnh sửa thông tin</Link>
-                        </div>
-                    )}
-                    
+                   <Link 
+                        to ={ApiPath.LOGIN}
+                        replace
+                        onClick={handleLogout}
+                        className={styles.link_item}> Đăng xuất</Link>
                 </div>
             </div>
         </div>
-        <CreateTask
-            setOpenCreateTask = {setOpenCreateTask}
-            openCreateTask = {openCreateTask}/>
     </div>
   )
 }

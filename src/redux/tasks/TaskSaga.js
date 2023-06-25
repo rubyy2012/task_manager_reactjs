@@ -164,9 +164,13 @@ function* detailTaskSaga(action) {
 }
 
 function* assignTaskMemberSaga(action) {
-  const {workspaceId,taskId,data} = action.payload;
+  const {workspaceId,taskId,data,callback} = action.payload;
   const result = yield call(() => TaskFactory.assignTaskMember(data,workspaceId,taskId));
   try {
+    if(callback?.toast) 
+    {
+      callback.toast(result?.data?.message)
+    }
     if(result.data.isSuccess)
     {
       yield put({
@@ -177,6 +181,7 @@ function* assignTaskMemberSaga(action) {
           }
         },
       });
+
     }
   } catch (e) {
     console.log("Có lỗi xảy ra", e);
@@ -373,7 +378,109 @@ function* getTasksByMemberSaga(action) {
     console.log("Có lỗi xảy ra", e);
   }
 }
+function* extendDueDateTaskSaga(action) {
+  const {data,workspaceId,taskId,callback} = action.payload;
+  const result = yield call(() => TaskFactory.extendDueDateTask(data,workspaceId));
+  console.log('exxten result',result)
+  try {
+    yield put({
+      type: TaskAction.REQUEST_GET_DETAIL_TASK,
+      payload: {
+        data: {
+          taskId
+        },
+      },
+    });
+    if(callback?.handleCloseExtendDueDate)
+    {
+      callback.handleCloseExtendDueDate();
+    }
+    if(callback?.toast)
+    {
+      callback.toast(result?.data?.message);
+    }
+    yield put({
+      type: TaskAction.SUCCESS_EDIT_SUBTASK,
+      payload: result,
+    });
+  } catch (e) {
+    console.log("Có lỗi xảy ra", e);
+  }
+}
 
+function* acceptExtendDateTaskSaga(action) {
+  const {callback,workspaceId,memberTaskId,taskId} = action.payload;
+  const result = yield call(() => TaskFactory.acceptExtendDueDateTask(memberTaskId,workspaceId));
+  console.log('exxten result',result)
+  try {
+    if(result?.data?.isSuccess)
+    {
+      yield put({
+        type: TaskAction.REQUEST_GET_DETAIL_TASK,
+        payload: {
+          data: {
+            taskId: taskId
+          },
+        },
+      });
+      if(callback?.toast)
+      {
+        callback.toast(result?.data?.message);
+      }
+      yield put({
+        type: TaskAction.SUCCESS_ACCEPT_EXTEND_DATE,
+        payload: result,
+      });
+    }
+    else 
+    {
+      if(callback?.toast)
+      {
+        callback.toast(result?.data?.message);
+      }
+    }
+   
+  } catch (e) {
+    console.log("Có lỗi xảy ra", e);
+  }
+}
+
+function* rejectExtendDateTaskSaga(action) {
+  const {callback,workspaceId,memberTaskId,taskId} = action.payload;
+  const result = yield call(() => TaskFactory.rejectExtendDueDateTask(memberTaskId,workspaceId));
+  console.log('exxten result',result)
+  try {
+    if(result?.data?.isSuccess)
+    {
+      yield put({
+        type: TaskAction.REQUEST_GET_DETAIL_TASK,
+        payload: {
+          data: {
+            taskId: taskId
+          },
+        },
+      });
+      if(callback?.toast)
+      {
+        callback.toast(result?.data?.message);
+      }
+      yield put({
+        type: TaskAction.SUCCESS_REJECT_EXTEND_DATE,
+        payload: result,
+      });
+    }
+    else 
+    {
+      if(callback?.toast)
+      {
+        callback.toast(result?.data?.message);
+      }
+    }
+   
+  } catch (e) {
+    console.log("Có lỗi xảy ra", e);
+  }
+}
 function* getTaskSaga() {
   yield takeEvery(TaskAction.REQUEST_CREATE_TASK, createTaskSaga);
   yield takeEvery(TaskAction.REQUEST_MOVE_TASK, moveTaskSaga);
@@ -388,8 +495,10 @@ function* getTaskSaga() {
   yield takeEvery(TaskAction.REQUEST_CREATE_SUBTASK, createSubtaskSaga)
   yield takeEvery(TaskAction.REQUEST_DELETE_SUBTASK, deleteSubtaskSaga)
   yield takeEvery(TaskAction.REQUEST_EDIT_SUBTASK, editSubtaskSaga)
-  
   yield takeEvery(TaskAction.REQUEST_GET_TASKS_BY_MEMBER, getTasksByMemberSaga);
+  yield takeEvery(TaskAction.REQUEST_EXTEND_DUE_DATE, extendDueDateTaskSaga);
+  yield takeEvery(TaskAction.REQUEST_ACCEPT_EXTEND_DATE, acceptExtendDateTaskSaga);
+  yield takeEvery(TaskAction.REQUEST_REJECT_EXTEND_DATE, rejectExtendDateTaskSaga);
 
   
 }

@@ -23,7 +23,7 @@ import {
 } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import moment from "moment";
-import dayjs from "dayjs";
+// import dayjs from "dayjs";
 
 import { ThemeProvider, createTheme } from "@mui/material";
 import { Controller, useForm } from "react-hook-form";
@@ -58,7 +58,7 @@ const TaskModal = ({ open, setOpen, handleOpen, handleClose, taskId }) => {
   const { control, handleSubmit, setValue } = useForm();
   const dispatch = useDispatch();
   const [selectColor, setSelectColor] = useState("");
-  const  userInfor = JSON.parse(localStorage.getItem("userInfor"))||[];
+  const userInfor = JSON.parse(localStorage.getItem("userInfor")) || [];
   //handle open modal
   // const [open, setOpen] = useState(false);
   // const handleOpen = () => setOpen(true);
@@ -85,16 +85,26 @@ const TaskModal = ({ open, setOpen, handleOpen, handleClose, taskId }) => {
   const handleOpenCreateSubtask = () => setOpenCreateSubtask(true);
   const handleCloseCreateSubtask = () => setOpenCreateSubtask(false);
 
-    //OPEN EDIT SUBTASK
-    const [openEditSubtask, setOpenEditSubtask] = useState(false);
-    const handleOpenEditSubtask = () => setOpenEditSubtask(true);
-    const handleCloseEditSubtask = () => setOpenEditSubtask(false);
+  //OPEN EDIT SUBTASK
+  const [openEditSubtask, setOpenEditSubtask] = useState(false);
+  const handleOpenEditSubtask = () => setOpenEditSubtask(true);
+  const handleCloseEditSubtask = () => setOpenEditSubtask(false);
 
   //OPEN CALENDAR
   const [openCalendar, setOpenCalendar] = useState(false);
   const handleOpenCalendar = () => setOpenCalendar(true);
   const handleCloseCalendar = () => setOpenCalendar(false);
 
+  //OPEN EXTEND DUEDATE
+  const [openExtendDueDate, setOpenExtendDueDate] = useState(false);
+  const handleOpenExtendDueDate = () => setOpenExtendDueDate(true);
+  const handleCloseExtendDueDate = () => setOpenExtendDueDate(false);
+
+  // OPEN VIEW REQUEST DUEDATE
+
+  const [openViewRequestDueDate, setOpenViewRequestDueDate] = useState(false);
+  const handleOpenViewRequestDueDate = () => setOpenViewRequestDueDate(true);
+  const handleCloseViewRequestDueDate = () => setOpenViewRequestDueDate(false);
   //OPEN CREATE COMMENT
   const [openComment, setOpenComment] = useState(false);
   const handleOpenComment = () => setOpenComment(true);
@@ -128,7 +138,8 @@ const TaskModal = ({ open, setOpen, handleOpen, handleClose, taskId }) => {
   const boxAddCalendar = {
     ...style,
     padding: " 30px 20px",
-    width: "400px",
+    minWdith: '400px',
+    width: "550px",
     gap: "20px",
   };
   const boxAddSubtask = {
@@ -149,9 +160,14 @@ const TaskModal = ({ open, setOpen, handleOpen, handleClose, taskId }) => {
   const [isSelectedMem, setSelectedMem] = useState(false);
   const [selected, setSeleted] = useState(false);
   const [checkedLabels, setCheckedLabels] = useState([]);
-  const [checkedSubtasks,setCheckedSubtasks] =useState([]);
-  const [isSubtaskValid,setIsSubtaskValid] =useState(false);
+  const [checkedSubtasks, setCheckedSubtasks] = useState([]);
+  const [isSubtaskValid, setIsSubtaskValid] = useState(false);
+  const [isActive,setActive] = useState(null);
 
+  const { detailProject } = useSelector((state) => ({
+    detailProject: state.workspace.detailProject,
+  }));
+  const myRole = detailProject?.data?.myRole;
 
   const { listMembers } = useSelector((state) => ({
     listMembers: state.workspace.listMembers,
@@ -180,18 +196,19 @@ const TaskModal = ({ open, setOpen, handleOpen, handleClose, taskId }) => {
     });
   }, [taskId]);
 
-  console.log('listMembers',listMembers)
   useEffect(() => {
-    const dateTime = moment(detailTask?.data?.dueDate);
-    const dateFormated = dateTime.format('DD/MM/YYYY');
-    const timeFormated = dateTime.format('HH:mm');
     if (detailTask?.data?.dueDate) {
-      const dateObject = dayjs(dateFormated, 'DD/MM/YYYY').toDate();
-      setValue("dueDate", dateObject);
-      setValue("dueTime",  dayjs(timeFormated, 'HH:mm'));
+      const dateTime = moment(detailTask?.data?.dueDate);
+      const dateFormated = dateTime.format("DD/MM/YYYY");
+      const timeFormated = dateTime.format("HH:mm");
+      setValue("dueDate", dateFormated);
+      setValue("dueTime", timeFormated);
     }
-    if (detailTask?.data?.priority===0||detailTask?.data?.priority===1||detailTask?.data?.priority===2) {
-      console.log('testpriority',detailTask?.data?.priority.toString())
+    if (
+      detailTask?.data?.priority === 0 ||
+      detailTask?.data?.priority === 1 ||
+      detailTask?.data?.priority === 2
+    ) {
       setValue("priority", detailTask?.data?.priority.toString());
     }
     setSelectedMembers(
@@ -205,26 +222,32 @@ const TaskModal = ({ open, setOpen, handleOpen, handleClose, taskId }) => {
     setCheckedLabels(detailTask?.data?.labels);
     setSeleted(false);
     setIsSubtaskValid(true);
-    setCheckedSubtasks(detailTask?.data?.subtasks?.filter((item)=>item.status===true));
+    setCheckedSubtasks(
+      detailTask?.data?.subtasks?.filter((item) => item.status === true)
+    );
   }, [detailTask?.data]);
 
-
-
   const handleMemberSelection = (memberId, members) => {
-    setSeleted(true);
-    const selectedMember = members.find((member) => member.id === memberId);
-    const isSelected = selectedMembers.some((member) => member.id === memberId);
-    if (isSelected) {
-      setSelectedMem(true);
-      setSelectedMembers((prevSelectedMembers) =>
-        prevSelectedMembers.filter((member) => member.id !== memberId)
-      );
-    } else {
-      setSelectedMem(false);
-      setSelectedMembers((prevSelectedMembers) => [
-        ...prevSelectedMembers,
-        selectedMember,
-      ]);
+    if(myRole===2)
+    {
+      toast.warn('Bạn không có quyền gán thành viên!')
+    }
+    if(myRole !== 2){
+      setSeleted(true);
+      const selectedMember = members.find((member) => member.id === memberId);
+      const isSelected = selectedMembers.some((member) => member.id === memberId);
+      if (isSelected) {
+        setSelectedMem(true);
+        setSelectedMembers((prevSelectedMembers) =>
+          prevSelectedMembers.filter((member) => member.id !== memberId)
+        );
+      } else {
+        setSelectedMem(false);
+        setSelectedMembers((prevSelectedMembers) => [
+          ...prevSelectedMembers,
+          selectedMember,
+        ]);
+      }
     }
 
     // console.log('checkedMembers',selectedMembers)
@@ -243,75 +266,78 @@ const TaskModal = ({ open, setOpen, handleOpen, handleClose, taskId }) => {
               taskItemId: taskId,
             };
           }),
+          callback: {
+            toast : (message) => toast(message)
+          }
         },
       });
     }
   }, [selectedMembers]);
 
-  const onAddComment = (data)=> {
-    const {content} = data;
+  const onAddComment = (data) => {
+    const { content } = data;
     dispatch({
       type: TaskAction.REQUEST_POST_COMMENT,
       payload: {
         data: {
           content: striptags(content),
-          userId:userInfor?.account?.id,
+          userId: userInfor?.account?.id,
           taskItemId: parseInt(taskId),
         },
         workspaceId: parseInt(id),
         taskId: parseInt(taskId),
         callback: {
-          handleCloseComment: () => handleCloseComment()
-        }
+          handleCloseComment: () => handleCloseComment(),
+        },
       },
     });
-  }
+  };
   const onCreateSubtask = (data) => {
-    const {subtask} = data;
+    const { subtask } = data;
     dispatch({
-      type:TaskAction.REQUEST_CREATE_SUBTASK,
-      payload:{
-        data:{
-          name:subtask,
+      type: TaskAction.REQUEST_CREATE_SUBTASK,
+      payload: {
+        data: {
+          name: subtask,
           taskItemId: parseInt(taskId),
         },
         workspaceId: parseInt(id),
-        callback:{
-          handleCloseCreateSubtask: ()=> handleCloseCreateSubtask()
-        }
-      }
-    })
-  }
-  
-  const [idSubtask,setIdSubtask] = useState()
+        callback: {
+          handleCloseCreateSubtask: () => handleCloseCreateSubtask(),
+        },
+      },
+    });
+  };
+
+  const [idSubtask, setIdSubtask] = useState();
   const onEditSubtask = (data) => {
-    const {subtask} = data;
+    const { subtask } = data;
     dispatch({
       type: TaskAction.REQUEST_EDIT_SUBTASK,
       payload: {
         data: {
-          update_data: [{ op: 'replace', path: "/name", value: subtask }],
+          update_data: [{ op: "replace", path: "/name", value: subtask }],
           workspaceId: parseInt(id),
           taskId: parseInt(taskId),
           id: parseInt(idSubtask),
           callback: {
-            handleCloseEditSubtask: () => handleCloseEditSubtask()
-          }
+            handleCloseEditSubtask: () => handleCloseEditSubtask(),
+          },
         },
       },
     });
-  }
+  };
   const handleDeleteComment = (commentId) => {
-      dispatch({
-        type: TaskAction.REQUEST_DELETE_COMMENT_TASK,
-        payload: {
-          data: {
-            commentId: parseInt(commentId),
-            taskId: parseInt(taskId)
-          }
-        }
-      })
-  }
+    dispatch({
+      type: TaskAction.REQUEST_DELETE_COMMENT_TASK,
+      payload: {
+        data: {
+          commentId: parseInt(commentId),
+          taskId: parseInt(taskId),
+        },
+      },
+    });
+  };
   const handleDeleteSubtask = (subtaskId) => {
     dispatch({
       type: TaskAction.REQUEST_DELETE_SUBTASK,
@@ -320,26 +346,31 @@ const TaskModal = ({ open, setOpen, handleOpen, handleClose, taskId }) => {
           subtaskId: parseInt(subtaskId),
           workspaceId: parseInt(id),
           taskId: parseInt(taskId),
-          callback:{
-            toast: (message) => toast(message)
-          }
+          callback: {
+            toast: (message) => toast(message),
+          },
         },
-       
-      }
-    })
-  }
+      },
+    });
+  };
   const onAddDescription = (data) => {
     const { description } = data;
     dispatch({
       type: TaskAction.REQUEST_EDIT_TASK,
       payload: {
         data: {
-          update_data: [{ op: 'replace', path: "/description", value: striptags(description) }],
+          update_data: [
+            {
+              op: "replace",
+              path: "/description",
+              value: striptags(description),
+            },
+          ],
           workspaceId: parseInt(id),
           taskId: parseInt(taskId),
           callback: {
-            handleCloseDescription: () => handleCloseDescription()
-          }
+            handleCloseDescription: () => handleCloseDescription(),
+          },
         },
       },
     });
@@ -355,7 +386,7 @@ const TaskModal = ({ open, setOpen, handleOpen, handleClose, taskId }) => {
       type: TaskAction.REQUEST_CREATE_NEW_LABEL,
       payload: {
         data: dataSend,
-        workspaceId:parseInt(id),
+        workspaceId: parseInt(id),
         taskId: parseInt(taskId),
         callback: {
           // toast: (message) => toast(message),
@@ -368,23 +399,27 @@ const TaskModal = ({ open, setOpen, handleOpen, handleClose, taskId }) => {
   //handle selected subtask
   const handleChexboxSubtask = (subtask) => {
     if (checkedSubtasks?.some((item) => item.id === subtask.id)) {
-      setCheckedSubtasks(checkedSubtasks.filter((item) => item.id !== subtask.id));
+      setCheckedSubtasks(
+        checkedSubtasks.filter((item) => item.id !== subtask.id)
+      );
     } else {
       setCheckedSubtasks([...checkedSubtasks, subtask]);
     }
 
     dispatch({
-        type: TaskAction.REQUEST_EDIT_SUBTASK,
-        payload: {
-          data: {
-            update_data: [{ op: 'replace', path: "/status", value: !subtask.status }],
-            workspaceId: parseInt(id),
-            taskId:parseInt(taskId),
-            id: parseInt(subtask.id),
-          },
+      type: TaskAction.REQUEST_EDIT_SUBTASK,
+      payload: {
+        data: {
+          update_data: [
+            { op: "replace", path: "/status", value: !subtask.status },
+          ],
+          workspaceId: parseInt(id),
+          taskId: parseInt(taskId),
+          id: parseInt(subtask.id),
         },
-      });
-  }
+      },
+    });
+  };
 
   //handle selected label
   const handleCheckboxChange = (label) => {
@@ -407,11 +442,74 @@ const TaskModal = ({ open, setOpen, handleOpen, handleClose, taskId }) => {
     }
   }, [checkedLabels]);
 
+  const onRequestExtend = (data) => {
+    console.log("request due date", data);
+    const { dueDate, dueTime } = data;
+    const dateString = new Date(dueDate.$d).toString();
+    const timeString = new Date(dueTime.$d).toString();
+    const partsTime = timeString.split(" ")[4];
+    const formattedDate = moment(dateString).format("YYYY-MM-DD");
+    const datetime = `${formattedDate} ${partsTime}`;
 
-const dateTime = moment(detailTask?.data?.dueDate);
-const dateFormated = dateTime.format('DD/MM/YYYY');
-const timeFormated = dateTime.format('HH:mm');
-const task_percent = detailTask?.data?.subtaskQuantity>0 && parseInt(detailTask?.data?.subtaskCompleted*100/detailTask?.data?.subtaskQuantity)
+    const dataSend = {
+      extendDate: datetime,
+      taskItemId: taskId,
+    };
+    dispatch({
+      type: TaskAction.REQUEST_EXTEND_DUE_DATE,
+      payload: {
+        data: dataSend,
+        workspaceId: parseInt(id),
+        taskId,
+        callback: {
+          handleCloseExtendDueDate: () => handleCloseExtendDueDate(),
+          toast: (message) => toast(message),
+        },
+      },
+    });
+  };
+  const dateTime = moment(detailTask?.data?.dueDate);
+  const dateFormated = dateTime.format("DD/MM/YYYY");
+  const timeFormated = dateTime.format("HH:mm");
+  const task_percent =
+    detailTask?.data?.subtaskQuantity > 0 &&
+    parseInt(
+      (detailTask?.data?.subtaskCompleted * 100) /
+        detailTask?.data?.subtaskQuantity
+    );
+  const handleSetActive = (item) => {
+    // const activeBtn = ListColorApi?.map(color=>color.id === item.id)
+    setActive(item.id)
+  }
+
+  const handleAcceptExtendDate = (m) => {
+      console.log('user',m.userId)
+      dispatch({
+        type:TaskAction.REQUEST_ACCEPT_EXTEND_DATE,
+        payload: {
+          memberTaskId: m.id,
+          workspaceId: parseInt(id),
+          taskId: taskId,
+          callback : {
+            toast : (message) => toast(message)
+          }
+        }
+      })
+  }
+
+  const handleRejectExtendDate = (m) => {
+    dispatch({
+      type:TaskAction.REQUEST_REJECT_EXTEND_DATE,
+      payload: {
+        memberTaskId: m.id,
+        workspaceId: parseInt(id),
+        taskId: taskId,
+        callback : {
+          toast : (message) => toast(message)
+        }
+      }
+    })
+  }
   return (
     <Modal
       open={open}
@@ -451,21 +549,23 @@ const task_percent = detailTask?.data?.subtaskQuantity>0 && parseInt(detailTask?
 
         {/* Đánh giá tiến độ */}
         <Box sx={{ display: "flex", flexDirection: "column", gap: "10px" }}>
-            <Typography sx={{ fontWeight: 500, fontSize: "18px" }}>
-              Tiến độ hoàn thành
-            </Typography>
-            <Box sx={{ display: "flex", flexDirection: "column", gap: "5px" }}>
-              <Typography sx={{textAlign:'right'}}>{task_percent}%</Typography>
-              <ProgressBar
-                isLabelVisible={false}
-                height="6px"
-                bgColor={detailTask?.data?.isComplete ? "green" : "orange"}
-                completed={task_percent&&task_percent}
-              />
-            </Box>
+          <Typography sx={{ fontWeight: 500, fontSize: "18px" }}>
+            Tiến độ hoàn thành
+          </Typography>
+          <Box sx={{ display: "flex", flexDirection: "column", gap: "5px" }}>
+            <Typography sx={{ textAlign: "right" }}>{task_percent}%</Typography>
+            <ProgressBar
+              isLabelVisible={false}
+              height="6px"
+              bgColor={detailTask?.data?.isComplete ? "green" : "orange"}
+              completed={task_percent && task_percent}
+            />
+          </Box>
         </Box>
         {/* Độ ưu tiên */}
-        <Box sx={{ display: "flex", flexDirection: "column", columnGap: "10px" }}>
+        <Box
+          sx={{ display: "flex", flexDirection: "column", columnGap: "10px" }}
+        >
           <Box sx={{ display: "flex", gap: "5px", alignItems: "center" }}>
             <PriorityHighIcon />
             <Typography sx={{ fontWeight: 500, fontSize: "18px" }}>
@@ -478,33 +578,33 @@ const task_percent = detailTask?.data?.subtaskQuantity>0 && parseInt(detailTask?
               name="priority"
               defaultValue=""
               render={({ field }) => (
-                <Select 
-                  {...field} 
+                <Select
+                  {...field}
                   onChange={(e) => {
-                    console.log('taskId',taskId)
-                    console.log('taskId',parseInt(id))
-                    field.onChange(e.target.value); 
+                    console.log("taskId", taskId);
+                    console.log("taskId", parseInt(id));
+                    field.onChange(e.target.value);
                     dispatch({
                       type: TaskAction.REQUEST_EDIT_TASK,
                       payload: {
                         data: {
                           update_data: [
                             {
-                              op: 'replace',
-                              path: '/priority',
-                              value : parseInt(e.target.value)
-                            }
+                              op: "replace",
+                              path: "/priority",
+                              value: parseInt(e.target.value),
+                            },
                           ],
                           workspaceId: parseInt(id),
-                          taskId:parseInt(taskId),
-                          callback: {
-
-                          }
-                        }
-                      }
-                    })
+                          taskId: parseInt(taskId),
+                          callback: {},
+                        },
+                      },
+                    });
                   }}
-                  size="small" sx={{ minWidth: "200px" }}>
+                  size="small"
+                  sx={{ minWidth: "200px" }}
+                >
                   <MenuItem value="0">Thấp</MenuItem>
                   <MenuItem value="1">Trung bình</MenuItem>
                   <MenuItem value="2">Cao</MenuItem>
@@ -513,8 +613,8 @@ const task_percent = detailTask?.data?.subtaskQuantity>0 && parseInt(detailTask?
             />
           </Box>
         </Box>
-        
-        <Box style={{ display: "flex", gap: "40px",flexWrap:'wrap'}}>
+
+        <Box style={{ display: "flex", gap: "40px", flexWrap: "wrap" }}>
           {/* Thành viên */}
           <Box
             style={{ display: "flex", flexDirection: "column", gap: "10px" }}
@@ -571,10 +671,7 @@ const task_percent = detailTask?.data?.subtaskQuantity>0 && parseInt(detailTask?
                     {listMembers?.data?.map((member) => (
                       <Box
                         onClick={() =>
-                          handleMemberSelection(
-                            member.id,
-                            listMembers.data
-                          )
+                          handleMemberSelection(member.id, listMembers.data)
                         }
                         sx={{
                           display: "flex",
@@ -686,7 +783,8 @@ const task_percent = detailTask?.data?.subtaskQuantity>0 && parseInt(detailTask?
                   }}
                 >
                   {/* LABEL ITEM */}
-                  {listLabelsWorkspace?.data?.map((label) => (
+                  {listLabelsWorkspace?.data?
+                  listLabelsWorkspace.data.map((label) => (
                     <Box
                       key={label.id}
                       sx={{
@@ -716,7 +814,8 @@ const task_percent = detailTask?.data?.subtaskQuantity>0 && parseInt(detailTask?
                       </Button>
                       <VscEdit />
                     </Box>
-                  ))}
+                  )):
+                    <Typography sx={{fontSize:'16px',color:'#040404',textAlign:'left'}}>Bạn chưa có nhãn nào. Hãy tạo nhãn mới!</Typography>}
                 </Box>
                 <Button onClick={handleOpenCreateLabel} sx={{ width: "100%" }}>
                   Tạo nhãn mới
@@ -780,13 +879,18 @@ const task_percent = detailTask?.data?.subtaskQuantity>0 && parseInt(detailTask?
                             gap: "10px",
                             flexWrap: "wrap",
                             maxWidth: "400px",
+                            backgroundColor:'#eeeeee',
                             justifyContent: "space-around",
                           }}
                         >
                           {ListColorApi?.map((colorItem) => (
                             <ThemeProvider theme={theme}>
                               <Button
-                                onClick={() => setSelectColor(colorItem.color)}
+                                className={`${styles.buttn_label} ${isActive===colorItem.id?styles.isActive:''}`}
+                                onClick={() => 
+                                {setSelectColor(colorItem.color)
+                                  handleSetActive(colorItem)
+                                }}
                                 style={{
                                   minWdith: "50px",
                                   minHeight: "30px",
@@ -804,8 +908,7 @@ const task_percent = detailTask?.data?.subtaskQuantity>0 && parseInt(detailTask?
                             justifyContent: "flex-end",
                           }}
                         >
-                          <Button>Xóa màu</Button>
-                          <Button type="submit" variant="contained">
+                          <Button type="submit" variant="outlined">
                             Tạo nhãn
                           </Button>
                         </Box>
@@ -825,8 +928,13 @@ const task_percent = detailTask?.data?.subtaskQuantity>0 && parseInt(detailTask?
               Ngày kết thúc
             </Typography>
           </Box>
-          <Box>
-            <Button variant="contained" onClick={handleOpenCalendar}>
+          <Box sx={{ display: "flex", gap: "20px" }}>
+            {/* Button edit date of creator */}
+            <Button
+              variant="contained"
+              disabled={myRole === 2}
+              onClick={handleOpenCalendar}
+            >
               {`${dateFormated} lúc ${timeFormated}`}
             </Button>
             {openCalendar && (
@@ -847,17 +955,17 @@ const task_percent = detailTask?.data?.subtaskQuantity>0 && parseInt(detailTask?
                       sx={{ padding: "5px", cursor: "pointer" }}
                     />
                   </Box>
-                  <LocalizationProvider dateAdapter={AdapterDayjs} locale={dayjs.locale('en')}>
+                  <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <Controller
                       control={control}
                       name="dueDate"
-                      defaultValue=""
+                      defaultValue={dateFormated}
                       render={({ field }) => (
                         <DatePicker
-                          // format="DD/MM/YYYY"
                           disablePast
                           size="small"
                           closeOnSelect
+                          format="DD/MM/YYYY"
                           {...field}
                         />
                       )}
@@ -873,7 +981,7 @@ const task_percent = detailTask?.data?.subtaskQuantity>0 && parseInt(detailTask?
                         <TimePicker
                           {...field}
                           closeOnSelect
-                          // format="HH:mm"
+                          format="HH:mm"
                           renderInput={(params) => (
                             <TextField
                               {...params}
@@ -894,6 +1002,189 @@ const task_percent = detailTask?.data?.subtaskQuantity>0 && parseInt(detailTask?
                 </Box>
               </Modal>
             )}
+
+            {/* BUTTON REQUEST EXTEND DUEDATE */}
+            {detailTask?.data?.members?.map(
+              (m) =>
+                myRole === 2 && m.userId === userInfor?.account?.id 
+                &&(m.requested === true ? (
+                  <Typography sx={{ fontWeight: 500, fontSize: "18px" }}>
+                    {`Bạn đã yêu cầu gia hạn vào ${moment(m.extendDate).format(
+                      "DD/MM/yyyy HH:mm"
+                    )}`}
+                  </Typography>
+                ) : (
+                  <Button variant="contained" onClick={handleOpenExtendDueDate}>
+                    Yêu cầu gia hạn
+                  </Button>
+                ))
+            )}
+
+            {openExtendDueDate && (
+              <Modal
+                open={openExtendDueDate}
+                onClose={handleCloseExtendDueDate}
+              >
+                <Box sx={boxAddCalendar}>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                    }}
+                  >
+                    <Typography sx={{ fontWeight: 500, fontSize: "18px" }}>
+                      Yêu cầu gia hạn ngày
+                    </Typography>
+                    <IoCloseSharp
+                      onClick={handleCloseExtendDueDate}
+                      sx={{ padding: "5px", cursor: "pointer" }}
+                    />
+                  </Box>
+                  <form
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: "10px",
+                    }}
+                    onSubmit={handleSubmit(onRequestExtend)}
+                  >
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                      <Controller
+                        control={control}
+                        name="dueDate"
+                        defaultValue={dateFormated}
+                        render={({ field }) => (
+                          <DatePicker
+                            disablePast
+                            size="small"
+                            closeOnSelect
+                            format="DD/MM/YYYY"
+                            {...field}
+                          />
+                        )}
+                      />
+                    </LocalizationProvider>
+
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                      <Controller
+                        control={control}
+                        name="dueTime"
+                        defaultValue=""
+                        render={({ field }) => (
+                          <TimePicker
+                            {...field}
+                            closeOnSelect
+                            format="HH:mm"
+                            renderInput={(params) => (
+                              <TextField
+                                {...params}
+                                inputProps={{
+                                  inputMode: "numeric",
+                                  pattern: "[0-9]*",
+                                }}
+                                sx="small"
+                              />
+                            )}
+                          />
+                        )}
+                      />
+                    </LocalizationProvider>
+                    <Button
+                      type="submit"
+                      style={{ textTransform: "none" }}
+                      variant="contained"
+                    >
+                      Yêu cầu
+                    </Button>
+                  </form>
+                </Box>
+              </Modal>
+            )}
+
+            {/* BUTTON VIEW MEMBER EXTEND DUEDATE */}
+            {myRole !== 2 && (
+              <Button variant="outlined" onClick={handleOpenViewRequestDueDate}>
+                Xem yêu cầu gia hạn
+              </Button>
+            )}
+            {openViewRequestDueDate && (
+              <Modal
+                open={openViewRequestDueDate}
+                onClose={handleCloseViewRequestDueDate}
+              >
+                <Box sx={boxAddCalendar}>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                    }}
+                  >
+                    <Typography sx={{ fontWeight: 500, fontSize: "18px" }}>
+                      Danh sách yêu cầu ngày gia hạn
+                    </Typography>
+                    <IoCloseSharp
+                      onClick={handleCloseViewRequestDueDate}
+                      sx={{ padding: "5px", cursor: "pointer" }}
+                    />
+                  </Box>
+
+                  <Box
+                    sx={{
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: "10px",
+                      justifyContent: "space-between",
+                    }}
+                  >
+                    {/* item */}
+                    {detailTask?.data?.members.every(m => m.requested === false)?
+                      <Typography sx={{color:'#040404',fontSize:'16px',textAlign:'left'}}>Hiện tại chưa có yêu cầu nào!</Typography>
+                    :detailTask.data.members.map(
+                      (m) =>
+                        m.requested === true && (
+                          <Box
+                            sx={{
+                              display: "flex",
+                              justifyContent: "space-between",
+                              padding: "10px",
+                              alignItems: "center",
+                              border: "1px solid #ccc",
+                              borderRadius: "4px",
+                            }}
+                          >
+                            <Typography sx={{fontWeight:'600', textAlign:'left'}}>{m.fullName}</Typography>
+                            <Typography sx={{fontWeight:'550', color:'red'}}>{moment(m.extendDate).format("DD/MM/yyyy HH:mm")}</Typography>
+                            <Box
+                              sx={{
+                                display: "flex",
+                                gap: "10px",
+                                alignItems: "center",
+                              }}
+                            >
+                              <Button
+                                style={{ textTransform: "none" }}
+                                variant="contained"
+                                onClick = {()=>handleAcceptExtendDate(m)}
+                              >
+                                Chấp nhận
+                              </Button>
+                              <Button
+                                style={{ textTransform: "none" }}
+                                variant="outlined"
+                                onClick = {()=>handleRejectExtendDate(m)}
+                              >
+                                Từ chối
+                              </Button>
+                            </Box>
+                          </Box>
+                        )
+                    )}
+                  </Box>
+                </Box>
+              </Modal>
+            )}
           </Box>
         </Box>
 
@@ -911,7 +1202,7 @@ const task_percent = detailTask?.data?.subtaskQuantity>0 && parseInt(detailTask?
               sx={{ textTransform: "none" }}
               onClick={handleOpenDescription}
             >
-              {detailTask?.data?.description||'Bấm vào đây để thêm mô tả!'}
+              {detailTask?.data?.description || "Bấm vào đây để thêm mô tả!"}
             </Button>
             {openDescription && (
               <Box
@@ -987,25 +1278,25 @@ const task_percent = detailTask?.data?.subtaskQuantity>0 && parseInt(detailTask?
                   />
                 </Box>
                 <form onSubmit={handleSubmit(onCreateSubtask)}>
-                    <Controller
-                        control={control}
-                        name="subtask"
-                        defaultValue=""
-                        render={({ field }) => (
-                          <TextField
-                            {...field}
-                            fullWidth
-                            style={{ minWidth: "400px" }}
-                            margin="normal"
-                            size="small"
-                            id="outlined-required"
-                            placeholder="Nhập tên nhãn dán"
-                          />
-                        )}
+                  <Controller
+                    control={control}
+                    name="subtask"
+                    defaultValue=""
+                    render={({ field }) => (
+                      <TextField
+                        {...field}
+                        fullWidth
+                        style={{ minWidth: "400px" }}
+                        margin="normal"
+                        size="small"
+                        id="outlined-required"
+                        placeholder="Nhập tên nhãn dán"
                       />
-                    <Button 
-                        type='submit'
-                        sx={{ textTransform: "none" }}>Lưu</Button>
+                    )}
+                  />
+                  <Button type="submit" sx={{ textTransform: "none" }}>
+                    Lưu
+                  </Button>
                 </form>
               </Box>
             </Modal>
@@ -1013,104 +1304,113 @@ const task_percent = detailTask?.data?.subtaskQuantity>0 && parseInt(detailTask?
 
           {/* Danh sách nhiệm vụ con */}
 
+          <Box
+            sx={{
+              display: "flex",
+              gap: "5px",
+              cursor: "pointer",
+              flexDirection: "column",
+            }}
+          >
+            {/* SUBSTASK ITEM */}
+            {detailTask?.data?.subtasks?.map((subtask) => (
+              <Box
+                key={subtask.id}
+                sx={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  width: "100%",
+                  // gap: "10px",
+                  cursor: "pointer",
+                }}
+              >
+                <Checkbox
+                  name="subtask_status"
+                  // checked={checkedSubtasks?.some(
+                  //   (item) => item.id === subtask.id
+                  // )}
+                  checked = {subtask.status}
+                  onChange={() => handleChexboxSubtask(subtask)}
+                />
+                <Button
+                  onClick={() => handleChexboxSubtask(subtask)}
+                  variant="outlined"
+                  style={{
+                    padding: "4px",
+                    flex: "auto",
+                    textTransform: "none",
+                  }}
+                >
+                  {subtask?.name}
+                </Button>
                 <Box
                   sx={{
                     display: "flex",
-                    gap: "5px",
-                    cursor: "pointer",
-                    flexDirection: "column",
+                    justifyContent: "space-between",
+                    marginLeft: "10px",
+                    gap: "20px",
+                    alignItems: "center",
                   }}
                 >
-                  {/* SUBSTASK ITEM */}
-                  {detailTask?.data?.subtasks?.map((subtask) => (
-                    <Box
-                      key={subtask.id}
-                      sx={{
-                        display: "flex",
-                        justifyContent:'space-between',
-                        alignItems: "center",
-                        width: "100%",
-                        // gap: "10px",
-                        cursor: "pointer",
-                      }}
-                    >
-                      <Checkbox
-                        name="subtask_status"
-                        checked={checkedSubtasks?.some(
-                          (item) => item.id  === subtask.id
-                        )}
-                        onChange={() => handleChexboxSubtask(subtask)}
-                      />
-                      <Button
-                        onClick={() => handleChexboxSubtask(subtask)}
-                        variant="outlined"
-                        style={{
-                          padding: "4px",
-                          flex:'auto',
-                          textTransform: "none",
+                  <VscEdit
+                    onClick={() => {
+                      handleOpenEditSubtask();
+                      setIdSubtask(subtask.id);
+                    }}
+                    className={styles.icon}
+                  />
+                  <AiOutlineDelete
+                    onClick={() => handleDeleteSubtask(subtask.id)}
+                    className={styles.icon}
+                  />
+                  <Modal
+                    open={openEditSubtask}
+                    onClose={handleCloseEditSubtask}
+                  >
+                    <Box sx={boxAddSubtask}>
+                      <Box
+                        sx={{
+                          display: "flex",
+                          gap: "10px",
+                          justifyContent: "space-between",
+                          alignItems: "center",
                         }}
                       >
-                        {subtask?.name}
-                      </Button>
-                      <Box sx={{ display: "flex",
-                        justifyContent:'space-between',
-                        marginLeft:'10px',
-                        gap: '20px',
-                        alignItems: "center",}}>
-                        <VscEdit  
-                            onClick = {()=>{
-                              handleOpenEditSubtask()
-                              setIdSubtask(subtask.id);
-                            }}
-                            className={styles.icon}/>
-                        <AiOutlineDelete 
-                            onClick = {()=>handleDeleteSubtask(subtask.id)}
-                            className={styles.icon} />
-                             <Modal open={openEditSubtask} onClose={handleCloseEditSubtask}>
-                                  <Box sx={boxAddSubtask}>
-                                    <Box
-                                      sx={{
-                                        display: "flex",
-                                        gap: "10px",
-                                        justifyContent: "space-between",
-                                        alignItems: "center",
-                                      }}
-                                    >
-                                      <Typography sx={{ fontSize: "18px", fontWeight: 550 }}>
-                                        Chỉnh sửa tên nhiệm vụ con
-                                      </Typography>
-                                      <IoCloseSharp
-                                        onClick={handleCloseEditSubtask}
-                                        sx={{ padding: "5px", cursor: "pointer" }}
-                                      />
-                                    </Box>
-                                    <form onSubmit={handleSubmit(onEditSubtask)}>
-                                        <Controller
-                                            control={control}
-                                            name="subtask"
-                                            render={({ field }) => (
-                                              <TextField
-                                                {...field}
-                                                fullWidth
-                                                style={{ minWidth: "400px" }}
-                                                margin="normal"
-                                                size="small"
-                                                placeholder= 'Nhập tên mới'
-                                                id="outlined-required"
-                                              />
-                                            )}
-                                          />
-                                        <Button 
-                                            type='submit'
-                                            sx={{ textTransform: "none" }}>Lưu</Button>
-                                    </form>
-                                  </Box>
-                                </Modal>
-                        
+                        <Typography sx={{ fontSize: "18px", fontWeight: 550 }}>
+                          Chỉnh sửa tên nhiệm vụ con
+                        </Typography>
+                        <IoCloseSharp
+                          onClick={handleCloseEditSubtask}
+                          sx={{ padding: "5px", cursor: "pointer" }}
+                        />
                       </Box>
+                      <form onSubmit={handleSubmit(onEditSubtask)}>
+                        <Controller
+                          control={control}
+                          name="subtask"
+                          render={({ field }) => (
+                            <TextField
+                              {...field}
+                              fullWidth
+                              style={{ minWidth: "400px" }}
+                              margin="normal"
+                              size="small"
+                              placeholder="Nhập tên mới"
+                              id="outlined-required"
+                            />
+                          )}
+                        />
+                        <Button type="submit" sx={{ textTransform: "none" }}>
+                          Lưu
+                        </Button>
+                      </form>
                     </Box>
-                  ))}
-            </Box>
+                  </Modal>
+                </Box>
+              </Box>
+            ))}
+          </Box>
         </Box>
 
         {/* Bình luận */}
@@ -1158,18 +1458,17 @@ const task_percent = detailTask?.data?.subtaskQuantity>0 && parseInt(detailTask?
                       />
                     )}
                   />
-                   <Box>
-                  <Button
-                    type="submit"
-                    variant="contained"
-                    sx={{ width: "fit-content" }}
-                  >
-                    Lưu bình luận
-                  </Button>
-                  <Button onClick={handleCloseComment}>Hủy</Button>
-                </Box>
+                  <Box>
+                    <Button
+                      type="submit"
+                      variant="contained"
+                      sx={{ width: "fit-content" }}
+                    >
+                      Lưu bình luận
+                    </Button>
+                    <Button onClick={handleCloseComment}>Hủy</Button>
+                  </Box>
                 </form>
-              
               </Box>
             )}
           </Box>
@@ -1183,29 +1482,35 @@ const task_percent = detailTask?.data?.subtaskQuantity>0 && parseInt(detailTask?
             marginTop: "20px",
           }}
         >
-          {
-            detailTask?.data?.comments?.map(comment=>(
-              <Box
-                key={comment.id}
-                sx={{
+          {detailTask?.data?.comments?.map((comment) => (
+            <Box
+              key={comment.id}
+              sx={{
                 display: "flex",
                 gap: "20px",
                 justifyContent: "space-between",
               }}
             >
               <Box sx={{ display: "flex", borderRadius: "4px", gap: "20px" }}>
-                <Avatar src={comment?.avatar||avatar} sx={{ width: "28px", height: "28px" }} />
+                <Avatar
+                  src={comment?.avatar || avatar}
+                  sx={{ width: "28px", height: "28px" }}
+                />
                 <Box
                   sx={{ display: "flex", flexDirection: "column", gap: "10px" }}
                 >
                   <Box
                     sx={{ display: "flex", alignItems: "center", gap: "10px" }}
                   >
-                    <Typography sx={{ fontWeight: 550 }}>{comment?.fullName}</Typography>
+                    <Typography sx={{ fontWeight: 550 }}>
+                      {comment?.fullName}
+                    </Typography>
                     <Typography
                       sx={{ fontSize: "13px", color: "#333", lineHeight: 0 }}
                     >
-                      {`${moment(comment.updateAt).format('DD/MM/YYYY')} - ${moment(comment.updateAt).format('HH:mm')}`}
+                      {`${moment(comment.updateAt).format(
+                        "DD/MM/YYYY"
+                      )} - ${moment(comment.updateAt).format("HH:mm")}`}
                       {/* 27-3-2023 */}
                     </Typography>
                   </Box>
@@ -1217,13 +1522,13 @@ const task_percent = detailTask?.data?.subtaskQuantity>0 && parseInt(detailTask?
               {/* OPTION EDIT OR DELETE */}
               <Box sx={{ display: "flex", gap: "20px", alignItems: "center" }}>
                 <VscEdit className={styles.icon} />
-                <AiOutlineDelete 
-                  onClick = {()=>handleDeleteComment(comment.id)}
-                  className={styles.icon} />
+                <AiOutlineDelete
+                  onClick={() => handleDeleteComment(comment.id)}
+                  className={styles.icon}
+                />
               </Box>
             </Box>
-            ))
-          }
+          ))}
         </Box>
       </Box>
     </Modal>

@@ -122,7 +122,13 @@ const Task = ({placeholder,link,task,myref,...props}) => {
                                 }
                         </div>
                         <div className={styles.label_area}>
-                            
+                            {
+                                task?.labels?.map((label)=>(
+                                    <div 
+                                        style = {{backgroundColor:label.color}}
+                                        className={styles.label_item}></div>
+                                ))
+                            }
                         </div>
                         <div className={styles.assignee_areas}>
                             <div className={styles.calendar_container}>
@@ -153,7 +159,7 @@ const Task = ({placeholder,link,task,myref,...props}) => {
                                                 <Avatar
                                                 alt="ngoc"
                                                 key={member.id}
-                                                src = {member.linkAvatar}
+                                                src = {member.avatar}
                                                 /> )
                                         }
                                     </AvatarGroup>

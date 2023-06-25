@@ -5,6 +5,7 @@ import ProjectSquareItem from "../../../components/project-square-item/ProjectSq
 import { useDispatch } from "react-redux";
 import WorkspaceAction from "../../../../redux/workspaces/WorkspaceAction";
 import { useSelector } from "react-redux";
+import { Button } from "@mui/material";
 
 const AllProjectContainer = () => {
   const dispatch = useDispatch();
@@ -23,35 +24,20 @@ const AllProjectContainer = () => {
         {/* <CustomSelect/> */}
         <div className={styles.header}>
           <p className={styles.tilte_page}>
-            Tất cả dự án <span>(10)</span>
+            Tất cả dự án <span>({allProjects?.data.length})</span>
           </p>
-        </div>
-        <div className={styles.filter_container}>
-          <div className={styles.search_container}>
-            <label className={styles.label}>Tìm kiếm dự án</label>
-            <div className={styles.input_container}>
+          <div className={styles.input_container}>
               <input
                 placeholder="Tìm kiếm theo tên..."
                 className={styles.input_field}
                 type="text"
               />
               <CiSearch className={styles.icon_search} />
-            </div>
-          </div>
-          <div className={styles.filter_wrapper}>
-            {/* <CustomSelect
-              labelText="Trạng thái"
-              placeholder="Chọn trạng thái"
-              listItems={StatusList}
-            />
-            <CustomSelect
-              placeholder="Chọn vai trò"
-              labelText="Vai trò"
-              listItems={RoleList}
-            /> */}
+              <Button 
+                  style={{backgroundColor:'#fff'}}
+                  variant='outlined'>Tìm kiếm</Button>
           </div>
         </div>
-
         <div className={styles.list_project_container}>
           {allProjects?.data?.map((item) => (
             <ProjectSquareItem 

@@ -1,12 +1,14 @@
 import axios from "axios";
-const data_local = JSON.parse(localStorage.getItem('userInfor'));
-const token = data_local?.token;
-const headers = {
-    'Authorization': `Bearer ${token}`,
-    'Content-Type': 'application/json',
-  };
+
+
 const TaskFactory = {
+    getToken : ()=>{
+        const data_local = JSON.parse(localStorage.getItem('userInfor'));
+        const token = data_local?.token;
+        return token;
+    },
     postComment: async (data,workspaceId) => {
+        const token = TaskFactory.getToken();
         return await axios.post(`https://localhost:7070/api/TaskItem/Comment`,
         data,
         {
@@ -22,6 +24,7 @@ const TaskFactory = {
         )
     },
     deleteComment: async(commentId) => {
+        const token = TaskFactory.getToken();
         return await axios.delete(`https://localhost:7070/api/TaskItem/Comment/${commentId}`,
         {
             headers: {
@@ -32,6 +35,8 @@ const TaskFactory = {
         )
     },
     createNewTask: async (data,workspaceId) => {
+        const token = TaskFactory.getToken();
+
         return await axios.post(`https://localhost:7070/api/TaskItem`,
         data,
         {
@@ -47,6 +52,8 @@ const TaskFactory = {
         )
     },
     createNewSubtask:  async (data,workspaceId) => {
+        const token = TaskFactory.getToken();
+
         return await axios.post(`https://localhost:7070/api/Subtask`,
         data,
         {
@@ -63,6 +70,8 @@ const TaskFactory = {
     },
     
     editSubtask: async (update_data,id,workspaceId) => {
+        const token = TaskFactory.getToken();
+
         return await axios.patch(`https://localhost:7070/api/Subtask/${id}`,
         update_data,
         {
@@ -78,6 +87,8 @@ const TaskFactory = {
         )
     },
     editTask: async (update_data,taskId,workspaceId) => {
+        const token = TaskFactory.getToken();
+
         return await axios.patch(`https://localhost:7070/api/TaskItem/${taskId}`,
         update_data,
         {
@@ -93,6 +104,8 @@ const TaskFactory = {
         )
     },
     moveTask : async (data,taskId,workspaceId) => {
+        const token = TaskFactory.getToken();
+
         return await axios.post(`https://localhost:7070/api/TaskItem/${taskId}/MoveTask`,
         data,
         {
@@ -108,6 +121,8 @@ const TaskFactory = {
         )
     },
     deleteTask : async (id,workspaceId) => {
+        const token = TaskFactory.getToken();
+
         return await axios.delete(`https://localhost:7070/api/TaskItem/${id}`,
         {
             params: 
@@ -122,6 +137,8 @@ const TaskFactory = {
         )
     },
     detailTask : async (taskId) => {
+        const token = TaskFactory.getToken();
+
         return await axios.get(`https://localhost:7070/api/TaskItem/${taskId}`,
         {
             headers: {
@@ -132,6 +149,8 @@ const TaskFactory = {
         )
     },
     assignTaskMember: async (data,workspaceId,taskId) => {
+        const token = TaskFactory.getToken();
+
         return await axios.post(`https://localhost:7070/api/TaskItem/${taskId}/AssignMember`,
         data,
         {
@@ -147,6 +166,8 @@ const TaskFactory = {
         )
     },
     createNewLabel: async (data) => {
+        const token = TaskFactory.getToken();
+
         return await axios.post(`https://localhost:7070/api/Label`,
         data,
         {
@@ -158,6 +179,8 @@ const TaskFactory = {
         )
     },
     addLabel: async (data,taskId) => {
+        const token = TaskFactory.getToken();
+
         return await axios.post(`https://localhost:7070/api/TaskItem/${taskId}/AddLabels`,
         data,
         {
@@ -169,6 +192,8 @@ const TaskFactory = {
         )
     },
     deleteSubtask : async (workspaceId,subtaskId) => {
+        const token = TaskFactory.getToken();
+
         return await axios.delete(`https://localhost:7070/api/Subtask/${subtaskId}`,
         {
             params: 
@@ -183,6 +208,8 @@ const TaskFactory = {
         )
     },
     getTasksByMember: async (workspaceId,memberId) => {
+        const token = TaskFactory.getToken();
+
         return await axios.get(`https://localhost:7070/api/TaskItem/ByMember`,
         { 
             params: 
@@ -196,6 +223,52 @@ const TaskFactory = {
             },
         }
         )
-    }
+    },
+    extendDueDateTask :  async (data,workspaceId) => {
+        const token = TaskFactory.getToken();
+        return await axios.post(`https://localhost:7070/api/TaskItem/ExtendDueDate`,
+        data,
+        {
+            params: 
+            {
+                workspaceId: workspaceId
+            },
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json',
+            },
+        }
+        )
+    },
+    acceptExtendDueDateTask:  async (memberTaskId,workspaceId) => {
+        const token = TaskFactory.getToken();
+        return await axios.post(`https://localhost:7070/api/TaskItem/AcceptDueDate/${memberTaskId}`,null,
+        {
+            params: 
+            {
+                workspaceId: workspaceId,
+            },
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json',
+            },
+        }
+        )
+    },
+    rejectExtendDueDateTask: async (memberTaskId,workspaceId) => {
+        const token = TaskFactory.getToken();
+        return await axios.post(`https://localhost:7070/api/TaskItem/RejectDueDate/${memberTaskId}`,null,
+        {
+            params: 
+            {
+                workspaceId: workspaceId,
+            },
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json',
+            },
+        }
+        )
+    },
 }
 export default TaskFactory;
