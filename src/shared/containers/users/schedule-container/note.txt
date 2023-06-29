@@ -1,0 +1,92 @@
+
+
+
+//PHIÊN BẢN CÓ THỂ DI CHUYỂN ĐƯỢC SỰ KIỆN, BAO GỒM KEOS THả tạo mới sự kiện, chưa có mở rộng sự kiện.
+
+import React, { useState } from 'react';
+import events from './events';
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
+import { Calendar, momentLocalizer } from 'react-big-calendar';
+import 'react-big-calendar/lib/css/react-big-calendar.css';
+import moment from 'moment';
+import withDragAndDrop from 'react-big-calendar/lib/addons/dragAndDrop';
+
+const DragAndDropCalendar = withDragAndDrop(Calendar);
+const localizer = momentLocalizer(moment);
+
+const ScheduleContainer = () => {
+  const [eventsState, setEventsState] = useState(events);
+  const [newEvent, setNewEvent] = useState(null);
+
+  const moveEvent = ({ event, start, end }) => {
+    const updatedEvents = eventsState.map((existingEvent) =>
+      existingEvent.id === event.id ? { ...existingEvent, start, end } : existingEvent
+    );
+
+    setEventsState(updatedEvents);
+  };
+
+  const resizeEvent = (resizeType, { event, start, end }) => {
+    const updatedEvents = eventsState.map((existingEvent) =>
+      existingEvent.id === event.id ? { ...existingEvent, start, end } : existingEvent
+    );
+
+    setEventsState(updatedEvents);
+  };
+
+  const handleDragStart = (event, start, end) => {
+    setNewEvent({
+      id: 'new-event',
+      title: 'New Event',
+      start,
+      end,
+    });
+  };
+
+  const handleDragEnd = () => {
+    setNewEvent(null);
+  };
+
+  const handleSelectSlot = ({ start, end }) => {
+    const isSlotWithinEvent = events.some((event) => {
+      return (
+        (start >= event.start && start < event.end) ||
+        (end > event.start && end <= event.end) ||
+        (start <= event.start && end >= event.end)
+      );
+    });
+
+    if (isSlotWithinEvent) {
+      return;
+    }
+
+    const newEvent = {
+      id: events.length + 1,
+      title: 'New Event',
+      start,
+      end,
+    };
+
+    setEventsState([...events, newEvent]);
+  };
+  return (
+    <DndProvider backend={HTML5Backend}>
+      <DragAndDropCalendar
+        selectable
+        localizer={localizer}
+        events={[...eventsState, ...(newEvent ? [newEvent] : [])]}
+        onEventDrop={moveEvent}
+        resizable
+        onEventResize={resizeEvent}
+        defaultView="month"
+        defaultDate={new Date(2015, 3, 12)}
+        onDragStart={handleDragStart}
+        onDragEnd={handleDragEnd}
+        onSelectSlot={handleSelectSlot}
+      />
+    </DndProvider>
+  );
+};
+
+export default ScheduleContainer;

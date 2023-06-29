@@ -14,12 +14,34 @@ let initialState = {
     profile: {
         loading: false,
         data: {}
+    },
+    uploadAvatar: {
+        loading:false
     }
 }
 
 const UserReducer = (state=initialState,action)=> {
     // console.log(action)
     switch(action.type) {
+        case UserAction.REQUEST_UPLOAD_AVATAR_TO_SERVER: 
+        {
+            return {
+                ...state,
+                uploadAvatar: {
+                    loading: true,
+                },
+            };
+        }
+
+        case UserAction.SUCCESS_UPLOAD_AVATAR_TO_SERVER: 
+        {
+            return {
+                ...state,
+                uploadAvatar: {
+                    loading:false
+                },
+            };
+        }
         case UserAction.REQUEST_GET_DETAIL_PROFILE: 
         {
             return {
@@ -54,13 +76,11 @@ const UserReducer = (state=initialState,action)=> {
 
         case UserAction.SUCCESS_REGISTER: 
         {
-            console.log('action reducer',action)
+            console.log("User registration",action.payload)
             return {
                 ...state,
                 userRegister: {
                     loading: false,
-                    message:action?.payload?.data?.message,
-                    isSuccess: action?.payload?.data?.isSuccess
                 },
             };
         }
@@ -89,14 +109,10 @@ const UserReducer = (state=initialState,action)=> {
         }
         case UserAction.SUCCESS_LOGIN: 
         {
-            // const myInfor = action.payload.data.data;
-            // const objectString = JSON.stringify(myInfor);
-            // localStorage.setItem('userInfor',objectString);
             return {
                 ...state,
                 userInfor: {
                     loading: false,
-                    // data: myInfor
                 },
             };
         }

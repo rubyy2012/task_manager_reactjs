@@ -17,6 +17,7 @@ import ApiPath from '../../../utils/ApiPath';
 import { HiCamera } from "react-icons/hi";
 import { useDispatch } from 'react-redux';
 import UserAction from '../../../redux/users/UserAction';
+import LoadingSpinner from '../loading-spinner/LoadingSpinner';
 const SideBar = () => {
     const [toggle,setToggle] = useState(false);
     const dispatch = useDispatch();
@@ -34,6 +35,9 @@ const SideBar = () => {
     const { profile } = useSelector((state) => ({
         profile: state.user.profile,
       }));
+    const { uploadAvatar } = useSelector((state) => ({
+        uploadAvatar: state.user.uploadAvatar,
+    }));
       useEffect(()=>{
         dispatch({
           type: UserAction.REQUEST_GET_DETAIL_PROFILE,
@@ -57,7 +61,8 @@ const SideBar = () => {
     }
   return (
             
-    <div className={styles.sidebar_container}>
+  <LoadingSpinner loading={uploadAvatar?.loading}>
+      <div className={styles.sidebar_container}>
         {
             openCreateProject&& 
             <CreateProject
@@ -101,11 +106,11 @@ const SideBar = () => {
                     <p className={styles.title}>Không gian làm việc</p>
                     <div className={styles.list_menu}>
                         <MenuLinkItem
-                            name = 'Tổng quan'
+                            name = 'Lịch cá nhân'
                             activeMenu ={activeMenu}
                             onClick = {()=>setActiveMenu(1)}
                             index = {1}
-                            link = '/overviews'
+                            link = '/scheduler'
                             icon ={<RxDashboard className={styles.icon_overview}/>}
                         />
                        
@@ -122,7 +127,7 @@ const SideBar = () => {
                             activeMenu ={activeMenu}
                             onClick = {()=>setActiveMenu(3)}
                             index = {3}
-                            link = '/all-tasks'
+                            link = '/upcoming-tasks'
                             icon ={<MdTaskAlt className={styles.icon_alltasks}/>}
                         />
                           {/* <MenuLinkItem
@@ -163,6 +168,7 @@ const SideBar = () => {
             </div>
         </div>
     </div>
+  </LoadingSpinner>
   )
 }
 export default SideBar;

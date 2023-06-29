@@ -1,0 +1,119 @@
+.task_card_container
+{
+    background-color: #ffffff;
+    border-radius: 13px;
+    max-width: 350px;
+    transition: transform 0.3s ease;
+    min-width: 300px;
+    cursor:pointer;
+    .task_card_body {
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        gap:15px;
+        .name_task
+        {
+            margin: 0; 
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-align: left;
+        }
+        .date_and_priority
+        {
+            display:flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 30px;
+            .priority
+            {
+                display:flex;
+                align-items: center;
+                gap: 5px;
+                padding: 3px 10px;
+                min-width: 40px;
+                border-radius: 10px;
+                border: 1px dashed #333;
+                &>label {
+                    width: 10px;
+                    height: 10px;
+                    border-radius: 50%;
+                    background-color: green;
+                }
+                &>span {
+                    font-size: 0.9rem;
+                    font-weight: 500;
+                    color: red;
+                }
+            }
+            p.date {
+                margin: 0;
+                font-size: 0.9rem;
+                color: red;
+                font-weight: 500;
+                &>span {
+                    font-size: 0.9rem;
+                    margin-left: 10px;
+                }
+            }
+        }
+        .description
+        {
+            text-align: left;
+            font-size: 0.9rem;
+            color: #272727;
+            text-overflow: ellipsis;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            display: -webkit-box;
+        }
+        .list_labels
+        {
+            display:flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            min-width: 6px;
+            min-height: 30px;
+            .label_item {
+                min-width: 80px;
+                padding: 3px 10px;
+                border-radius: 7px;
+                font-weight: 600;
+                color: #fff;
+            }
+        }
+        .progress_area
+        {
+            display:flex;
+            flex-direction: column;
+            gap:10px;
+            .progress_text
+            {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+            }
+        }
+        .member_and_option
+        {
+            display:flex;
+            justify-content: space-between;
+            .option
+            {
+                display:flex;
+                align-items: center;
+                gap:10px;
+                .icon {
+                    cursor:pointer;
+                    &:hover {
+                        color: red;
+                    }
+                }
+            }
+        }
+    }
+
+}
+.task_card_container:hover {
+    transform: scale(1.1);
+}
