@@ -8,7 +8,6 @@ import { Route, Routes, Navigate } from 'react-router-dom';
 import ShareLayout from './shared/containers/layouts/share/user/ShareLayout';
 import OverviewPages from './pages/users/Overview';
 import Task from './shared/components/Task/Task';
-import ListTasks from './shared/components/ListTasks/ListTasks';
 import ListViewContainer from './shared/containers/users/list-view-container/ListViewContainer';
 import ProjectPage from './pages/users/ProjectPage';
 import TeamMemberContainer from './shared/containers/users/team-member-container/TeamMemberContainer';
@@ -22,9 +21,14 @@ import LoginAdmin from './shared/containers/admin/login/LoginAdmin';
 import RegisterAdmin from './shared/containers/admin/register/RegisterAdmin';
 import ListWorkspacesUser from './shared/containers/admin/list-workspaces-user/ListWorkspacesUser';
 import ManageAccountUser from './shared/containers/users/manage-account/ManageAccountUser';
+import UpcomingTaskPage from './pages/users/UpcomingTaskPage';
+import ScheduleContainer from './shared/containers/users/schedule-container/ScheduleContainer';
+import { ToastContainer } from 'react-toastify';
+import LoadingSpinner from './shared/components/loading-spinner/LoadingSpinner';
 function App() {
   return (
     <div className="App">
+        <ToastContainer/>
       <Routes>
         <Route element={<AuthenLayout/>}>
            <Route path='/' element={<Navigate to={RoutePaths.LOGIN} />} />
@@ -34,15 +38,16 @@ function App() {
         <Route path='/confirm-email' element={<ConfirmEmailPage/>}/>
         <Route element={<ShareLayout/>}>
             <Route path='/all-projects' element={<AllProjectsPage/>}/>
+            <Route path='/upcoming-tasks' element={<UpcomingTaskPage/>}/>
+            <Route path='/scheduler' element={<ScheduleContainer/>}/>
+            <Route path='/loading' element={<LoadingSpinner/>}/>
             <Route path='/manage-account' element={<ManageAccountUser/>}/>
-            <Route path='/overviews' element={<OverviewPages/>}/>
             <Route path='/project-page' element={<ProjectPage/>}>
               <Route path='project/:id/all-tasks' element={<ListViewContainer/>}/>
               <Route path='project/:id/team-members' element={<TeamMemberContainer/>}/>
+              <Route path='project/:id/scheduler' element={<ScheduleContainer/>}/>
             </Route>
             <Route path='team-members/:id/tasks' element={<ViewTasksMember/>}/>
-            <Route path='/task' element={<Task/>}/>
-            <Route path='/list-task' element={<ListTasks/>}/>
            </Route>
         <Route path='/*' element={<div>not found</div>} />
         <Route path='/admin' element={<AdminBase/>}>

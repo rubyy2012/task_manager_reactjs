@@ -8,6 +8,7 @@
         display: flex;
         align-items: center;
         column-gap: 20px;
+        cursor:pointer;
         .avatar
         {
             width: 30px;
@@ -15,11 +16,28 @@
         }
         .notify_body
         {
+            .notify_string
+            {
+                margin:0;
+                text-align: left;
+                color: rgba(29, 66, 148, 0.815);
+                &>span {
+                    font-size: 0.9rem;
+                    font-weight: 600;
+                    color: rgb(158, 23, 23);
+                    margin-right: 10px;
+                }
+            }
             .notify_datetime
             {
                 text-align: left;
                 font-size: 0.9rem;
                 color: #7e7e7e;
+                margin:0;
+                &>span {
+                    margin-left: 20px;
+                    font-size: 0.9rem;
+                }
             }
         }
     }

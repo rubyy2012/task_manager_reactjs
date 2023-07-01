@@ -6,6 +6,7 @@ import WorkspaceAction from '../../../../redux/workspaces/WorkspaceAction';
 import MemberCard from '../../../components/member-card/MemberCard';
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
+import LoadingSpinner from '../../../components/loading-spinner/LoadingSpinner';
 const TeamMemberContainer = () => {
   const dispatch = useDispatch();
   const {id} = useParams();
@@ -22,13 +23,15 @@ const TeamMemberContainer = () => {
   const { listMembersWithTask } = useSelector((state) => ({
     listMembersWithTask: state.workspace.listMembersWithTask,
   }));
-  const { detailProject } = useSelector((state) => ({
-    detailProject: state.workspace.detailProject,
+  // const { detailProject } = useSelector((state) => ({
+  //   detailProject: state.workspace.detailProject,
+  // }));
+  // const myRole = detailProject?.data?.myRole;
+  const { myRole } = useSelector((state) => ({
+    myRole: state.workspace.myRole,
   }));
-  const myRole = detailProject?.data?.myRole;
-  console.log('myrole',detailProject);
-    console.log('listMembersWithTask',listMembersWithTask)
   return (
+    <LoadingSpinner loading={listMembersWithTask?.loading}>
     <div className={styles.teammember_container}>
       <div className={styles.teammember_body}>
         {
@@ -43,6 +46,8 @@ const TeamMemberContainer = () => {
         }
       </div>
     </div>
+    </LoadingSpinner>
+
   )
 }
 

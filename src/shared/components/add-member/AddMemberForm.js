@@ -1,9 +1,7 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import styles from './styles.module.scss'
 import { IoCloseOutline }  from "react-icons/io5";
 import ProjectMember from '../project_member/ProjectMember';
-import { AiFillCaretDown } from 'react-icons/ai';
-import { useState } from 'react';
 import { Button, MenuItem, Select, TextField } from '@mui/material';
 import { Controller, useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
@@ -18,10 +16,6 @@ const AddMemberForm = ({setOpenAddMemberForm,addMemberForm}) => {
     listMembers: state.workspace.listMembers,
   }));
   const {id} = useParams();
-//   const userInfor = JSON.parse(localStorage.getItem('userInfor'));
-//   const userId = userInfor?.account.id;
-//   const findUser = listMembers?.data.find(x=>x.id===userId)
-//   const roleUser = findUser?.role;
   const onSubmit = (data) => {
     const {role} = data;
     dispatch({

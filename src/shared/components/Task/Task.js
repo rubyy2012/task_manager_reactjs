@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import styles from './styles.module.scss';
 import { IoCalendarOutline } from "react-icons/io5";
 import { Avatar, AvatarGroup, Box, Button, Chip, Modal, TextField, Typography } from '@mui/material';
@@ -16,14 +16,12 @@ import { useSelector } from 'react-redux';
 import { useState } from 'react';
 import TaskModal from '../../containers/users/task-modal/TaskModal';
 import moment from 'moment';
+import signalRActions from '../../../redux/signalR/signalRActions';
+import WorkspaceAction from '../../../redux/workspaces/WorkspaceAction';
 const Task = ({placeholder,link,task,myref,...props}) => {
-    console.log('task nè',task);
     const {id} = useParams();
     const dispatch = useDispatch();
     let date, time;
-    //     if (task?.dueDate) {
-    //     [date, time] = task.dueDate.split('T');
-    //     }
     if(task?.dueDate)
     {
          date = moment(task.dueDate).format('DD-MM-YYYY');
@@ -34,19 +32,7 @@ const Task = ({placeholder,link,task,myref,...props}) => {
     const { listMembers } = useSelector((state) => ({
         listMembers: state.workspace.listMembers,
       }));
-    //find user
-    const findUser = listMembers?.data.find(user=>user.id ===userIdLocal)
-    const onVisibleDelete = (findUser,taskId) => {
-       if(findUser&& findUser.role< 2)
-       {
-        return (
-            <DeleteOutlineIcon 
-                onClick = {()=>handleDeleteTask(taskId)}
-                classes={`${styles.icon} ${styles.delete_icon}`}
-            />
-        )
-       }
-    }
+
     const handleDeleteTask = (taskId) => {
         dispatch({
             type: TaskAction.REQUEST_DELETE_TASK,
@@ -64,6 +50,8 @@ const Task = ({placeholder,link,task,myref,...props}) => {
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
+
+   
   return (
             <div
                 ref={myref}
@@ -97,16 +85,23 @@ const Task = ({placeholder,link,task,myref,...props}) => {
                                 )
                             }
                         </div>
+                        <div className={styles.label_area}>
+                            {
+                                task?.labels?.map((label)=>(
+                                    <div 
+                                        style = {{backgroundColor:label.color}}
+                                        className={styles.label_item}></div>
+                                ))
+                            }
+                        </div>
                         <div className={styles.card_checklist_areas}>
                             {
-                                task?.subtaskCompleted===task?.subtaskQuantity&&(
                                 <Button 
                                     className= {styles.btn_checklist}
                                     variant="outlined" 
                                     startIcon={<ChecklistIcon className={styles.checklist_icon}/>}>
                                     {`${task?.subtaskCompleted}/${task?.subtaskQuantity}`}
                                 </Button>
-                                )
                             }
                             
                         </div>
@@ -121,31 +116,13 @@ const Task = ({placeholder,link,task,myref,...props}) => {
                                     </p>
                                 }
                         </div>
-                        <div className={styles.label_area}>
-                            {
-                                task?.labels?.map((label)=>(
-                                    <div 
-                                        style = {{backgroundColor:label.color}}
-                                        className={styles.label_item}></div>
-                                ))
-                            }
-                        </div>
+                        
                         <div className={styles.assignee_areas}>
                             <div className={styles.calendar_container}>
                                 <IoCalendarOutline className={styles.calendar_icon}/>
                                 <span className={styles.day_title}>{date}</span>
                                 <span className={styles.time_title}>{time}</span>
                             </div>
-                            <div className={styles.label_container}>
-                                {
-                                    task?.labelColors?.map(label=> (
-                                        <label
-                                            style={{backgroundColor: label?.color}}
-                                            className={styles.tag_label}></label>
-                                    ))
-                                }
-                            </div>
-                           
                             <div className={styles.member_container}>
                                 <AvatarGroup
                                         className={styles.avatar_group}
@@ -170,7 +147,10 @@ const Task = ({placeholder,link,task,myref,...props}) => {
                                     onClick={handleOpen}
                                     // onClick = {()=>setOpenTaskDetailForm(true)}
                                     className={styles.icon}/>
-                                {onVisibleDelete(findUser,task?.id)}
+                                  <DeleteOutlineIcon 
+                                        onClick = {()=>handleDeleteTask(task.id)}
+                                        classes={`${styles.icon} ${styles.delete_icon}`}
+                                    />
                                 
                             </div>
                         </div>

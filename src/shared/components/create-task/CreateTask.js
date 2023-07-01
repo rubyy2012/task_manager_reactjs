@@ -83,7 +83,7 @@ const CreateTask = ({ setOpenCreateTask, openCreateTask }) => {
         <div className={styles.createtask_content}>
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className={styles.form_item_group}>
-              <p className={styles.title_label}>Nhiệm vụ mới</p>
+              <p className={styles.title_label}>Tên nhiệm vụ</p>
               <Controller
                 control={control}
                 name="title"
@@ -103,7 +103,7 @@ const CreateTask = ({ setOpenCreateTask, openCreateTask }) => {
             </div>
 
             <div className={styles.form_item_group}>
-              <p className={styles.title_label}>Nhiệm vụ mới</p>
+              <p className={styles.title_label}>Mô tả nhiệm vụ</p>
               <Controller
                 control={control}
                 name="description"
@@ -214,10 +214,10 @@ const CreateTask = ({ setOpenCreateTask, openCreateTask }) => {
                 className={styles.btn_cancel}
                 onClick={() => setOpenCreateTask(false)}
               >
-                Cancel
+                Hủy
               </Button>
               <Button type="submit" className={styles.btn_create}>
-                Create task
+                Tạo nhiệm vụ
               </Button>
             </div>
           </form>

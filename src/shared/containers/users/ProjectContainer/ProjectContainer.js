@@ -9,6 +9,7 @@ import project_image from '../../../../assets/icons/project_icon.png'
 import { Link, Outlet, useNavigate, useParams } from 'react-router-dom';
 import AddMemberForm from '../../../components/add-member/AddMemberForm';
 import CreateTask from '../../../components/create-task/CreateTask';
+// import { useSelector } from 'react-redux';
 const ProjectContainer = () => {
   const [addMemberForm,setOpenAddMemberForm] = useState(false);
   const [notification,setOpenNotification] = useState(false);
@@ -19,6 +20,11 @@ const ProjectContainer = () => {
     setValue(newValue);
   };
   const navigate = useNavigate();
+  // const { detailProject } = useSelector((state) => ({
+  //   detailProject: state.workspace.detailProject,
+  // }));
+  // console.log('detailProject',detailProject?.data)
+
   return (
     <div className={styles.project_container}>
         <div className={styles.side_tasks_container}>
@@ -50,6 +56,11 @@ const ProjectContainer = () => {
                                 fontSize = {16}
                                 onClick={()=>navigate(`/project-page/project/${id}/team-members`)}
                                 label="Thành viên nhóm"/>
+                                  <Tab 
+                                value="2" 
+                                fontSize = {16}
+                                onClick={()=>navigate(`/project-page/project/${id}/scheduler`)}
+                                label="Lịch chung"/>
                             </Tabs>
                           </Box>
                     </div>
@@ -80,7 +91,7 @@ const ProjectContainer = () => {
                 <Button 
                   onClick={()=>setOpenAddMemberForm(!addMemberForm)}
                   className={styles.btn_add_member}
-                  variant="contained">Add members</Button>
+                  variant="contained">Mời thành viên</Button>
                   <BiNotification
                       onClick = {()=>setOpenNotification(!notification)}
                       className={styles.icon_notify}

@@ -1,0 +1,27 @@
+.upcoming_container
+{
+    background-color: #ffeceb;
+    min-height: 100vh;
+    .upcoming_body
+    {
+        padding: 20px;
+        display:flex;
+        flex-direction: column;
+        gap:50px;
+        .title
+        {
+            margin:0;
+            font-size: 20px;
+            color: #111111;
+            &>span {
+                color: red;
+            }
+        }
+        .list_tasks
+        {
+            display:flex;
+            flex-wrap: wrap;
+            gap:25px;
+        }
+    }
+}

@@ -36,10 +36,40 @@ let initialState = {
     recentlyProjects: {
         data:[],
         loading: false
-    }
+    },
+    listSchedulers: {
+        data: [],
+        loading:false
+    },
+    myRole: -1
+
 }
 const WorkspaceReducer = (state=initialState,action)=> { 
     switch(action.type) {
+        case WorkspaceAction.SET_MYROLE_WORKSPACE:
+            return {
+                ...state,
+                myRole: action.payload
+            };
+
+        case WorkspaceAction.REQUEST_GET_SCHEDULER_OF_WORKSPACE:
+            return {
+                ...state,
+                listSchedulers: {
+                    ...state.listSchedulers,
+                    loading: true,
+                    isSuccess: false,
+                },
+            };
+        case WorkspaceAction.SUCCESS_GET_SCHEDULER_OF_WORKSPACE:
+            return {
+                ...state,
+                listSchedulers: {
+                    ...state.listSchedulers,
+                    loading: false,
+                    data: action.payload.data
+                },
+            };
         case WorkspaceAction.REQUEST_GET_ALL_PROJECTS: 
         {
             return {
@@ -78,7 +108,6 @@ const WorkspaceReducer = (state=initialState,action)=> {
         case WorkspaceAction.SUCCESS_GET_RECENTLY_PROJECT: 
         {
             const dataObject = action.payload.data.Workspaces;
-            console.log('data recently',dataObject);
             return {
                 ...state,
                 recentlyProjects: {
@@ -104,9 +133,7 @@ const WorkspaceReducer = (state=initialState,action)=> {
                 ...state,
                 detailProject: {
                     loading: false,
-                    isSuccess:action.payload.isSuccess,
-                    message: action.payload.message,
-                    data:action.payload.data.Workspace
+                    data:action?.payload?.data?.Workspace
                 },
             };
         }
@@ -168,7 +195,6 @@ const WorkspaceReducer = (state=initialState,action)=> {
         }
         case WorkspaceAction.FAIL_INVITE_MEMBER: 
         {
-            console.log('FAIL_INVITE_MEMBER',action.payload)
             return {
                 ...state,
                 inviteMember: {
@@ -192,7 +218,7 @@ const WorkspaceReducer = (state=initialState,action)=> {
             return {
                 ...state,
                 listMembersWithTask: {
-                    loading: true,
+                    loading: false,
                     data:action?.payload?.Members
                 },
             };

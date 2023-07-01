@@ -7,7 +7,8 @@
     height:100%;
     border-radius: 10px;
     // background-color: #f9fbfc;
-    background-color: #ff6a7a;
+    background-color: #ff7886;
+    background-color: #ffff;
     -webkit-border-radius: 10px;
     -moz-border-radius: 10px;
     -ms-border-radius: 10px;
@@ -19,20 +20,31 @@
     justify-content: center;
     row-gap: 10px;
     max-width:400px;
+    transition: transform 0.3s ease;
+
     .link_item
     {
         text-decoration: none;
     }
     .name
     {
-        color:#5a6bc2;
-        color:#fff;
+        color:#e02336;
         text-overflow: ellipsis;
         font-weight: 600;
         font-size: 1rem;
         text-align: left;
         display: flex;
+        gap: 10px;
         justify-content: space-between;
+        .title {
+            display: -webkit-box;
+            word-wrap: break-word;
+            max-width: 150px;
+            text-overflow: ellipsis;
+            -webkit-line-clamp: 1;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
         .status
         {
         font-size: 0.8rem;
@@ -53,7 +65,7 @@
         display: -webkit-box;
         font-weight: 0.9rem;
         color:#5c5c5c;
-        color:#dfe2f8;
+        color:#eea240;
         // background-color: orange;
         // background-color: rgb(255, 177, 33);
         // background-color: rgb(63, 137, 115);
@@ -73,7 +85,7 @@
             display: block;
             font-size: 0.8rem;
             text-align: right;
-            color: #f1f4f4;
+            color: #2f4b9a;
         }
     }
     .footer
@@ -97,7 +109,7 @@
                 font-size: 1.3rem;
                 // color:#9f2626;
                 font-weight: 600;
-                color: #fff;
+                color: #bf4c1f;
             }
             .icon_edit{
                 font-size: 1.2rem;
@@ -121,4 +133,8 @@
         -ms-transition:0.3s    ;
         -o-transition:0.3s    ;
     }
+}
+
+.recent_project_component:hover {
+    transform: scale(1.1);
 }

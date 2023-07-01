@@ -18,10 +18,35 @@ let initialState = {
     allTasksByMember: {
         loading: false,
         data: []
+    },
+    upcomingTasks: {
+        loading:false,
+        data: []
     }
 }
 const TaskReducer = (state=initialState,action)=> { 
     switch(action.type) {
+        
+        case TaskAction.REQUEST_GET_UPCOMING_TASKS: 
+            {
+                return {
+                    ...state,
+                    upcomingTasks: {
+                        ...state.upcomingTasks,
+                        loading: true,
+                    },
+                };
+            }
+            case TaskAction.SUCCESS_GET_UPCOMING_TASKS: 
+            {
+                return {
+                    ...state,
+                    upcomingTasks: {
+                        loading: false,
+                        data: action.payload.data.data
+                    },
+                };
+            }
             case TaskAction.REQUEST_GET_DETAIL_TASK: 
             {
                 return {

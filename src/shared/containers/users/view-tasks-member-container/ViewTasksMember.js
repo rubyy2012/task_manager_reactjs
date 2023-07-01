@@ -26,12 +26,13 @@ const ViewTasksMember = () => {
         }
       })
   },[id])
-
   return (
-    <Box sx={{display:'flex',flexDirection:'column',gap:'20px',padding:'20px',backgroundColor:'#f8f8f8'}}>
+    <Box sx={{display:'flex',flexDirection:'column',gap:'20px',padding:'20px',backgroundColor:'#edf2f5',minHeight:'100vh'}}>
       <Box>
-        <Typography sx={{textAlign:'left',fontSize:'24px'}}>Tên Dự án</Typography>
-        <Typography sx={{textAlign:'left',fontSize:'20px'}}>Danh sách nhiệm vụ của Hồng Ngọc</Typography>
+        <Typography sx={{textAlign:'left',fontSize:'20px'}}>
+          Nhiệm vụ hiện tại của 
+          <label style={{fontWeight:600,color: 'red',marginLeft:'10px'}}
+          >{allTasksByMember?.data?.Member?.fullName}</label></Typography>
       </Box>
       <Box sx={{display:'flex',flexDirection:'column',gap:'10px'}}>
         {

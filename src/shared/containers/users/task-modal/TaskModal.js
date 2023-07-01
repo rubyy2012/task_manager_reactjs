@@ -50,6 +50,7 @@ import striptags from "striptags";
 
 import ProgressBar from "@ramonak/react-progress-bar";
 import { toast } from "react-toastify";
+import signalRActions from "../../../../redux/signalR/signalRActions";
 // import { ProgressBar, Toast } from "react-toastify/dist/components";
 // import { toast } from "react-toastify";
 const TaskModal = ({ open, setOpen, handleOpen, handleClose, taskId }) => {
@@ -60,9 +61,6 @@ const TaskModal = ({ open, setOpen, handleOpen, handleClose, taskId }) => {
   const [selectColor, setSelectColor] = useState("");
   const userInfor = JSON.parse(localStorage.getItem("userInfor")) || [];
   //handle open modal
-  // const [open, setOpen] = useState(false);
-  // const handleOpen = () => setOpen(true);
-  // const handleClose = () => setOpen(false);
   //open add member
   const [openAddMember, setOpennAddMember] = useState(false);
   const handleOpenAddMember = () => setOpennAddMember(true);
@@ -167,8 +165,10 @@ const TaskModal = ({ open, setOpen, handleOpen, handleClose, taskId }) => {
   const { detailProject } = useSelector((state) => ({
     detailProject: state.workspace.detailProject,
   }));
-  const myRole = detailProject?.data?.myRole;
-
+  // const myRole = detailProject?.data?.myRole;
+  const { myRole } = useSelector((state) => ({
+    myRole: state.workspace.myRole,
+  }));
   const { listMembers } = useSelector((state) => ({
     listMembers: state.workspace.listMembers,
   }));
@@ -201,8 +201,8 @@ const TaskModal = ({ open, setOpen, handleOpen, handleClose, taskId }) => {
       const dateTime = moment(detailTask?.data?.dueDate);
       const dateFormated = dateTime.format("DD/MM/YYYY");
       const timeFormated = dateTime.format("HH:mm");
-      setValue("dueDate", dateFormated);
-      setValue("dueTime", timeFormated);
+      // setValue("dueDate", dateFormated);
+      // setValue("dueTime", timeFormated);
     }
     if (
       detailTask?.data?.priority === 0 ||
@@ -212,13 +212,7 @@ const TaskModal = ({ open, setOpen, handleOpen, handleClose, taskId }) => {
       setValue("priority", detailTask?.data?.priority.toString());
     }
     setSelectedMembers(
-      detailTask?.data?.members?.map((member) => {
-        return {
-          id: member.userId,
-          taskItem: member.taskItemId,
-        };
-      })
-    );
+      detailTask?.data?.members);
     setCheckedLabels(detailTask?.data?.labels);
     setSeleted(false);
     setIsSubtaskValid(true);
@@ -228,18 +222,19 @@ const TaskModal = ({ open, setOpen, handleOpen, handleClose, taskId }) => {
   }, [detailTask?.data]);
 
   const handleMemberSelection = (memberId, members) => {
-    if(myRole===2)
+    console.log("myRole", myRole);
+    if(myRole === 2)
     {
       toast.warn('Bạn không có quyền gán thành viên!')
     }
-    if(myRole !== 2){
+    else{
       setSeleted(true);
-      const selectedMember = members.find((member) => member.id === memberId);
-      const isSelected = selectedMembers.some((member) => member.id === memberId);
+      const selectedMember = members.find((member) => member.userId === memberId);
+      const isSelected = selectedMembers.some((member) => member.userId === memberId);
       if (isSelected) {
         setSelectedMem(true);
         setSelectedMembers((prevSelectedMembers) =>
-          prevSelectedMembers.filter((member) => member.id !== memberId)
+          prevSelectedMembers.filter((member) => member.userId !== memberId)
         );
       } else {
         setSelectedMem(false);
@@ -249,8 +244,6 @@ const TaskModal = ({ open, setOpen, handleOpen, handleClose, taskId }) => {
         ]);
       }
     }
-
-    // console.log('checkedMembers',selectedMembers)
   };
 
   useEffect(() => {
@@ -262,7 +255,7 @@ const TaskModal = ({ open, setOpen, handleOpen, handleClose, taskId }) => {
           taskId: taskId,
           data: selectedMembers.map((member) => {
             return {
-              userId: member.id,
+              userId: member.userId,
               taskItemId: taskId,
             };
           }),
@@ -334,6 +327,7 @@ const TaskModal = ({ open, setOpen, handleOpen, handleClose, taskId }) => {
         data: {
           commentId: parseInt(commentId),
           taskId: parseInt(taskId),
+          workspaceId: parseInt(id)
         },
       },
     });
@@ -398,13 +392,13 @@ const TaskModal = ({ open, setOpen, handleOpen, handleClose, taskId }) => {
 
   //handle selected subtask
   const handleChexboxSubtask = (subtask) => {
-    if (checkedSubtasks?.some((item) => item.id === subtask.id)) {
-      setCheckedSubtasks(
-        checkedSubtasks.filter((item) => item.id !== subtask.id)
-      );
-    } else {
-      setCheckedSubtasks([...checkedSubtasks, subtask]);
-    }
+    // if (checkedSubtasks?.some((item) => item.id === subtask.id)) {
+    //   setCheckedSubtasks(
+    //     checkedSubtasks.filter((item) => item.id !== subtask.id)
+    //   );
+    // } else {
+    //   setCheckedSubtasks([...checkedSubtasks, subtask]);
+    // }
 
     dispatch({
       type: TaskAction.REQUEST_EDIT_SUBTASK,
@@ -423,12 +417,19 @@ const TaskModal = ({ open, setOpen, handleOpen, handleClose, taskId }) => {
 
   //handle selected label
   const handleCheckboxChange = (label) => {
-    setSeleted(true);
-    if (checkedLabels.some((item) => item.id === label.id)) {
-      setCheckedLabels(checkedLabels.filter((item) => item.id !== label.id));
-    } else {
-      setCheckedLabels([...checkedLabels, label]);
+    if(myRole===2)
+    {
+      toast.warn('Bạn không không được phép thực hiện chức năng này!');
     }
+    else {
+      setSeleted(true);
+      if (checkedLabels.some((item) => item.id === label.id)) {
+        setCheckedLabels(checkedLabels.filter((item) => item.id !== label.id));
+      } else {
+        setCheckedLabels([...checkedLabels, label]);
+      }
+    }
+   
   };
   useEffect(() => {
     if (selected) {
@@ -437,13 +438,14 @@ const TaskModal = ({ open, setOpen, handleOpen, handleClose, taskId }) => {
         payload: {
           data: checkedLabels,
           taskId: parseInt(taskId),
+          workspaceId: parseInt(id),
         },
       });
     }
   }, [checkedLabels]);
 
   const onRequestExtend = (data) => {
-    console.log("request due date", data);
+    // console.log("request due date", data);
     const { dueDate, dueTime } = data;
     const dateString = new Date(dueDate.$d).toString();
     const timeString = new Date(dueTime.$d).toString();
@@ -483,7 +485,7 @@ const TaskModal = ({ open, setOpen, handleOpen, handleClose, taskId }) => {
   }
 
   const handleAcceptExtendDate = (m) => {
-      console.log('user',m.userId)
+      // console.log('user',m.userId)
       dispatch({
         type:TaskAction.REQUEST_ACCEPT_EXTEND_DATE,
         payload: {
@@ -507,6 +509,87 @@ const TaskModal = ({ open, setOpen, handleOpen, handleClose, taskId }) => {
         callback : {
           toast : (message) => toast(message)
         }
+      }
+    })
+  }
+
+  const handleDeleteLabel = (labelId) => {
+    console.log('label id',labelId);
+    dispatch({
+      type: TaskAction.REQUEST_DELETE_LABEL,
+      payload: {
+        data: {
+          taskId,
+          id: parseInt(labelId),
+          callback: {
+            toast: (message) => toast(message)
+          }
+        }
+      }
+    })
+  }
+
+
+   // SIGNALR
+   const signalRStore = useSelector((state) => ({
+    signalRStore: state.signalR.signalRStore,
+  }));
+
+  useEffect(() => {
+    if (signalRStore.signalRStore.isConnected) {
+      signalRStore.signalRStore.connection.invoke("ConnectToTaskItem", parseInt(taskId) )
+      .catch((e)=>{console.log(e)});
+      
+    //   signalRStore.signalRStore.connection.on("SendMessageAsync", (res) => {
+    //     console.log("Join Workspace", res);
+    //   });
+
+      signalRStore.signalRStore.connection.on("TaskItemAsync", (res) => {
+        console.log("TaskItemAsync", res);
+        dispatch({
+          type:TaskAction.SUCCESS_GET_DETAIL_TASK,
+          payload: {
+            data: {
+              taskItem: res?.data?.taskItem    
+            }
+          }
+        })
+      })
+    }
+    return () => {
+      if(signalRStore.signalRStore.connection){
+        signalRStore.signalRStore.connection.invoke("DisconnectToTaskItem", parseInt(taskId) )
+        .catch(
+          (e)=>{
+            console.log(e)
+          });
+      }
+    };
+  }, [signalRStore.signalRStore.isConnected]);
+
+
+  // Chỉnh sửa ngày deadline 
+  const onChangeDueDate = (data) => 
+  {
+    console.log('change deadline',data);
+    const {dueDate,dueTime} = data;
+    const formattedDate = moment(dueDate?.$d).format('YYYY-MM-DD');
+    const formattedTime = moment(dueTime?.$d).format('HH:mm:ss');
+    const datetime = `${formattedDate}T${formattedTime}`
+    dispatch({
+      type:TaskAction.REQUEST_EDIT_TASK,
+      payload: {
+        data: {
+          update_data: [
+            { op: "replace", path: "/dueDate", value: datetime },
+          ],
+          workspaceId: parseInt(id),
+          taskId: parseInt(taskId),
+          callback: {
+            toast: (message) => toast(message),
+            handleCloseCalendar: () => handleCloseCalendar()
+          }
+        },
       }
     })
   }
@@ -581,8 +664,8 @@ const TaskModal = ({ open, setOpen, handleOpen, handleClose, taskId }) => {
                 <Select
                   {...field}
                   onChange={(e) => {
-                    console.log("taskId", taskId);
-                    console.log("taskId", parseInt(id));
+                    // console.log("taskId", taskId);
+                    // console.log("taskId", parseInt(id));
                     field.onChange(e.target.value);
                     dispatch({
                       type: TaskAction.REQUEST_EDIT_TASK,
@@ -671,7 +754,7 @@ const TaskModal = ({ open, setOpen, handleOpen, handleClose, taskId }) => {
                     {listMembers?.data?.map((member) => (
                       <Box
                         onClick={() =>
-                          handleMemberSelection(member.id, listMembers.data)
+                          handleMemberSelection(member.userId, listMembers.data)
                         }
                         sx={{
                           display: "flex",
@@ -700,7 +783,7 @@ const TaskModal = ({ open, setOpen, handleOpen, handleClose, taskId }) => {
                         </Box>
                         <Box>
                           {selectedMembers?.some(
-                            (item) => item.id === member.id
+                            (item) => item.userId === member.userId
                           ) && <CheckIcon />}
                         </Box>
                       </Box>
@@ -812,7 +895,8 @@ const TaskModal = ({ open, setOpen, handleOpen, handleClose, taskId }) => {
                       >
                         {label?.name}
                       </Button>
-                      <VscEdit />
+                      <VscEdit/>
+                      <AiOutlineDelete onClick={()=>handleDeleteLabel(label.id)}/>
                     </Box>
                   )):
                     <Typography sx={{fontSize:'16px',color:'#040404',textAlign:'left'}}>Bạn chưa có nhãn nào. Hãy tạo nhãn mới!</Typography>}
@@ -955,11 +1039,13 @@ const TaskModal = ({ open, setOpen, handleOpen, handleClose, taskId }) => {
                       sx={{ padding: "5px", cursor: "pointer" }}
                     />
                   </Box>
+                  <form 
+                    style={{display:'flex',flexDirection:'column',gap:'10px'}}
+                    onSubmit={handleSubmit(onChangeDueDate)}>
                   <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <Controller
                       control={control}
                       name="dueDate"
-                      defaultValue={dateFormated}
                       render={({ field }) => (
                         <DatePicker
                           disablePast
@@ -996,9 +1082,12 @@ const TaskModal = ({ open, setOpen, handleOpen, handleClose, taskId }) => {
                       )}
                     />
                   </LocalizationProvider>
-                  <Button style={{ textTransform: "none" }} variant="contained">
+                  <Button 
+                    type='submit'
+                    style={{ textTransform: "none" }} variant="contained">
                     Lưu lại
                   </Button>
+                  </form>
                 </Box>
               </Modal>
             )}

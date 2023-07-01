@@ -90,14 +90,17 @@ function* deleteProjectSaga(action)
 
 function* getDetailProjectSaga(action)
 {
-    const id = action.payload.data;
-    console.log('id ws',id)
-    const result = yield call(()=>WorkspaceFactory.getDetailProject(id))
+  const {workspaceId} = action.payload.data;
+    const result = yield call(()=>WorkspaceFactory.getDetailProject(workspaceId))
     try
     {
       yield put ({
+        type:WorkspaceAction.SET_MYROLE_WORKSPACE,
+        payload: result?.data?.data?.Workspace.myRole
+      })
+      yield put ({
         type:WorkspaceAction.SUCCESS_GET_DETAIL_PROJECT,
-        payload:result?.data
+        payload: result?.data
       })
     }
     catch(e)
@@ -151,19 +154,10 @@ function* inviteMemberSaga(action)
         {
           callback.toast(result?.data?.message);
         }
-      if(result.data.isSuccess)
-      {
-        yield put ({
-          type:WorkspaceAction.SUCCESS_INVITE_MEMBER,
-          payload:result.data.data
-        })
-      }
-      else {
-        yield put ({
-          type:WorkspaceAction.FAIL_INVITE_MEMBER,
-          payload:result.data
-        })
-      }
+      yield put ({
+        type:WorkspaceAction.SUCCESS_INVITE_MEMBER,
+        payload:result.data.data
+      })
     }
     catch(e)
     {
@@ -233,7 +227,6 @@ function* removeMemberOfWorkspaceSaga(action)
     const {id,memberId,callback} = action.payload.data;
 
     const result = yield call(()=>WorkspaceFactory.removeMemberOfWorkspace(id,memberId))
-    console.log('result',result);
     try
     {
       yield put ({
@@ -245,6 +238,11 @@ function* removeMemberOfWorkspaceSaga(action)
       }
       yield put ({
         type:WorkspaceAction.REQUEST_GET_LIST_MEMBER_WITH_TASK,
+        payload:{
+          data: {
+            workspaceId: parseInt(id),
+          }
+        }
       })
     }
     catch(e)
@@ -257,7 +255,6 @@ function* leaveWorkspaceSaga(action)
 {
     const {id,callback} = action.payload.data;
     const result = yield call(()=>WorkspaceFactory.leaveWorkspace(id))
-    console.log('test leave workspce',result)
     try
     {
       yield put ({
@@ -276,6 +273,111 @@ function* leaveWorkspaceSaga(action)
       console.log('Có lỗi xảy ra',e)
     }
 }
+// SCHEDULER
+
+function* getListSchedulersWorkspaceSaga(action)
+{
+    const {workspaceId} = action.payload.data;
+    const result = yield call(()=>WorkspaceFactory.getListSchedulersWorkspace(workspaceId))
+    try
+    {
+      yield put ({
+        type:WorkspaceAction.SUCCESS_GET_SCHEDULER_OF_WORKSPACE,
+        payload: {
+          data: result?.data?.data
+        }
+      })
+    }
+    catch(e)
+    {
+      console.log('Có lỗi xảy ra',e)
+    }
+}
+function* createSchedulerSaga(action)
+{
+    const {data,callback} = action.payload;
+    const result = yield call(()=>WorkspaceFactory.createScheduler(data))
+    try
+    {
+      yield put ({
+        type:WorkspaceAction.SUCCESS_CREATE_SCHEDULER,
+        payload:result.data.data
+      })
+      if(callback?.toast) {
+        callback.toast(result?.data?.message)
+      }
+      yield put ({
+        type:WorkspaceAction.REQUEST_GET_SCHEDULER_OF_WORKSPACE,
+        payload: {
+          data: {
+            workspaceId: data.workspaceId
+          }
+        }
+      })
+    }
+    catch(e)
+    {
+      console.log('Có lỗi xảy ra',e)
+    }
+}
+function* deleteSchedulerofWorkspaceSaga(action)
+{
+    const {data,callback} = action.payload;
+    const result = yield call(()=>WorkspaceFactory.deleteSchedulerofWorkspace(data))
+    try
+    {
+      yield put ({
+        type:WorkspaceAction.SUCCESS_DELETE_SCHEDULER,
+        payload:result
+      })
+      yield put ({
+        type:WorkspaceAction.REQUEST_GET_SCHEDULER_OF_WORKSPACE,
+        payload: {
+          data: {
+            workspaceId: data.workspaceId
+          }
+        }
+      })
+      if(callback?.toast)
+      {
+        callback.toast(result.data.message);
+      }
+    }
+    catch(e)
+    {
+        console.log('Có lỗi xảy ra',e)
+    }
+}
+
+function* editSchedulerofWorkspaceSaga(action)
+{
+    const {data,callback,id, workspaceId} = action.payload;
+    const result = yield call(()=>WorkspaceFactory.editSchedulerofWorkspace(data,id))
+    try
+    {
+      yield put ({
+        type:WorkspaceAction.REQUEST_GET_SCHEDULER_OF_WORKSPACE,
+        payload: {
+          data: {
+            workspaceId
+          }
+        }
+      })
+      if(callback?.closeEditModal)
+      {
+        callback.closeEditModal()
+      }
+      if(callback?.toast)
+      {
+        callback.toast(result.data.message);
+      }
+
+    }
+    catch(e)
+    {
+        console.log('Có lỗi xảy ra',e)
+    }
+}
 
 function* getWorkspaceSaga() {
     yield takeEvery(WorkspaceAction.REQUEST_GET_ALL_PROJECTS, getAllWorkspacesSaga);
@@ -292,8 +394,10 @@ function* getWorkspaceSaga() {
     yield takeEvery(WorkspaceAction.REQUEST_REMOVE_MEMBER_OF_WORKSPACE,removeMemberOfWorkspaceSaga)
     yield takeEvery(WorkspaceAction.REQUEST_LEAVE_WORKSPACE,leaveWorkspaceSaga)
     // yield takeEvery(WorkspaceAction.REQUEST_GET_TASKS_BY_MEMBER, getSaga);
-    
-    
+    yield takeEvery(WorkspaceAction.REQUEST_CREATE_SCHEDULER,createSchedulerSaga)
+    yield takeEvery(WorkspaceAction.REQUEST_GET_SCHEDULER_OF_WORKSPACE,getListSchedulersWorkspaceSaga)
+    yield takeEvery(WorkspaceAction.REQUEST_DELETE_SCHEDULER,deleteSchedulerofWorkspaceSaga)
+    yield takeEvery(WorkspaceAction.REQUEST_EDIT_SCHEDULER,editSchedulerofWorkspaceSaga)
   }
   
 export default function* WorkspaceSaga() {

@@ -11,6 +11,7 @@ import { toast } from 'react-toastify'
 import { HiCamera } from 'react-icons/hi'
 import UserAction from '../../../../redux/users/UserAction'
 import { Action } from '@devexpress/dx-react-core'
+import LoadingSpinner from '../../../components/loading-spinner/LoadingSpinner'
 const ManageAccountUser = () => {
   const dispatch = useDispatch();
   const userInfor = JSON.parse(localStorage.getItem('userInfor'))
@@ -19,6 +20,9 @@ const ManageAccountUser = () => {
   const { profile } = useSelector((state) => ({
     profile: state.user.profile,
   }));
+  const { editProfile } = useSelector((state) => ({
+    editProfile: state.user.editProfile,
+  }));
   useEffect(()=>{
     console.log('user')
     dispatch({
@@ -26,7 +30,6 @@ const ManageAccountUser = () => {
     })
   },[])
 
-  console.log('user profile',profile?.data)
   useEffect(()=>{
     if(profile?.data?.user?.fullName&&profile?.data?.user?.email)
     {
@@ -66,6 +69,8 @@ const ManageAccountUser = () => {
       })
   }
   return (
+    <LoadingSpinner loading={editProfile?.loading}>
+  
     <div className={styles.manage_account_body}>
             <div 
               className={styles.avatar_area}>
@@ -185,6 +190,8 @@ const ManageAccountUser = () => {
             </form>
         </div>
     </div>
+    </LoadingSpinner>
+
   )
 }
 

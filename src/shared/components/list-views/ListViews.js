@@ -18,6 +18,12 @@ const ListViews = () => {
           isActive= {isActive}
           onClick = {()=>setActive(2)}
       >Thành viên nhóm</ListViewItem>
+       <ListViewItem
+          index = {3}
+          link =''
+          isActive= {isActive}
+          onClick = {()=>setActive(3)}
+      >Lịch chung</ListViewItem>
     </div>
   )
 }

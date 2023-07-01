@@ -1,5 +1,5 @@
 import { Avatar, Box, Button, Typography } from '@mui/material'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import avatar from '../../../assets/images/avatar.jpg'
 import ProgressBar from '@ramonak/react-progress-bar'
 import { GrTask } from "react-icons/gr";
@@ -8,14 +8,23 @@ import styles from './styles.module.scss'
 import WorkspaceAction from '../../../redux/workspaces/WorkspaceAction';
 import { useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
-const MemberCard = ({member,myRole}) => {
+// import { Modal } from 'bootstrap';
+import {Modal} from '@mui/material';
+import { IoCloseSharp } from 'react-icons/io5';
+import { useSelector } from 'react-redux';
+const MemberCard = ({member}) => {
+
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const {id} = useParams();
-  
+    const [isOpenConfirmLeave, setOpenConfirmLeave] = useState(false)
+    const [isOpenConfirmDelete, setOpenConfirmDelete] = useState(false)
+    const { myRole } = useSelector((state) => ({
+      myRole: state.workspace.myRole,
+    }));
     const handleLinkClick = () => {
       const state = { workspaceId: id };
-      navigate(`/team-members/${member.id}/tasks`, { state });
+      navigate(`/team-members/${member.userId}/tasks`, { state });
     };
       const handleRemoveMemberOfWorkspace = (member) => {
         dispatch({
@@ -23,7 +32,7 @@ const MemberCard = ({member,myRole}) => {
             payload:{
                 data: {
                     id: parseInt(id),
-                    memberId: member?.id,
+                    memberId: member?.userId,
                     callback: {
                         toast : (message) => toast(message) 
                       }
@@ -47,27 +56,26 @@ const MemberCard = ({member,myRole}) => {
       //from local storage
       const userInfor = JSON.parse(localStorage.getItem('userInfor'));
       const checkCanDeleteorLeave = (userInfor, member) => {
-        console.log('member', member)
-        console.log('userInfor', userInfor)
-
-          if (member.id === userInfor.account.id) {
-            if(member.role>0)
+        if (member.userId === userInfor.account.id) {
+            if(myRole !== 0)
             {
               return (
 
                 <Button 
-                    onClick={handleLeaverWorkspace}
+                    onClick = {()=>setOpenConfirmLeave(true)}
+                    // onClick={handleLeaverWorkspace}
                     variant='outlined'>Rời dự án</Button>
               )
             }
           } 
           else 
           {
-            if(myRole< member.role)
+            if(myRole === 0)
             {
               return (
                 <Button 
-                    onClick={()=>handleRemoveMemberOfWorkspace(member)}
+                    onClick = {()=>setOpenConfirmDelete(true)}
+                    // onClick={()=>handleRemoveMemberOfWorkspace(member)}
                     variant='contained'>Xóa thành viên</Button>
               )
             }
@@ -127,12 +135,76 @@ const MemberCard = ({member,myRole}) => {
         {/* Option manage team member */}
             <Box sx={{display:'flex',minHeight:'40px',justifyContent:'space-between',alignItems:'center'}}>
                 {checkCanDeleteorLeave(userInfor,member)}
-                <Box 
-              >
-                <Button 
-                    style={{textDecoration:'none'}}
-                    onClick={handleLinkClick}>Xem chi tiết</Button>
-            </Box>
+                  {/* Modal confirm leave workspace */}
+                  <Modal
+                    style={{display:'flex'}}
+                    open={isOpenConfirmDelete}
+                    onClose={()=>setOpenConfirmDelete(false)}
+                  >
+                    <Box sx={{display:'flex',flexDirection:'column', borderRadius:'6px',
+                      gap:'10px',backgroundColor:'#fff',maxWidth:'450px',padding: '10px 20px',margin:'auto'}}>
+                      {/* Header */}
+                      <Box
+                        sx={{
+                          display: "flex",
+                          gap: "10px",
+                          justifyContent: "center",
+                          alignItems: "center",
+                        }}
+                      >
+                        <Typography sx={{ fontSize: "20px", fontWeight: 550,boderBottom:'1px solid #040404',marginBottom:'10px' }}>
+                          XÁC NHẬN
+                        </Typography>
+                      </Box>
+                       <Typography sx={{marginBottom:'10px' }}>Bạn có chắc muốn xóa thành viên này khỏi dự án không?</Typography>
+                       <Box sx={{display:'flex',gap:'20px',justifyContent:'flex-end'}}>
+                          <Button 
+                           onClick={handleRemoveMemberOfWorkspace}
+                            variant='contained'>Xóa</Button>
+                          <Button 
+                            onClick={()=>setOpenConfirmDelete(false)}
+                            variant='outlined'>Hủy</Button>
+                       </Box>
+                    </Box>
+                  </Modal>
+
+                   {/* Modal confirm delete member */}
+                <Modal
+                    style={{display:'flex'}}
+                    open={isOpenConfirmLeave}
+                    onClose={()=>setOpenConfirmLeave(false)}
+                  >
+                    <Box sx={{display:'flex',flexDirection:'column', borderRadius:'6px',
+                      gap:'10px',backgroundColor:'#fff',maxWidth:'450px',padding: '10px 20px',margin:'auto'}}>
+                      {/* Header */}
+                      <Box
+                        sx={{
+                          display: "flex",
+                          gap: "10px",
+                          justifyContent: "center",
+                          alignItems: "center",
+                        }}
+                      >
+                        <Typography sx={{ fontSize: "20px", fontWeight: 550,boderBottom:'1px solid #040404',marginBottom:'10px' }}>
+                          XÁC NHẬN
+                        </Typography>
+                      </Box>
+                       <Typography sx={{marginBottom:'10px' }}>Bạn có chắc muốn rời khỏi dự án này không?</Typography>
+                       <Box sx={{display:'flex',gap:'20px',justifyContent:'flex-end'}}>
+                          <Button 
+                           onClick={handleLeaverWorkspace}
+                            variant='contained'>Rời nhóm</Button>
+                          <Button 
+                            onClick={()=>setOpenConfirmLeave(false)}
+                            variant='outlined'>Hủy</Button>
+                       </Box>
+                    </Box>
+                  </Modal>
+                <Box>
+                  <Button 
+                      style={{textDecoration:'none'}}
+                      onClick={handleLinkClick}>Xem chi tiết</Button>
+              </Box>
         </Box>
         
        

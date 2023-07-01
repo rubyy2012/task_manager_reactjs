@@ -8,21 +8,21 @@ import { AiOutlineEdit } from "react-icons/ai";
 import { useDispatch } from "react-redux";
 import WorkspaceAction from "../../../redux/workspaces/WorkspaceAction";
 import { useEffect } from "react";
+import { toast } from "react-toastify";
 const ProjectSquareItem = ({ id, item,percent }) => {
   const dispatch = useDispatch();
-  useEffect(()=>{
-    dispatch({
-      type: WorkspaceAction.REQUEST_GET_RECENTLY_PROJECT
-    })
-  },[id])
+  // useEffect(()=>{
+  //   dispatch({
+  //     type: WorkspaceAction.REQUEST_GET_RECENTLY_PROJECT
+  //   })
+  // },[])
   const handleDeleteWorkspace = (id) => {
-    console.log('id',id);
     dispatch ({
       type: WorkspaceAction.REQUEST_DELETE_PROJECT,
       payload: {
         data: id,
         callback: {
-          // toast: (message) => toast(message)
+          toast: (message) => toast(message)
         }
       }
     })
@@ -36,7 +36,7 @@ const ProjectSquareItem = ({ id, item,percent }) => {
               to={`/project-page/project/${id}/all-tasks`}
             >
           <p className={styles.name}>
-            {item?.title}
+            <span className={styles.title}>{item?.title}</span>
             <span 
                 style = {item?.isComplete?{backgroundColor:'#a3d1e8',color:'#186185'}:{backgroundColor:'#e8aec9',color:'#8b0645'}}
               className={styles.status}>
@@ -49,10 +49,10 @@ const ProjectSquareItem = ({ id, item,percent }) => {
             <ProgressBar
               isLabelVisible={false}
               height="6px"
-              bgColor={item?.isComplete ? "green" : "orange"}
+              bgColor={item?.isComplete ? "#49cc90" : "orange"}
               completed={percent&&percent}
             />
-            <span className={styles.text}>{percent&&`${percent}%`}</span>
+            <span className={styles.text}>{percent&&`${percent}`}%</span>
           </div>
           <div className={styles.footer}>
             <p className={styles.team_members}>
