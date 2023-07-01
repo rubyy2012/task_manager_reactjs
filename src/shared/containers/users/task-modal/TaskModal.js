@@ -61,9 +61,6 @@ const TaskModal = ({ open, setOpen, handleOpen, handleClose, taskId }) => {
   const [selectColor, setSelectColor] = useState("");
   const userInfor = JSON.parse(localStorage.getItem("userInfor")) || [];
   //handle open modal
-  // const [open, setOpen] = useState(false);
-  // const handleOpen = () => setOpen(true);
-  // const handleClose = () => setOpen(false);
   //open add member
   const [openAddMember, setOpennAddMember] = useState(false);
   const handleOpenAddMember = () => setOpennAddMember(true);
@@ -204,8 +201,8 @@ const TaskModal = ({ open, setOpen, handleOpen, handleClose, taskId }) => {
       const dateTime = moment(detailTask?.data?.dueDate);
       const dateFormated = dateTime.format("DD/MM/YYYY");
       const timeFormated = dateTime.format("HH:mm");
-      setValue("dueDate", dateFormated);
-      setValue("dueTime", timeFormated);
+      // setValue("dueDate", dateFormated);
+      // setValue("dueTime", timeFormated);
     }
     if (
       detailTask?.data?.priority === 0 ||
@@ -420,12 +417,19 @@ const TaskModal = ({ open, setOpen, handleOpen, handleClose, taskId }) => {
 
   //handle selected label
   const handleCheckboxChange = (label) => {
-    setSeleted(true);
-    if (checkedLabels.some((item) => item.id === label.id)) {
-      setCheckedLabels(checkedLabels.filter((item) => item.id !== label.id));
-    } else {
-      setCheckedLabels([...checkedLabels, label]);
+    if(myRole===2)
+    {
+      toast.warn('Bạn không không được phép thực hiện chức năng này!');
     }
+    else {
+      setSeleted(true);
+      if (checkedLabels.some((item) => item.id === label.id)) {
+        setCheckedLabels(checkedLabels.filter((item) => item.id !== label.id));
+      } else {
+        setCheckedLabels([...checkedLabels, label]);
+      }
+    }
+   
   };
   useEffect(() => {
     if (selected) {
@@ -562,6 +566,33 @@ const TaskModal = ({ open, setOpen, handleOpen, handleClose, taskId }) => {
       }
     };
   }, [signalRStore.signalRStore.isConnected]);
+
+
+  // Chỉnh sửa ngày deadline 
+  const onChangeDueDate = (data) => 
+  {
+    console.log('change deadline',data);
+    const {dueDate,dueTime} = data;
+    const formattedDate = moment(dueDate?.$d).format('YYYY-MM-DD');
+    const formattedTime = moment(dueTime?.$d).format('HH:mm:ss');
+    const datetime = `${formattedDate}T${formattedTime}`
+    dispatch({
+      type:TaskAction.REQUEST_EDIT_TASK,
+      payload: {
+        data: {
+          update_data: [
+            { op: "replace", path: "/dueDate", value: datetime },
+          ],
+          workspaceId: parseInt(id),
+          taskId: parseInt(taskId),
+          callback: {
+            toast: (message) => toast(message),
+            handleCloseCalendar: () => handleCloseCalendar()
+          }
+        },
+      }
+    })
+  }
   return (
     <Modal
       open={open}
@@ -1008,11 +1039,13 @@ const TaskModal = ({ open, setOpen, handleOpen, handleClose, taskId }) => {
                       sx={{ padding: "5px", cursor: "pointer" }}
                     />
                   </Box>
+                  <form 
+                    style={{display:'flex',flexDirection:'column',gap:'10px'}}
+                    onSubmit={handleSubmit(onChangeDueDate)}>
                   <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <Controller
                       control={control}
                       name="dueDate"
-                      defaultValue={dateFormated}
                       render={({ field }) => (
                         <DatePicker
                           disablePast
@@ -1049,9 +1082,12 @@ const TaskModal = ({ open, setOpen, handleOpen, handleClose, taskId }) => {
                       )}
                     />
                   </LocalizationProvider>
-                  <Button style={{ textTransform: "none" }} variant="contained">
+                  <Button 
+                    type='submit'
+                    style={{ textTransform: "none" }} variant="contained">
                     Lưu lại
                   </Button>
+                  </form>
                 </Box>
               </Modal>
             )}

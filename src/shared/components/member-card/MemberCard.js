@@ -56,8 +56,8 @@ const MemberCard = ({member}) => {
       //from local storage
       const userInfor = JSON.parse(localStorage.getItem('userInfor'));
       const checkCanDeleteorLeave = (userInfor, member) => {
-          if (member.id === userInfor.account.id) {
-            if(member.role>0)
+        if (member.userId === userInfor.account.id) {
+            if(myRole !== 0)
             {
               return (
 
@@ -70,7 +70,7 @@ const MemberCard = ({member}) => {
           } 
           else 
           {
-            if(myRole< member.role)
+            if(myRole === 0)
             {
               return (
                 <Button 
@@ -159,7 +159,7 @@ const MemberCard = ({member}) => {
                        <Typography sx={{marginBottom:'10px' }}>Bạn có chắc muốn xóa thành viên này khỏi dự án không?</Typography>
                        <Box sx={{display:'flex',gap:'20px',justifyContent:'flex-end'}}>
                           <Button 
-                           onClick={handleLeaverWorkspace}
+                           onClick={handleRemoveMemberOfWorkspace}
                             variant='contained'>Xóa</Button>
                           <Button 
                             onClick={()=>setOpenConfirmDelete(false)}

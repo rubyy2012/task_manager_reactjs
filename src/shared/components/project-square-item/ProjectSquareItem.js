@@ -11,11 +11,11 @@ import { useEffect } from "react";
 import { toast } from "react-toastify";
 const ProjectSquareItem = ({ id, item,percent }) => {
   const dispatch = useDispatch();
-  useEffect(()=>{
-    dispatch({
-      type: WorkspaceAction.REQUEST_GET_RECENTLY_PROJECT
-    })
-  },[])
+  // useEffect(()=>{
+  //   dispatch({
+  //     type: WorkspaceAction.REQUEST_GET_RECENTLY_PROJECT
+  //   })
+  // },[])
   const handleDeleteWorkspace = (id) => {
     dispatch ({
       type: WorkspaceAction.REQUEST_DELETE_PROJECT,

@@ -79,13 +79,21 @@ function* editTaskSaga(action) {
     //     }
     //   },
     // });
+    if(callback?.toast)
+    {
+      callback.toast(result?.data?.message);
+    }
+    if(callback?.handleCloseCalendar)
+    {
+      callback.handleCloseCalendar()
+    }
     if(callback?.handleCloseComment)
     {
-      callback?.handleCloseComment();
+      callback.handleCloseComment();
     }
     if(callback?.handleCloseDescription)
     {
-      callback?.handleCloseDescription()
+      callback.handleCloseDescription()
     }
 
   } catch (e) {

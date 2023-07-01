@@ -18,6 +18,7 @@ import { HiCamera } from "react-icons/hi";
 import { useDispatch } from 'react-redux';
 import UserAction from '../../../redux/users/UserAction';
 import LoadingSpinner from '../loading-spinner/LoadingSpinner';
+import WorkspaceAction from '../../../redux/workspaces/WorkspaceAction';
 const SideBar = () => {
     const [toggle,setToggle] = useState(false);
     const dispatch = useDispatch();
@@ -42,6 +43,10 @@ const SideBar = () => {
         dispatch({
           type: UserAction.REQUEST_GET_DETAIL_PROFILE,
         })
+    dispatch({
+      type: WorkspaceAction.REQUEST_GET_RECENTLY_PROJECT
+    })
+
     },[])
     
     const handleUpdateAvatar = (e) => {
